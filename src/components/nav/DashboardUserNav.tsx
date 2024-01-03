@@ -33,10 +33,10 @@ export function DashboardUserNav({ user }: { user: sessionData }) {
         <div className="items flex h-8 w-full select-none items-center justify-between rounded-md pl-3 pr-3 text-sm text-muted-foreground transition hover:cursor-pointer hover:bg-border/50">
           <div className="flex flex-row items-center gap-2.5">
             <Avatar className="h-6 w-6 truncate border border-border">
-              <AvatarImage src={user.profileImage} alt={`@${user.username}`} />
+              <AvatarImage src="/logo.png" alt={`@${user.providerUid}`} />
               {/* <AvatarFallback>{user.username.at(0)}</AvatarFallback> */}
             </Avatar>
-            <p className="max-w-[140px] truncate text-sm">{user.username}</p>
+            <p className="max-w-[140px] truncate text-sm">{user.providerUid}</p>
           </div>
           <MoreHorizontal className="h-3 w-3" />
         </div>
@@ -44,8 +44,8 @@ export function DashboardUserNav({ user }: { user: sessionData }) {
       <DropdownMenuContent className="w-56 select-none" align="center" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.username}</p>
-            <p className="truncate text-xs leading-none text-muted-foreground">{user.broadcasterType}</p>
+            <p className="text-sm font-medium leading-none">{user.providerUid}</p>
+            <p className="truncate text-xs leading-none text-muted-foreground">{user.ip}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

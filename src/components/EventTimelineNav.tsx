@@ -10,7 +10,6 @@ interface Props {
   active: number;
 }
 
-const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 export default function EventTimelineNav({ events, active }: Props) {
   const swiper = useSwiper();
 

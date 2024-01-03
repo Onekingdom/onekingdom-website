@@ -2,16 +2,16 @@ import { Models } from "appwrite";
 
 export interface Event {
   title: string;
-  eventDate: string;
+  eventDate: Date;
   Location: string;
   description: string;
   shortDescription: string;
   Images: Image[];
 }
 
-export interface Image extends Models.Document {
-  imageURL: string;
-  imageALT: string;
+export interface Image {
+  bucketID: string;
+  imageID: string;
 }
 
 export interface EventStorage extends Models.Document, Event {}

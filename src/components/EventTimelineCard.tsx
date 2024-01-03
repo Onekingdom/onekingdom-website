@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { EventStorage } from "@/types/events";
 import formatDate from "@/utils/formatDate";
+import { storage } from "@/utils/clientAppwrite";
 
 interface Props {
   event: EventStorage;
@@ -9,15 +10,17 @@ interface Props {
 
 export default function EventTimelineCard({ event }: Props) {
   return (
-    <li className="road_item" style={{ margin: "1rem 0" }}>
-      <div className="t_item">
+    <li className="road_item w-full" style={{ margin: "1rem 0" }}>
+      <div className="t_item h-[400px] w-full" >
         <div className="t_item_img">
           <div className="neoh_fn_gallery_1_2">
             <div className="gallery_in">
-              {event.Images.map((image, index) => {
+              {event.Images.slice(0, 3).map((image, index) => {
+                const x = storage.getFilePreview(image.bucketID, image.imageID, 250, 250);
+
                 return (
                   <div className={`item ${index === 0 ? "row2" : ""}`} key={index}>
-                    <img src={image.imageURL} alt={image.imageALT} />
+                    <img src={x.href} alt={image.imageID} />
                   </div>
                 );
               })}
@@ -31,7 +34,7 @@ export default function EventTimelineCard({ event }: Props) {
           <h3 className="fn_title">
             <Link href={`/events/${event.$id}`}>{event.title}</Link>
           </h3>
-          <p className="fn_desc">{event.intro}</p>
+          <p className="fn_desc">{event.shortDescription}</p>
           <p className="fn_read">
             <Link href={`/events/${event.$id}`} className="neoh_fn_button only_text">
               <span className="text">Read More</span>

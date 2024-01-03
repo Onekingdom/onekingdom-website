@@ -3,6 +3,7 @@ import { account, database } from "@/lib/appwrite";
 import { databases } from "@/lib/constants";
 import { TwitchDataStorage, UserData } from "@/types/database/user";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { Models } from "appwrite";
 
 interface UserState {
   userData: TwitchDataStorage;
@@ -10,7 +11,7 @@ interface UserState {
   error: string | undefined;
 }
 
-export const getSessionData = createAsyncThunk<UserData, void, { state: RootState }>("auth/session", async (_, { dispatch, getState }) => {
+export const getSessionData = createAsyncThunk<Models.Session, void, { state: RootState }>("auth/session", async (_, { dispatch, getState }) => {
   try {
     //get the session
     const session = await account.getSession("current");
@@ -20,21 +21,12 @@ export const getSessionData = createAsyncThunk<UserData, void, { state: RootStat
       throw new Error("No session found");
     }
 
-    //get the user data
-    const userData = await database.listDocuments<TwitchDataStorage>(databases.twitch.databaseID, databases.twitch.collections.User);
+  
 
     //
-    if (!userData) {
-      throw new Error("No user data found");
-    }
 
-    //merch the session and the user data
-    const response = {
-      ...session,
-      ...userData.documents[0],
-    };
 
-    return response;
+    return session;
   } catch (error: any) {
     console.log(error);
     throw "whoops looks like you are not logged in";

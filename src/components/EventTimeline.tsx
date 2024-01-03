@@ -2,7 +2,7 @@
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { useState } from "react";
 import FadeIn from "./Framer/FadeIn";
-import { EventsStorage } from "@/types/events";
+import { EventStorage, EventsStorage } from "@/types/events";
 import EventTimelineNav from "./EventTimelineNav";
 import EventTimelineCard from "./EventTimelineCard";
 
@@ -10,11 +10,11 @@ interface Props {
   title: string;
   events: EventsStorage;
 }
-const EventTimeline = ({ title, events }: Props) => {
+const Timeline = ({ title, events }: Props) => {
   const [active, setActive] = useState(1);
   return (
     <FadeIn>
-      <div className="container py-4">
+      <div className="container">
         <div className="neoh_fn_title">
           <h3 className="fn_title">{title}</h3>
           <div className="line">
@@ -35,7 +35,7 @@ const EventTimeline = ({ title, events }: Props) => {
               <EventTimelineNav events={events} active={active} />
               {events.documents.map((event) => {
                 return (
-                  <SwiperSlide key={event.$id}>
+                  <SwiperSlide key={event.id}>
                     <EventTimelineCard event={event} />
                   </SwiperSlide>
                 );
@@ -47,4 +47,4 @@ const EventTimeline = ({ title, events }: Props) => {
     </FadeIn>
   );
 };
-export default EventTimeline;
+export default Timeline;

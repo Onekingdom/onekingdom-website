@@ -1,4 +1,5 @@
 import { InvestorStorage } from "@/types/Investors";
+import { storage } from "@/utils/clientAppwrite";
 import { database } from "@/utils/serverAppwrite";
 
 interface Props {
@@ -32,10 +33,11 @@ const Investors = async ({ Title }: Props) => {
           <div className="neoh_fn_investor">
             <ul>
               {Investors.documents.map((Investor) => {
+                const image = storage.getFilePreview(Investor.InvestorLogo.bucketID, Investor.InvestorLogo.imageID);
                 return (
                   <li key={Investor.$id}>
                     <div className="item">
-                      <img src={Investor.InvestorLogo.imageURL} alt={Investor.InvestorLogo.imageALT} />
+                      <img src={image.href} alt={Investor.InvestorName} />
                       <a href={Investor.InvestorURL} target="_blank" className="full_link" />
                     </div>
                   </li>

@@ -1,6 +1,6 @@
 import { DashboardConfig } from "@/types";
 
-import { LayoutGrid, MessageSquare, Layers, Hexagon, ScrollText  } from "lucide-react";
+import { LayoutGrid, MessageSquare } from "lucide-react";
 
 export const dashboardConfig: DashboardConfig = {
   overview: {
@@ -13,29 +13,15 @@ export const dashboardConfig: DashboardConfig = {
     ],
   },
 
-  twitch: {
-    title: "Twitch",
+  website: {
+    title: "Website",
     routes: [
       {
-        label: "Commands",
-        href: "/dashboard/twitch/commands",
+        label: "Events",
+        href: "/admin/events/",
         icon: MessageSquare,
       },
-      {
-        label: "Overlay",
-        href: "/dashboard/twitch/overlay",
-        icon: Layers,
-      },
-      {
-        label: "ChannelPoints",
-        href: "/dashboard/twitch/channelpoints",
-        icon: Hexagon,
-      },
-      {
-        label: "Scripts",
-        href: "/dashboard/scripts/",
-        icon: ScrollText,
-      },
+      
       
     ],
   },
