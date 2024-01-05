@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 /*
 /*	Copyright (c) 2022 Frenify
 /*	Author: Frenify
@@ -40,86 +41,86 @@ html {
   src: url("./font/Assassin.ttf");
 }
 
-body {
-  font-family: var(--bff);
-  font-size: 18px;
-  letter-spacing: 0;
-  line-height: 1.44;
-  font-weight: 400;
-  color: var(--bc);
-  position: relative;
-  word-break: break-word;
-  background-color: var(--sbc);
-}
-.fn__svg {
-  fill: currentcolor;
-  width: 18px;
-  height: 18px;
-  opacity: 0;
-}
-.replaced-svg {
-  opacity: 1;
-}
-p {
-  letter-spacing: 0;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--hc);
-  font-family: neon;
-  line-height: 1.22;
-  letter-spacing: 0;
-}
+// body {
+//   font-family: var(--bff);
+//   font-size: 18px;
+//   letter-spacing: 0;
+//   line-height: 1.44;
+//   font-weight: 400;
+//   color: var(--bc);
+//   position: relative;
+//   word-break: break-word;
+//   background-color: var(--sbc);
+// }
+// .fn__svg {
+//   fill: currentcolor;
+//   width: 18px;
+//   height: 18px;
+//   opacity: 0;
+// }
+// .replaced-svg {
+//   opacity: 1;
+// }
+// p {
+//   letter-spacing: 0;
+// }
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//   color: var(--hc);
+//   font-family: neon;
+//   line-height: 1.22;
+//   letter-spacing: 0;
+// }
 
-h4 {
-  margin-bottom: 0px !important;
-}
-h1 > a,
-h2 > a,
-h3 > a,
-h4 > a,
-h5 > a,
-h6 > a {
-  text-decoration: none;
-  color: var(--hc);
-}
-h1 > a:hover,
-h2 > a:hover,
-h3 > a:hover,
-h4 > a:hover,
-h5 > a:hover,
-h6 > a:hover {
-  color: var(--mc);
-}
-input[type="text"] {
-  background-color: #181818;
-  border-radius: 5px;
-  border: 2px solid var(--extra-color);
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 46px;
-  height: 50px;
-  padding: 0 15px;
-}
-textarea {
-  background-color: #181818;
-  border-radius: 5px;
-  border: 2px solid var(--extra-color);
-  font-size: 16px;
-  letter-spacing: 0;
-  padding: 13px 15px;
-  height: 250px;
-}
-textarea:focus,
-input[type="text"]:focus {
-  outline: none;
-  background-color: #181818;
-  border-color: #777;
-}
+// h4 {
+//   margin-bottom: 0px !important;
+// }
+// h1 > a,
+// h2 > a,
+// h3 > a,
+// h4 > a,
+// h5 > a,
+// h6 > a {
+//   text-decoration: none;
+//   color: var(--hc);
+// }
+// h1 > a:hover,
+// h2 > a:hover,
+// h3 > a:hover,
+// h4 > a:hover,
+// h5 > a:hover,
+// h6 > a:hover {
+//   color: var(--mc);
+// }
+// input[type="text"] {
+//   background-color: #181818;
+//   border-radius: 5px;
+//   border: 2px solid var(--extra-color);
+//   font-size: 16px;
+//   letter-spacing: 0;
+//   line-height: 46px;
+//   height: 50px;
+//   padding: 0 15px;
+// }
+// textarea {
+//   background-color: #181818;
+//   border-radius: 5px;
+//   border: 2px solid var(--extra-color);
+//   font-size: 16px;
+//   letter-spacing: 0;
+//   padding: 13px 15px;
+//   height: 250px;
+// }
+// textarea:focus,
+// input[type="text"]:focus {
+//   outline: none;
+//   background-color: #181818;
+//   border-color: #777;
+// }
 /*------------------------------------------------------------------*/
 /*	02) Container
 /*------------------------------------------------------------------*/

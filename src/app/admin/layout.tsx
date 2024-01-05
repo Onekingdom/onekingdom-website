@@ -1,17 +1,17 @@
 "use client";
-import { type ReactNode, useEffect } from "react";
-import { Toaster, toast } from "sonner";
+import { useEffect, type ReactNode } from "react";
+import { toast } from "sonner";
 
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { getSessionData } from "../../redux/auth/AuthActions";
-import { dashboardConfig } from "@/config/dashboard";
-import { client } from "@/utils/clientAppwrite";
 import { SidebarNav } from "@/components/nav/SidebarNav";
 import { Breadcrumb } from "@/components/nav/breadcrumb";
 import { DashboardNav } from "@/components/nav/dashboardNav";
 import Sidebar from "@/components/nav/sidebar";
+import { dashboardConfig } from "@/config/dashboard";
 import { databases } from "@/lib/constants";
+import { client } from "@/utils/clientAppwrite";
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { getSessionData } from "../../redux/auth/AuthActions";
 
 type DashboardLayout = {
   children: ReactNode;

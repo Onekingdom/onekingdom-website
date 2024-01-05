@@ -5,6 +5,8 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { UserAuthForm } from "@/components/userAuthForm";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { storage } from "@/utils/clientAppwrite";
 
 export const metadata: Metadata = {
   title: "Authentication",
@@ -20,9 +22,20 @@ export default function AuthenticationPage() {
           <Image src="/logo.png" width={700} height={700} alt="Logo" />
           <blockquote className="space-y-2 absolute bottom-0">
             <p className="text-lg">
-            &ldquo;Yesterday is history, tomorrow is a mystery, but today is a gift. That is why it is called the present.&rdquo;
+              &ldquo;Yesterday is history, tomorrow is a mystery, but today is a gift. That is why it is called the present.&rdquo;
             </p>
-            <footer className="text-sm">Master Oogway</footer>
+            <footer className="text-sm">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <footer>Master Oogway</footer>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <img src={storage.getFilePreview("6596c5baec6aaeaf5010", "6596c5e045742a77d13c").href} alt="Master Mo" />
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </footer>
           </blockquote>
         </div>
       </div>

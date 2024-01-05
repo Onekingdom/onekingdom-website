@@ -1,15 +1,15 @@
 "use client";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
 import "@/styles/globals.scss";
-import "@/styles/plugins.scss";
+import "./globals.css";
+
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
+import { Inter } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { Provider } from "react-redux";
-import store from "./store";
 import { Toaster } from "sonner";
+import store from "./store";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,16 +20,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <Provider store={store}>
         <body className="min-h-screen">
-        <Toaster richColors position="top-right" theme="dark" />
-          {path.includes("/admin") || path.includes("/login") ? (
-            <>{children}</>
-          ) : (
-            <>
-              <Header />
-              {children}
-              <Footer />
-            </>
-          )}
+          <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
+            {path.includes("/admin") || path.includes("/login") ? (
+              <>{children}</>
+            ) : (
+              <>
+                <Header />
+                {children}
+                <Footer />
+              </>
+            )}
+            <Toaster richColors position="top-right" theme="dark" />
+          </ThemeProvider>
         </body>
       </Provider>
     </html>

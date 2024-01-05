@@ -7,7 +7,7 @@ export const dashboardConfig: DashboardConfig = {
     routes: [
       {
         label: "Overview",
-        href: "/dashboard/overview",
+        href: "/admin",
         icon: LayoutGrid,
       },
     ],

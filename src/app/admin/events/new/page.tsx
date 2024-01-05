@@ -1,16 +1,11 @@
 "use client";
-import Tiptap from "@/components/Tiptap";
-import SelectImage from "@/components/SelectImage";
-import { DatePickerDemo } from "@/components/ui/datePicker";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import FormBuilder from "@/components/PageBuilder/FormBuilder";
+import { useAppSelector } from "@/hooks/redux";
 import useEvents from "@/hooks/useEvents";
 import { eventSchema, imageSchemaType } from "@/schemas/event";
-import { storage } from "@/utils/clientAppwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Models } from "appwrite";
-import React from "react";
+import React, { use, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -18,6 +13,9 @@ import { z } from "zod";
 export default function page() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { addEvent } = useEvents();
+
+  const { elements, selectedElement } = useAppSelector((state) => state.pageBuilder); // Update the slice name
+
   const form = useForm<z.infer<typeof eventSchema>>({
     resolver: zodResolver(eventSchema),
     defaultValues: {
@@ -29,6 +27,11 @@ export default function page() {
       Images: [],
     },
   });
+
+
+  useEffect(() => {
+    console.log(elements)
+  }, [elements]);
 
   const addImages = (image: Models.File) => {
     //get previous images
@@ -66,156 +69,28 @@ export default function page() {
     }
   };
 
-  return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit, (error) => {
-          console.log(error);
-        })}
-      >
-        <FormField
-          name="title"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl className="w-96">
-                <Input id="title" placeholder="my cool event" type="text" autoCapitalize="none" autoCorrect="off" disabled={isLoading} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="eventDate"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>eventDate</FormLabel>
-              <FormControl className="w-96">
-                <DatePickerDemo />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="Location"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Location</FormLabel>
-              <FormControl className="w-96">
-                <Input
-                  id="title"
-                  placeholder="my cool event"
-                  type="text"
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  autoCorrect="off"
-                  disabled={isLoading}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="shortDescription"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>shortDescription</FormLabel>
-              <FormControl className="w-96">
-                <Input
-                  id="shortDescription"
-                  placeholder="my cool event"
-                  type="text"
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  autoCorrect="off"
-                  disabled={isLoading}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="description"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl className="w-96">
-                <Tiptap  />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="Images"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>images</FormLabel>
-              <FormControl className="w-96">
-                <div>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <button type="button" className="btn btn-primary" disabled={isLoading}>
-                        Select Image
-                      </button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-5xl">
-                      <DialogHeader>
-                        <DialogTitle>Select Image</DialogTitle>
-                      </DialogHeader>
-                      <SelectImage
-                        onImageAdded={addImages}
-                        onImageRemoved={removeImage}
-                        selectedFiles={form.getValues("Images").map((image) => image.imageID)}
-                      />
-                    </DialogContent>
-                  </Dialog>
-                  {/* preview images */}
-                  <div className="flex flex-wrap">
-                    {form.getValues("Images").length > 0 &&
-                      form.getValues("Images").map((image, index) => (
-                        <div key={index}>
-                          <img src={storage.getFilePreview(image.bucketID, image.imageID, 100, 100).href} />
-                          <button
-                            type="button"
-                            onClick={() =>
-                              form.setValue(
-                                "Images",
-                                form.getValues("Images").filter((_, i) => i !== index)
-                              )
-                            }
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
-        <FormItem>
-          <FormControl className="w-96">
-            <button type="submit" className="btn btn-primary" disabled={isLoading}>
-              Submit
-            </button>
-          </FormControl>
-        </FormItem>
-      </form>
-    </Form>
+
+
+  return (
+    // <div>
+    //   <div className="flex justify-between">
+    //     <h1>Create new Event</h1>
+    //     <Sheet>
+    //       <SheetTrigger>Add Component</SheetTrigger>
+    //       <SheetContent>
+    //         <div className="flex flex-col">
+    //           <button className="btn btn-primary">Add Image</button>
+    //           <button className="btn btn-primary">Add Video</button>
+    //           <button className="btn btn-primary">Add Text</button>
+    //         </div>
+    //       </SheetContent>
+    //     </Sheet>
+    //   </div>
+    // </div>
+    <>
+
+      <FormBuilder form={""}/>
+    </>
   );
 }

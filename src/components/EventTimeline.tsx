@@ -1,10 +1,10 @@
 "use client";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { EventsStorage } from "@/types/events";
 import { useState } from "react";
-import FadeIn from "./Framer/FadeIn";
-import { EventStorage, EventsStorage } from "@/types/events";
-import EventTimelineNav from "./EventTimelineNav";
+import { Swiper, SwiperSlide } from "swiper/react";
 import EventTimelineCard from "./EventTimelineCard";
+import EventTimelineNav from "./EventTimelineNav";
+import FadeIn from "./Framer/FadeIn";
 
 interface Props {
   title: string;
@@ -35,7 +35,7 @@ const Timeline = ({ title, events }: Props) => {
               <EventTimelineNav events={events} active={active} />
               {events.documents.map((event) => {
                 return (
-                  <SwiperSlide key={event.id}>
+                  <SwiperSlide key={event.$id}>
                     <EventTimelineCard event={event} />
                   </SwiperSlide>
                 );

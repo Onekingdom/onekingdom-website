@@ -1,9 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { EventsStorage } from "@/types/events";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import FadeIn from "./Framer/FadeIn";
-import formatDate from "@/utils/formatDate";
 
 interface Props {
   events: EventsStorage;
@@ -55,7 +53,7 @@ export default function EventTimelineNav({ events, active }: Props) {
                 clickable: true,
               }}
               // modules={[FreeMode]}
-              className="mySwiper"
+          
             >
               {events.documents.map((event, index) => {
                 let delay = 0.3 * (index + 1);
@@ -66,7 +64,7 @@ export default function EventTimelineNav({ events, active }: Props) {
                 index++;
 
                 return (
-                  <SwiperSlide key={event.$id}>
+                  <SwiperSlide key={index}>
                     <FadeIn delay={delay}>
                       <li className={activeClass(index)} style={{ cursor: "pointer" }} key={event.id}>
                         <a onClick={() => onClick(index)}>
