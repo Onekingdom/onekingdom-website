@@ -17,7 +17,6 @@ interface Props {
 export default function SelectImage({ onImageAdded, onImageRemoved, selectedFiles }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [images, setImages] = React.useState<Models.File[]>([]);
-  // const [selectedFiles, setSelectedFiles] = React.useState<Models.File[]>([]);
 
   useEffect(() => {
     const getImages = async () => {
@@ -48,9 +47,6 @@ export default function SelectImage({ onImageAdded, onImageRemoved, selectedFile
     );
   };
 
-  useEffect(() => {
-    console.log(selectedFiles);
-  }, [selectedFiles]);
 
   return (
     <div>

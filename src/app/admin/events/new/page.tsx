@@ -29,9 +29,9 @@ export default function page() {
   });
 
 
-  useEffect(() => {
-    console.log(elements)
-  }, [elements]);
+  // useEffect(() => {
+  //   console.log(elements)
+  // }, [elements]);
 
   const addImages = (image: Models.File) => {
     //get previous images

@@ -1,73 +1,28 @@
-"use client";
-
-import { ElementsType, FormElement, FormElementInstance } from "../FormElements";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { FormElementInstance } from "../../FormElements";
+import { CustomTitleInstance } from "./index";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { LuHeading1 } from "react-icons/lu";
-import { Label } from "@/components/ui/label";
-import { useAppDispatch } from "@/hooks/redux";
 import { updateElement } from "@/redux/pageBuilder/PageBuilderSlice";
-import { Input } from "@/components/ui/input";
+import { useAppDispatch } from "@/hooks/redux";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const type: ElementsType = "TitleField";
-
-const extraAttributes = {
-  title: "Title field",
-};
 
 const propertiesSchema = z.object({
   title: z.string().min(2).max(50),
 });
 
-export const TitleFieldFormElement: FormElement = {
-  type,
-  construct: (id: string) => ({
-    id,
-    type,
-    extraAttributes,
-  }),
-  designerBtnElement: {
-    icon: LuHeading1,
-    label: "Title field",
-  },
-  designerComponent: DesignerComponent,
-  formComponent: FormComponent,
-  propertiesComponent: PropertiesComponent,
-
-  validate: () => true,
-};
-
-type CustomInstance = FormElementInstance & {
-  extraAttributes: typeof extraAttributes;
-};
-
-function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-  const element = elementInstance as CustomInstance;
-  const { title } = element.extraAttributes;
-  return (
-    <div className="flex flex-col gap-2 w-full">
-      <Label className="text-muted-foreground">Title field</Label>
-      <p className="text-xl">{title}</p>
-    </div>
-  );
-}
-
-function FormComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-  const element = elementInstance as CustomInstance;
-
-  const { title } = element.extraAttributes;
-  return <p className="text-xl">{title}</p>;
-}
 
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
-function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-  const element = elementInstance as CustomInstance;
+
+export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+  const element = elementInstance as CustomTitleInstance;
   const dispatch = useAppDispatch();
+  
   const form = useForm<propertiesFormSchemaType>({
     resolver: zodResolver(propertiesSchema),
     mode: "onBlur",
@@ -80,6 +35,12 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
     form.reset(element.extraAttributes);
   }, [element, form]);
 
+
+
+  useEffect(() => {
+    console.log(element)
+  }, [element]);
+
   function applyChanges(values: propertiesFormSchemaType) {
     const { title } = values;
     dispatch(
@@ -88,6 +49,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
         element: {
           ...element,
           extraAttributes: {
+            ...element.extraAttributes,
             title,
           },
         },

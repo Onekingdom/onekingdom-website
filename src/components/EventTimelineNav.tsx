@@ -55,7 +55,7 @@ export default function EventTimelineNav({ events, active }: Props) {
               // modules={[FreeMode]}
           
             >
-              {events.documents.map((event, index) => {
+              {events.documents.toReversed().map((event, index) => {
                 let delay = 0.3 * (index + 1);
 
                 if (index > 5) {

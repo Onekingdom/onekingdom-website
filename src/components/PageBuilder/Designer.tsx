@@ -31,9 +31,10 @@ function Designer() {
       const droppingSidebarBtnOverDesignerDropArea = isDesignerBtnElement && isDroppingOverDesignerDropArea;
 
       // First scenario
+      const newID = crypto.randomUUID();
       if (droppingSidebarBtnOverDesignerDropArea) {
         const type = active.data?.current?.type;
-        const newElement = FormElements[type as ElementsType].construct(ID.unique());
+        const newElement = FormElements[type as ElementsType].construct(newID);
 
         dispatch(addElement({ index: elements.length, element: newElement }));
         return;
@@ -48,7 +49,7 @@ function Designer() {
       // Second scenario
       if (droppingSidebarBtnOverDesignerElement) {
         const type = active.data?.current?.type;
-        const newElement = FormElements[type as ElementsType].construct(ID.unique());
+        const newElement = FormElements[type as ElementsType].construct(newID);
 
         const overId = over.data?.current?.elementId;
 
