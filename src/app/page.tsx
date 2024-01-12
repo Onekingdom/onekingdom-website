@@ -16,13 +16,13 @@ export default async function Home() {
   const events = await getEvents();
 
   return (
-    <main>
+    <>
       <Hero title="One Kingdom" subtitle="Welcome to" description="Welcome to" />
       <About />
       <TeamSection title="Our Partnered Streamers" description="The One Kingdom Team" />
       <EventTimeline title="Events" events={events} />
       <Investors Title="Investors" />
       <TeamSection title="Our Staff Members" description="The One Kingdom Team" />
-    </main>
+    </>
   );
 }

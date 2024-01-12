@@ -7,5 +7,9 @@ import { Carousel } from "@/components/ui/Carousel";
 export default function FormComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
   const element = elementInstance as CustomTitleInstance;
 
-  return <>{element.extraAttributes && element.extraAttributes.images.length > 0 && <Carousel />}</>;
+  const imgsURls = element.extraAttributes.images.map((image) => {
+    return storage.getFilePreview(image.bucketID, image.imageID).href;
+  });
+
+  return <>{element.extraAttributes && element.extraAttributes.images.length > 0 && <Carousel imgs={imgsURls} />}</>;
 }
