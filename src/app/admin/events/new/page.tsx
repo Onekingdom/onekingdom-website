@@ -1,5 +1,11 @@
 "use client";
 import FormBuilder from "@/components/PageBuilder/FormBuilder";
+import EditorComponent from "@/components/richeditor/content";
+// import RichEditor from "@/components/RichEditor";
+
+import { DatePicker } from "@/components/ui/datePicker";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { useAppSelector } from "@/hooks/redux";
 import useEvents from "@/hooks/useEvents";
 import { eventSchema, imageSchemaType } from "@/schemas/event";
@@ -28,33 +34,9 @@ export default function page() {
     },
   });
 
-
   // useEffect(() => {
   //   console.log(elements)
   // }, [elements]);
-
-  const addImages = (image: Models.File) => {
-    //get previous images
-    const previousImages = form.getValues("Images");
-    //get image URL
-
-    const newImageArray: imageSchemaType[] = [
-      ...previousImages,
-      {
-        bucketID: image.bucketId,
-        imageID: image.$id,
-      },
-    ];
-
-    form.setValue("Images", newImageArray);
-  };
-
-  //remove image
-  const removeImage = (imageId: string) => {
-    const previousImages = form.getValues("Images");
-    const newImageArray = previousImages.filter((image) => image.imageID !== imageId);
-    form.setValue("Images", newImageArray);
-  };
 
   //handle submit
   const handleSubmit = async (data: z.infer<typeof eventSchema>) => {
@@ -69,28 +51,91 @@ export default function page() {
     }
   };
 
-
-
-
   return (
-    // <div>
-    //   <div className="flex justify-between">
-    //     <h1>Create new Event</h1>
-    //     <Sheet>
-    //       <SheetTrigger>Add Component</SheetTrigger>
-    //       <SheetContent>
-    //         <div className="flex flex-col">
-    //           <button className="btn btn-primary">Add Image</button>
-    //           <button className="btn btn-primary">Add Video</button>
-    //           <button className="btn btn-primary">Add Text</button>
-    //         </div>
-    //       </SheetContent>
-    //     </Sheet>
-    //   </div>
-    // </div>
     <>
+      <h1 className="text-3xl font-bold">Create Event</h1>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSubmit, (error) => {
+            console.log(error);
+          })}
+        >
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <FormField
+                name="title"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="title" className="block font-semibold mb-1">
+                      Title
+                    </label>
+                    <FormControl className="w-96">
+                      <Input id="title" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                name="eventDate"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="eventDate" className="block font-semibold mb-1">
+                      Event Date
+                    </label>
+                    <FormControl className="w-96">
+                      <DatePicker onChange={(e) => field.onChange(e)} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                name="Location"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="Location" className="block font-semibold mb-1">
+                      Location
+                    </label>
+                    <FormControl className="w-96">
+                      <Input id="Location" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+          <div className="row-span-3">
+            <FormField
+              name="shortDescription"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <label htmlFor="shortDescription" className="block font-semibold mb-1">
+                    Short Description
+                  </label>
+                  <FormControl className="">
+                    <div className="bg-slate-500 ">
+                      <EditorComponent content="" />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </form>
+      </Form>
 
-      <FormBuilder form={""}/>
+      {/* <FormBuilder form={""}/> */}
     </>
   );
 }
