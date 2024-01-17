@@ -3,8 +3,9 @@ import { Socialmedia } from "@/types/payload";
 import { FaDiscord, FaFacebook, FaInstagram, FaTiktok, FaTwitch, FaTwitter, FaYoutube } from "react-icons/fa";
 
 interface Props {
-  value: string;
+  value: "twitter" | "facebook" | "instagram" | "discord" | "tiktok" | "twitch" | "youtube" | string;
 }
+
 export default function SocialIcon({ value }: Props) {
   switch (value) {
     case Socialmedia.Twitter:
@@ -53,6 +54,4 @@ export default function SocialIcon({ value }: Props) {
     default:
       return <></>;
   }
-
-
 }

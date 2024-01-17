@@ -5,12 +5,13 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export default function HeadingToolbarButtons({ editor }: { editor: Editor }) {
   return (
-    <ToggleGroup type="multiple" aria-label="text alignment">
+    <ToggleGroup type="multiple" aria-label="text alignment" className="text-white">
       <ToggleGroupItem
         value="h1"
         aria-label="H1 Text"
         // onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         // selected={editor.isActive("heading", { level: 1 })}
+        className="text-white"
       >
         <p style={{ fontWeight: 700 }}>H1</p>
       </ToggleGroupItem>
@@ -19,6 +20,7 @@ export default function HeadingToolbarButtons({ editor }: { editor: Editor }) {
         // selected={editor.isActive("heading", { level: 2 })}
         value="h2"
         aria-label="H2 Text"
+        className="text-white"
       >
         <p style={{ fontWeight: 800 }}>H2</p>
       </ToggleGroupItem>

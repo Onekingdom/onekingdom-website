@@ -11,12 +11,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useEvents from "@/hooks/useEvents";
 
-import { CommandStorage } from "@/types/database/commandStorage";
 import { EventStorage } from "@/types/events";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useState } from "react";
 import { toast } from "sonner";
 
 export default function Page() {
@@ -125,10 +124,8 @@ export default function Page() {
             <h2 className="text-2xl font-bold tracking-tight">Events</h2>
           </div>
           <div className="flex items-center space-x-2">
-            <Link href="/admin/events/new" >
-              <Button variant="outline">
-                Add Event
-              </Button>
+            <Link href="/admin/events/new">
+              <Button variant="outline">Add Event</Button>
             </Link>
           </div>
         </div>

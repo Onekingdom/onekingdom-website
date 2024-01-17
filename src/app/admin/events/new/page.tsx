@@ -1,17 +1,19 @@
 "use client";
-import FormBuilder from "@/components/PageBuilder/FormBuilder";
+import SelectImage from "@/components/SelectImage";
 import EditorComponent from "@/components/richeditor/content";
 // import RichEditor from "@/components/RichEditor";
 
+import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/datePicker";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useAppSelector } from "@/hooks/redux";
 import useEvents from "@/hooks/useEvents";
 import { eventSchema, imageSchemaType } from "@/schemas/event";
+import { storage } from "@/utils/clientAppwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Models } from "appwrite";
-import React, { use, useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -20,7 +22,7 @@ export default function page() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { addEvent } = useEvents();
 
-  const { elements, selectedElement } = useAppSelector((state) => state.pageBuilder); // Update the slice name
+  // const { elements, selectedElement } = useAppSelector((state) => state.pageBuilder); // Update the slice name
 
   const form = useForm<z.infer<typeof eventSchema>>({
     resolver: zodResolver(eventSchema),
@@ -35,8 +37,8 @@ export default function page() {
   });
 
   // useEffect(() => {
-  //   console.log(elements)
-  // }, [elements]);
+  //   console.log(form.watch());
+  // }, [form.watch()]);
 
   //handle submit
   const handleSubmit = async (data: z.infer<typeof eventSchema>) => {
@@ -49,6 +51,27 @@ export default function page() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  //add image
+  const handleAddImage = (image: Models.File) => {
+    form.setValue("Images", [
+      ...form.getValues("Images"),
+      {
+        imageID: image.$id,
+        bucketID: image.bucketId,
+      },
+    ]);
+  };
+
+  //remove image
+
+  const handleRemoveImage = (imageID: string) => {
+    const images = form.getValues("Images");
+    form.setValue(
+      "Images",
+      images.filter((img) => img.imageID !== imageID)
+    );
   };
 
   return (
@@ -112,25 +135,63 @@ export default function page() {
                 )}
               />
             </div>
+            <div className="row-span-3">
+              <FormField
+                name="shortDescription"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="shortDescription" className="block font-semibold mb-1">
+                      Short Description
+                    </label>
+                    <FormControl className="">
+                      <div>
+                        <EditorComponent content="" setContent={field.onChange} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="row-span-3">
+              <FormField
+                name="Images"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="shortDescription" className="block font-semibold mb-1">
+                      Preview Images
+                    </label>
+                    <FormControl className="">
+                      <>
+                        <Dialog>
+                          <DialogTrigger>Add Images</DialogTrigger>
+                          <DialogContent>
+                            <SelectImage
+                              selectedFiles={form.getValues("Images").map((i) => i.imageID)}
+                              onImageAdded={handleAddImage}
+                              onImageRemoved={handleRemoveImage}
+                            />
+                          </DialogContent>
+                        </Dialog>
+                        <div className="flex">
+                          {form.getValues("Images").map((image: imageSchemaType) => (
+                            <img src={storage.getFilePreview(image.bucketID, image.imageID, 50, 50).href} />
+                          ))}
+                        </div>
+                      </>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
-          <div className="row-span-3">
-            <FormField
-              name="shortDescription"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor="shortDescription" className="block font-semibold mb-1">
-                    Short Description
-                  </label>
-                  <FormControl className="">
-                    <div className="bg-slate-500 ">
-                      <EditorComponent content="" />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div>
+            <Button type="submit" className="mt-4" disabled={isLoading}>
+              Submit
+            </Button>
           </div>
         </form>
       </Form>
