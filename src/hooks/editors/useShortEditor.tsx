@@ -18,10 +18,13 @@ import { SmilieReplacer } from "@/components/richeditor/content/SmilieReplacer";
 
 interface Props {
   savedContent?: string
+  limit?: number
 }
 
-export default function useShortEditor({ savedContent }: Props) {
+export default function useShortEditor({ savedContent, limit }: Props) {
   const [content, setContent] = React.useState<string>(savedContent || "");
+
+  // console.log(content)
 
   const editor = useEditor({
     extensions: [
@@ -36,7 +39,7 @@ export default function useShortEditor({ savedContent }: Props) {
       // Text,
       Link,
       CharacterCount.configure({
-        limit: 250,
+        limit: limit,
         mode: "textSize",
       }),
       TextAlign.configure({

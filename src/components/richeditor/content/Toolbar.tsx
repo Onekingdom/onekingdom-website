@@ -2,38 +2,28 @@ import React from "react";
 
 import { Editor } from "@tiptap/react";
 
-import LinkIcon from "@mui/icons-material/Link";
-import ImageIcon from "@mui/icons-material/Image";
-import UndoIcon from "@mui/icons-material/Undo";
-import FormatAlignLeftIcon from "@mui/icons-material/FormatAlignLeft";
-import FormatAlignCenterIcon from "@mui/icons-material/FormatAlignCenter";
-import FormatAlignRightIcon from "@mui/icons-material/FormatAlignRight";
-import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
-import RedoIcon from "@mui/icons-material/Redo";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
-import ClearIcon from "@mui/icons-material/Clear";
-import LayersClearIcon from "@mui/icons-material/LayersClear";
-import FormatTextdirectionRToLIcon from "@mui/icons-material/FormatTextdirectionRToL";
-import FormatStrikethroughIcon from "@mui/icons-material/FormatStrikethrough";
-import SubscriptIcon from "@mui/icons-material/Subscript";
-import SuperscriptIcon from "@mui/icons-material/Superscript";
-import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
-import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
-import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
-import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
+import FormatStrikethroughIcon from "@mui/icons-material/FormatStrikethrough";
+import FormatTextdirectionRToLIcon from "@mui/icons-material/FormatTextdirectionRToL";
+import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
+import LayersClearIcon from "@mui/icons-material/LayersClear";
+import LinkIcon from "@mui/icons-material/Link";
+import RedoIcon from "@mui/icons-material/Redo";
+import SubscriptIcon from "@mui/icons-material/Subscript";
+import SuperscriptIcon from "@mui/icons-material/Superscript";
+import UndoIcon from "@mui/icons-material/Undo";
 
 import Paper from "@mui/material/Paper";
 
+import { Divider } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
-import { Typography, Divider } from "@mui/material";
 
 import StyledToggleButtonGroup from "./StyledToggleButtonGroup";
 
-import HeadingToolbarButtons from "./toolbars/HeadingToolbarButtons";
 
 const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
   const [OpenPickImage, setOpenPickImage] = React.useState(false);
@@ -54,7 +44,6 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
           mb: 2,
           position: "sticky",
           top: 10,
-          zIndex: 9999,
           backgroundColor: `#0D0D0D`,
         }}
         className="text-white"

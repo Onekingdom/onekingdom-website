@@ -40,6 +40,11 @@ export default function TeamCard() {
               <SocialIcon value="instagram" />
             </a>
           </li>
+          <li>
+            <a href="" target="_blank">
+              <SocialIcon value="twitter" />
+            </a>
+          </li>
         </ul>
       </div>
     </div>

@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { EventStorage } from "@/types/events";
 import formatDate from "@/utils/formatDate";
@@ -13,6 +13,14 @@ interface Props {
 
 export default function EventTimelineCard({ event }: Props) {
   const { editor } = useShortEditor({ savedContent: event.shortDescription });
+
+  useEffect(() => {
+    if (!editor) {
+      return undefined
+    }
+
+    editor.setEditable(false)
+  }, [editor])
 
   return (
     <li className="road_item w-full" style={{ margin: "1rem 0" }}>

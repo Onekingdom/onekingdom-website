@@ -74,17 +74,19 @@ export default function Page() {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
 
-              <DropdownMenuItem
-                onClick={() => {
-                  setModal(true);
-                }}
-              >
-                Edit
-              </DropdownMenuItem>
+              <Link href={`/admin/events/edit/${row.original.$id}`}>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setModal(true);
+                  }}
+                >
+                  Edit
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem
                 onClick={async (e) => {
                   e.preventDefault();
-                  // await removeCommand(row.original);
+                  await removeEvent(row.original);
                 }}
               >
                 Delete

@@ -13,13 +13,13 @@ import { eventSchema, imageSchemaType } from "@/schemas/event";
 import { storage } from "@/utils/clientAppwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Models } from "appwrite";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 export default function page() {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { addEvent } = useEvents();
 
   // const { elements, selectedElement } = useAppSelector((state) => state.pageBuilder); // Update the slice name
@@ -44,7 +44,11 @@ export default function page() {
   const handleSubmit = async (data: z.infer<typeof eventSchema>) => {
     setIsLoading(true);
     try {
-      await addEvent(data);
+      await addEvent({
+        ...data,
+        description: "",
+        published: true,
+      });
       toast.success("Event created");
     } catch (error) {
       toast.error("Error creating event");

@@ -9,9 +9,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { updateElement } from "@/redux/pageBuilder/PageBuilderSlice";
 import { useAppDispatch } from "@/hooks/redux";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import EditorComponent from "@/components/richeditor/content";
 
 const propertiesSchema = z.object({
-  textField: z.string().min(2).max(500),
+  textField: z.string().min(2),
 });
 
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
@@ -24,12 +27,12 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
     resolver: zodResolver(propertiesSchema),
     mode: "onBlur",
     defaultValues: {
-      textField: element.extraAttributes.textField,
+      textField: element.extraAttributes.textField ? element.extraAttributes.textField : "",
     },
   });
 
   useEffect(() => {
-    form.reset(element.extraAttributes);
+    form.reset({textField: element.extraAttributes.textField});
   }, [element, form]);
 
   function applyChanges(values: propertiesFormSchemaType) {
@@ -65,12 +68,18 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
             <FormItem>
               <FormLabel>Text Field</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") e.currentTarget.blur();
-                  }}
-                />
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline">Edit Profile</Button>
+                  </DialogTrigger>
+                  <DialogContent className="w-1/3">
+                    <EditorComponent content={form.watch("textField")} setContent={field.onChange} />
+
+                    <DialogFooter>
+                      <Button type="submit">Save changes</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </FormControl>
               <FormMessage />
             </FormItem>

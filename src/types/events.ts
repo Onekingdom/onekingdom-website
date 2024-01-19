@@ -2,11 +2,12 @@ import { Models } from "appwrite";
 
 export interface Event {
   title: string;
-  eventDate: Date;
+  eventDate: string;
   Location: string;
   description: string;
   shortDescription: string;
   Images: Image[];
+  published: boolean;
 }
 
 export interface Image {

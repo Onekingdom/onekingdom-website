@@ -1,3 +1,4 @@
+import FormSubmitComponent from "@/components/PageBuilder/FormSubmitComponent";
 import Share from "@/components/Share";
 import { EventStorage } from "@/types/events";
 import { storage } from "@/utils/clientAppwrite";
@@ -57,7 +58,9 @@ export default async function page({ params }: { params: { slug: string } }) {
           {/* Single Title */}
           <div className="single_title">
             <h2 className="fn_title">{event.title}</h2>
-          </div>  
+          </div>
+            <FormSubmitComponent content={JSON.parse(event.description)}  />
+
         </div>
       </div>
       {/* !Single Content */}

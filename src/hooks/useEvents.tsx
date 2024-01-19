@@ -1,7 +1,7 @@
 import React from "react";
 import { database } from "@/utils/clientAppwrite";
 import { Event, EventStorage, EventsStorage } from "@/types/events";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { ID } from "appwrite";
 
 export default function useEvents() {
@@ -21,7 +21,7 @@ export default function useEvents() {
       await database.deleteDocument("658fabb7b076a84d06d2", "658fabbcde4c0d2a25cd", id);
       getEvents();
     } catch (error) {
-      return error
+      return error;
     }
   }
 
@@ -29,13 +29,29 @@ export default function useEvents() {
     console.log(event);
     try {
       await database.createDocument<EventStorage>("658fabb7b076a84d06d2", "658fabbcde4c0d2a25cd", ID.unique(), event);
-      return
+      return;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
+  async function getEventbyID(id: string) {
+    const res = await database.getDocument<EventStorage>("658fabb7b076a84d06d2", "658fabbcde4c0d2a25cd", id);
+    return res;
+  }
 
-  return { events, deleteEvent, addEvent };
+  async function updateEvent(id: string, event: Event) {
+    console.log(event);
+    try {
+      const x = await database.updateDocument<EventStorage>("658fabb7b076a84d06d2", "658fabbcde4c0d2a25cd", id, event);
+      console.log(x);
+      return;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  return { events, deleteEvent, addEvent, getEventbyID, updateEvent };
 }
