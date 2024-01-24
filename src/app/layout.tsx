@@ -12,6 +12,7 @@ import store from "./store";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const path = usePathname();
+  
 
   return (
     <html lang="en" suppressHydrationWarning>

@@ -12,6 +12,7 @@ import { client } from "@/utils/clientAppwrite";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getSessionData } from "../../redux/auth/AuthActions";
+import NotFound from "@/components/no-access";
 
 type DashboardLayout = {
   children: ReactNode;
@@ -46,22 +47,21 @@ export default function DashboardLayout({ children }: DashboardLayout) {
   }
 
   if (loading === "failed") {
-    router.push(`/login?error=failed`);
+    return <NotFound />
   }
 
   return (
-      <div className="flex">
-        <Sidebar>
-          <SidebarNav config={dashboardConfig} />
-        </Sidebar>
-        <div className="w-full">
-          <DashboardNav />
-          <div className="h-[calc(100vh-60px)] overflow-x-hidden  pb-10">
-            <Breadcrumb />
-            <div className="mx-auto px-10">{children}</div>
-          </div>
+    <div className="flex">
+      <Sidebar>
+        <SidebarNav config={dashboardConfig} />
+      </Sidebar>
+      <div className="w-full">
+        <DashboardNav />
+        <div className="h-[calc(100vh-60px)] overflow-x-hidden  pb-10">
+          <Breadcrumb />
+          <div className="mx-auto px-10">{children}</div>
         </div>
       </div>
-
+    </div>
   );
 }

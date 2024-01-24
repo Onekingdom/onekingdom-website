@@ -2,9 +2,14 @@
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import AccountDropDown from "../AccountDropdown";
+import { getSessionData } from "@/redux/auth/AuthActions";
 
 const Header = () => {
   const [fixer, setfixer] = useState<boolean>(false);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const checkScroll = () => {
@@ -18,6 +23,10 @@ const Header = () => {
     { name: "Events", link: "/events" },
     { name: "Contact", link: "/contact" },
   ];
+
+  useEffect(() => {
+    dispatch(getSessionData());
+  }, []);
 
   return (
     <Fragment>
@@ -38,7 +47,15 @@ const Header = () => {
                     </Link>
                   </li>
                 ))}
-    
+                <li className="mx-4">
+                  {isAuthenticated ? (
+                    <AccountDropDown />
+                  ) : (
+                    <Link href="/login">
+                      <span>Login</span>
+                    </Link>
+                  )}
+                </li>
               </ul>
             </div>
           </div>

@@ -56,6 +56,7 @@ export default function DataTable({ columns, columnData, filter, loading }: Prop
     },
   });
 
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">

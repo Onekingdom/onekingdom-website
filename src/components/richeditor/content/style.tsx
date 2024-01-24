@@ -65,6 +65,7 @@ const EditorStyled = styled.div`
     ol {
       @apply pl-6;
       list-style-type: disc;
+      padding-left: 40px
     }
 
     h1,

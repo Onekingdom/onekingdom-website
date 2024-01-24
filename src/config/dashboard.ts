@@ -1,6 +1,6 @@
 import { DashboardConfig } from "@/types";
 
-import { LayoutGrid, MessageSquare } from "lucide-react";
+import { LayoutGrid, MessageSquare, User2 } from "lucide-react";
 
 export const dashboardConfig: DashboardConfig = {
   overview: {
@@ -21,8 +21,16 @@ export const dashboardConfig: DashboardConfig = {
         href: "/admin/events/",
         icon: MessageSquare,
       },
-      
-      
+    ],
+  },
+  community: {
+    title: "Community",
+    routes: [
+      {
+        label: "User Management",
+        href: "/admin/user-management/",
+        icon: User2,
+      },
     ],
   },
 

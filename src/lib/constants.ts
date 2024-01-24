@@ -77,10 +77,10 @@ export const databases = {
   },
 
   twitch: {
-    databaseID: "64392da4b5e0c9e0949d",
+    databaseID: "65afdd18a67ce0ea7b96",
     collections: {
       ClosedBeta: "65079d866c8f2ad4d8e8",
-      User: "64393117418a284d87a6",
+      User: "65afdd31d1222a19ecfc",
     },
   },
 };

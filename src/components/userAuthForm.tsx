@@ -15,6 +15,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { account } from "@/utils/clientAppwrite";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import SocialIcon from "./SocialIcon";
+import TwitchLogin from "./TwitchLogin";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -35,11 +37,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     try {
       const login = await account.createEmailSession(values.email, values.password);
       router.push("/admin");
-    
     } catch (error: any) {
       if (error === 401) {
         toast.error("Invalid email or password.");
-        return
+        return;
       }
       toast.error("Something went wrong, please try again later.");
     } finally {
@@ -113,6 +114,15 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
         </form>
       </Form>
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+        </div>
+      </div>
+      <TwitchLogin />
     </div>
   );
 }
