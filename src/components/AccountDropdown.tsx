@@ -2,19 +2,18 @@ import { motion, useCycle } from "framer-motion";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { logoutUser } from "@/redux/auth/AuthActions";
-
-const MenuButton = ({ onClick, isOpen, img }: { onClick: any; isOpen: any; img: string }) => {
+import Link from "next/link";
+const MenuButton = ({ onClick, isOpen, img, username }: { onClick: () => void; isOpen: boolean; img: string, username: string }) => {
   return (
-    <motion.button className="" onClick={onClick} animate={isOpen ? "open" : "closed"} initial={false}>
-      <Avatar className="h-6 w-6 truncate border border-border">
+    <motion.button className="flex justify-between items-center" onClick={onClick} animate={isOpen ? "open" : "closed"} initial={false}>
+      <Avatar className="h-8 w-8 truncate border border-border">
         <AvatarImage src={img} alt={``} />
         {/* <AvatarFallback>{user.username.at(0)}</AvatarFallback> */}
       </Avatar>
+      <span className="ml-4">{username}</span>
     </motion.button>
   );
 };
-
-const leftMenu = ["Accessory", "Beanie", "Hoodie", "Long Sleeve", "Shirt", "Shorts"];
 
 const slideVerticalAnimation = {
   open: {
@@ -52,16 +51,24 @@ const App = () => {
 
   return (
     <div className="relative">
-      <MenuButton onClick={toggleDropdown} isOpen={isOpen} img={session.profileImage} />
+      <MenuButton onClick={toggleDropdown} isOpen={isOpen} img={session.profileImage} username={session.username} />
       <motion.div
-        className="rounded-md shadow-lg overflow-x-hidden absolute transition-height w-52 z-50 overflow-y-hidden border border-white  transform translate-x-[-50%]"
+        className="rounded-md shadow-lg overflow-x-hidden absolute transition-height w-52 z-50 overflow-y-hidden border bg-white mt-4 "
         initial="close"
         animate={isOpen ? "open" : "close"}
         variants={slideVerticalAnimation}
       >
         <motion.div className="flex flex-col text-base h-full relative ">
           <ul className="list-none flex  flex-col justify-between">
-            <li className="flex-1 text-center cursor-pointer leading-16 transition-all duration-200 hover:bg-red-900 hover:text-dark" onClick={handleLogout}>Logout</li>
+            <li className="flex-1 text-center cursor-pointer leading-16 transition-all duration-200 hover:bg-slate-50 hover:text-dark text-black">
+              <Link href="/dashboard">Dashboard</Link>
+            </li>
+            <li
+              className="flex-1 text-center cursor-pointer leading-16 transition-all duration-200 hover:bg-slate-50 hover:text-dark text-black"
+              onClick={handleLogout}
+            >
+              Logout
+            </li>
           </ul>
         </motion.div>
       </motion.div>

@@ -1,19 +1,30 @@
+"use client";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { UserAuthForm } from "@/components/userAuthForm";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { UserAuthForm } from "@/components/userAuthForm";
 import { storage } from "@/utils/clientAppwrite";
-
-export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
-};
+import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+// export const metadata: Metadata = {
+//   title: "Authentication",
+//   description: "Authentication forms built using the components.",
+// };
 
 export default function AuthenticationPage() {
+  const searchParams = useSearchParams();
+  const unauthorized = searchParams.has("unauthorized");
+  const redirect = searchParams.get("redirect");
+
+  useEffect(() => {
+    if (unauthorized) {
+      toast.error("You must be logged in to access that page.");
+    }
+  }, [searchParams]);
+
   return (
     <div className=" relative hidden  flex-col items-center h-screen justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="relative  h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
@@ -50,7 +61,7 @@ export default function AuthenticationPage() {
               </Link> */}
             </p>
           </div>
-          <UserAuthForm />
+          <UserAuthForm redirect={redirect}  />
           <p className="px-8 text-center text-sm text-muted-foreground">
             By clicking continue, you agree to our{" "}
             <Link href="/terms" className="underline underline-offset-4 hover:text-primary">

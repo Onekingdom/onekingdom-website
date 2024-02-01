@@ -50,17 +50,7 @@ const authSlice = createSlice({
         state.session = action.payload;
         state.isAuthenticated = true;
         state.loading = "succeeded";
-        const { channelID } = action.payload;
-
-        // try {
-        //   client.subscribe(`databases.${databases.commands.databaseID}.collections.${channelID}.documents`, (response: any) => {
-        //     if (response.events.includes(`databases.${databases.commands.databaseID}.collections.${channelID}.documents.*.delete`)) {
-        //       toast.success(`${response.payload.command} has been kicked`);
-        //     }
-        //   });
-        // } catch (error) {
-        //   console.log(error);
-        // }
+        const { channelID } = action.payload;   
       })
       .addCase(getSessionData.rejected, (state, action) => {
         state.loading = "failed";

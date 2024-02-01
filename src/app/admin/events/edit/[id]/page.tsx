@@ -21,7 +21,7 @@ import { MdOutlinePublish } from "react-icons/md";
 import { toast } from "sonner";
 import { z } from "zod";
 
-export default function page({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
   const { getEventbyID, updateEvent } = useEvents();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -217,6 +217,7 @@ export default function page({ params }: { params: { id: string } }) {
                             selectedFiles={form.getValues("Images").map((i) => i.imageID)}
                             onImageAdded={handleAddImage}
                             onImageRemoved={handleRemoveImage}
+                            bucketID="658fad6a1cfcc5125a99"
                           />
                         </DialogContent>
                       </Dialog>

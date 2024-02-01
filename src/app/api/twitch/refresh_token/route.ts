@@ -76,3 +76,5 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: ERROR_MESSAGES.CONNECT_FAILED.statusText }, { status: ERROR_MESSAGES.CONNECT_FAILED.status });
   }
 }
+
+export const dynamic = 'force-dynamic'

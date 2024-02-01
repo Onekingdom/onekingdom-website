@@ -10,7 +10,7 @@ export default function DesignerComponent({ elementInstance }: { elementInstance
       <p>Image Slider</p>
       <div className="flex">
         {element.extraAttributes &&
-          element.extraAttributes.images.map((image) => <img src={storage.getFilePreview(image.bucketID, image.imageID, 50, 50).href} />)}
+          element.extraAttributes.images.map((image, index) => <img key={index} src={storage.getFilePreview(image.bucketID, image.imageID, 50, 50).href} />)}
       </div>
     </div>
   );

@@ -1,10 +1,12 @@
+import { memberStorage } from "@/types/database/members";
 import TeamCard from "./TeamCard";
 
 interface Props {
   title: string;
   description: string;
+  members?: memberStorage[];
 }
-export default function TeamSection({ title, description }: Props) {
+export default function TeamSection({ title, description, members }: Props) {
   return (
     <section id="team">
       <div className="container">
@@ -16,29 +18,16 @@ export default function TeamSection({ title, description }: Props) {
           </div>
         </div>
         {/* !Main Title */}
-        <div className="mw_650 fn_description">
-        </div>
+        <div className="mw_650 fn_description"></div>
         {/* Team List Shortcode */}
         <div className="neoh_fn_team">
           <ul className="team_list">
-            <li className="team_item">
-              <TeamCard />
-            </li>
-            <li className="team_item">
-              <TeamCard />
-            </li>
-            <li className="team_item">
-              <TeamCard />
-            </li>
-            <li className="team_item">
-              <TeamCard />
-            </li>
-            <li className="team_item">
-              <TeamCard />
-            </li>
-            <li className="team_item">
-              <TeamCard />
-            </li>
+            {members &&
+              members.map((member) => (
+                <li className="team_item">
+                  <TeamCard key={member.$id} socials={member.socialMedia} name={member.name} description={member.description} img={member.image} />
+                </li>
+              ))}
           </ul>
         </div>
       </div>

@@ -14,8 +14,12 @@ async function getInvestors() {
 }
 
 const Investors = async ({ Title }: Props) => {
+  
   const Investors = await getInvestors();
-  if (Investors)
+
+
+
+  if (Investors && Investors.documents.length > 0)
     return (
       <section id="investor">
         {/* Dividers */}

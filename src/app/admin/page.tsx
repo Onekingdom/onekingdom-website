@@ -1,7 +1,20 @@
-import React from 'react'
+"use client"
+import useUser from '@/hooks/useUser'
+import { account, team } from '@/utils/clientAppwrite'
+import React, { useEffect, useState } from 'react'
 
-export default function page() {
+export default function Page() {
+  const [jwt, setJwt] = useState("")
+  const [membershipID, setMembershipID] = useState("")
+  const {} = useUser()
+
+
+
+
   return (
-    <div>page</div>
+    <>
+      <h1>{jwt}</h1>
+      <h1>{membershipID}</h1>
+    </>
   )
 }

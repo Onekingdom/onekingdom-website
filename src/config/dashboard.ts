@@ -21,6 +21,11 @@ export const dashboardConfig: DashboardConfig = {
         href: "/admin/events/",
         icon: MessageSquare,
       },
+      {
+        label: "Members",
+        href: "/admin/members/",
+        icon: User2,
+      },
     ],
   },
   community: {

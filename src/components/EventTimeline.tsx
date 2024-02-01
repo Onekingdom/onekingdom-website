@@ -33,7 +33,7 @@ const Timeline = ({ title, events }: Props) => {
               style={{ width: "100%" }}
             >
               <EventTimelineNav events={events} active={active} />
-              {events.documents.toReversed().map((event) => {
+              {events.documents && events.documents.map((event) => {
                 return (
                   <SwiperSlide key={event.$id}>
                     <EventTimelineCard event={event} />

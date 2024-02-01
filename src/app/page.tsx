@@ -3,6 +3,7 @@ import EventTimeline from "@/components/EventTimeline";
 import Investors from "@/components/Investors";
 import TeamSection from "@/components/TeamSection";
 import Hero from "@/components/hero";
+import { memberStorage } from "@/types/database/members";
 import { EventStorage } from "@/types/events";
 import { database } from "@/utils/serverAppwrite";
 
@@ -12,14 +13,26 @@ async function getEvents() {
   return res;
 }
 
+
+//get partners
+
+async function getParthers(){
+  const res = await database.listDocuments<memberStorage>("658fabb7b076a84d06d2", "65b88761559a4aa41f38");
+  return res;
+}
+
+
 export default async function Home() {
   const events = await getEvents();
+  const partners = await getParthers();
+
+  console.log("partners", partners.documents[0].socialMedia);
 
   return (
     <>
       <Hero title="One Kingdom" subtitle="Welcome to" description="Welcome to" />
       <About />
-      <TeamSection title="Our Partnered Streamers" description="The One Kingdom Team" />
+      <TeamSection title="Our Partnered Streamers" description="The One Kingdom Team" members={partners.documents} />
       <EventTimeline title="Events" events={events} />
       <Investors Title="Investors" />
       <TeamSection title="Our Staff Members" description="The One Kingdom Team" />

@@ -18,9 +18,11 @@ import { useRouter } from "next/navigation";
 import SocialIcon from "./SocialIcon";
 import TwitchLogin from "./TwitchLogin";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps {
+  redirect: string | null
+}
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm({ redirect }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
 
@@ -49,7 +51,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   }
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
+    <div className={cn("grid gap-6")}>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit, (error) => {
@@ -122,7 +124,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
         </div>
       </div>
-      <TwitchLogin />
+      <TwitchLogin redirect={redirect} />
     </div>
   );
 }

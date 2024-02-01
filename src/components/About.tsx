@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { blockTypes, Content } from "@/types/payload";
 import SlideLeft from "./Framer/SlideLeft";
 import SlideRight from "./Framer/SlideRight";
 import SocialIcon from "./SocialIcon";
@@ -46,29 +45,7 @@ const AboutComponent = () => {
 };
 export default AboutComponent;
 
-interface Render {
-  props: Content;
-}
-const Render = ({ props }: Render) => {
-  switch (props.blockType) {
-    case blockTypes.Discord:
 
-    case blockTypes.Paragraph:
-      return (
-        <Paragraph
-          Buttons={props.Buttons}
-          button={props.button}
-          paragraph={props.paragraph}
-          id={props.id}
-          blockType={props.blockType}
-          Title={props.Title}
-        />
-      );
-
-    default:
-      return <></>;
-  }
-};
 
 const Discord = ({ serverID }: { serverID: string }) => {
   return (
@@ -91,32 +68,4 @@ const Discord = ({ serverID }: { serverID: string }) => {
   );
 };
 
-const Paragraph = ({ Title, Buttons, paragraph, button }: Content) => {
-  return (
-    <div className="content_item">
-      <div className="neoh_fn_title" data-align="left">
-        <h3 className="fn_title">One KingDom</h3>
-        <div className="line">
-          <span />
-        </div>
-      </div>
-      <div className="desc">
-        <p>{paragraph![0].children[0].text}</p>
-      </div>
-      {button && (
-        <div className="buttons">
-          {Buttons!.map((x) => {
-            return (
-              <Link href={x.link} target="_blank" className="neoh_fn_button" rel="noreferrer" key={x.id}>
-                <span className="icon">
-                  <SocialIcon value={x.buttons.toLowerCase()} />
-                </span>
-                <span className="text">{x.buttons}</span>
-              </Link>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-};
+

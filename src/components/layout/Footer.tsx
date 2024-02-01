@@ -1,7 +1,7 @@
 import Link from "next/link";
 const Footer = () => {
   return (
-    <footer id="footer" className="bottom-0 w-full">
+    <footer id="footer" className="bottom-0 w-full fixed">
       <div className="neoh_fn_footer">
         <div className="footer_bottom">
           <div className="container">

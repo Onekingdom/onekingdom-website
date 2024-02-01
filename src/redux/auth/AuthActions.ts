@@ -16,18 +16,23 @@ export const getSessionData = createAsyncThunk<UserData, void, { state: RootStat
     //get the session
     const session = await account.getSession("current");
 
+    // console.log(session);
+
     //check if there is a session
     if (!session) {
       throw new Error("No session found");
     }
 
-    //check if the user is in the one kingdom team
-    const OKteam = await team.get("65ad8a8a0a403b18c51b");
+    // //check if the user is in the one kingdom team
+    // const OKteam = await team.get("65ad8a8a0a403b18c51b");
 
-    if (!OKteam) throw new Error("No team found");
+    // if (!OKteam) throw new Error("No team found");
 
     //get the user data
     const userData = await database.listDocuments<TwitchDataStorage>(databases.twitch.databaseID, databases.twitch.collections.User);
+
+
+
 
     //
     if (!userData) {

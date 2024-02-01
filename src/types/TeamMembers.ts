@@ -1,6 +1,5 @@
-import { Team } from "./events";
 import { Media } from "./ImageSizes"
-import { SocialMedia } from "./payload";
+import { Socialmedia } from "./payload";
 
 export interface TeamMemberRoot {
   docs: TeamMember[];
@@ -20,8 +19,8 @@ interface TeamMember{
   id: string
   gamertag: string
   name: string
-  teams: Team[]
-  socials: SocialMedia[]
+  teams: any
+  socials: Socialmedia[]
   image: Media
   createdAt: Date;
   updatedAt: Date;

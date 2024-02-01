@@ -26,37 +26,37 @@ const Header = () => {
 
   useEffect(() => {
     dispatch(getSessionData());
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <Fragment>
       <header className={`neoh_fn_header ${fixer ? "fixer" : ""}`}>
         <div className="container">
-          <div className="header_in">
-            <div className="logo">
+          <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center">
               <Link href="/">
                 <Image src="/logo.png" width={75} height={75} alt="One Kingdom Logo" />
               </Link>
+              <div className="menu">
+                <ul className="flex ml-12">
+                  {menu.map((item, index) => (
+                    <li key={index} className={index !== 0 && index !== menu.length - 1 ? "mx-4" : ""}>
+                      <Link href={item.link}>
+                        <span>{item.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div className="menu">
-              <ul className="flex ">
-                {menu.map((item, index) => (
-                  <li key={index} className={index !== 0 && index !== menu.length - 1 ? "mx-4" : ""}>
-                    <Link href={item.link}>
-                      <span>{item.name}</span>
-                    </Link>
-                  </li>
-                ))}
-                <li className="mx-4">
-                  {isAuthenticated ? (
-                    <AccountDropDown />
-                  ) : (
-                    <Link href="/login">
-                      <span>Login</span>
-                    </Link>
-                  )}
-                </li>
-              </ul>
+            <div>
+              {isAuthenticated ? (
+                <AccountDropDown />
+              ) : (
+                <Link href="/login">
+                  <button className="neoh_fn_btn">Login</button>
+                </Link>
+              )}
             </div>
           </div>
         </div>

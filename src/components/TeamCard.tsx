@@ -1,51 +1,109 @@
-import React from "react";
+"use client";
+import React, { CSSProperties } from "react";
 import SocialIcon from "./SocialIcon";
+import styled from "@emotion/styled";
+import { storage } from "@/utils/clientAppwrite";
+import { socialMediaType } from "@/schemas/member";
 
-export default function TeamCard() {
+interface TeamCardProps {
+  name?: string;
+  description?: string;
+  img?: { bucketID: string; imageID: string };
+  socials: socialMediaType[];
+}
+
+export default function TeamCard({ name, description, img, socials }: TeamCardProps) {
+  const StyledUl = styled.ul`
+    position: relative;
+    margin: 0;
+    padding: 6px 0;
+    list-style-type: none;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    justify-content: center;
+    -ms-align-items: center;
+    align-items: center;
+    background-color: #252525;
+    margin-left: -8px;
+    position: relative;
+    transition: all 0.3s ease;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-color: transparent;
+      transition: all 0.3s ease;
+      border-width: 0 0 40px 12px;
+      border-bottom-color: #252525;
+      right: 100%;
+      top: 0;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-color: transparent;
+      transition: all 0.3s ease;
+      border-width: 40px 0 0 12px;
+      border-left-color: #252525;
+      left: 100%;
+      top: 0;
+    }
+    li {
+      margin: 5px 0 5px 8px;
+    }
+    a {
+      color: #777;
+      font-size: 18px;
+      display: -moz-flex;
+      display: -ms-flex;
+      display: -o-flex;
+      display: flex;
+      -ms-align-items: center;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      text-align: center;
+      padding: 0 2px;
+    }
+  `;
+
+
+  console.log(socials)
+
   return (
-    <div className="t_item">
-      <div className="person_info">
-        <div className="img_holder">
-          <img src="/teamMembers/Jochemwhite-320x320.png" alt="person Placeholder" />
+    <div className="border-2 border-var(--extra-color) rounded-lg transition-all duration-300 ease">
+      <div className="px-[40px] py-[40px] pt-[20px] text-center">
+        <div className="w-full max-w-240 mx-auto mb-[26px]">
+          <img
+            src={img ? storage.getFilePreview(img.bucketID, img.imageID, 320, 320).href : "/teamMembers/placeholder.jpg"}
+            alt="person Placeholder"
+            className="w-full h-full object-cover rounded-full"
+          />
         </div>
-        <div className="title_holder">
-          <h3 className="fn_title">Jochemwhite</h3>
-          <p className="fn_desc">Jochem Van Der Wit</p>
+        <div className="w-full">
+          <h3 className="m-0 p-0 text-[22px] font-medium mb-[8px]">{name ? name : "Jochemwhite"}</h3>
+          <p className="text-[18px]">{description ? description : "Jochem Van Der Wit"}</p>
         </div>
       </div>
-      <div className="person_social">
-        <ul>
-          <li>
-            <a href="" target="_blank">
-              <SocialIcon value="discord" />
-            </a>
-          </li>
-          <li>
-            <a href="" target="_blank">
-              <SocialIcon value="youtube" />
-            </a>
-          </li>
-          <li>
-            <a href="" target="_blank">
-              <SocialIcon value="tiktok" />
-            </a>
-          </li>
-          <li>
-            <a href="" target="_blank">
-              <SocialIcon value="twitch" />
-            </a>
-          </li>
-          <li>
-            <a href="" target="_blank">
-              <SocialIcon value="instagram" />
-            </a>
-          </li>
-          <li>
-            <a href="" target="_blank">
-              <SocialIcon value="twitter" />
-            </a>
-          </li>
-        </ul>
+      <div className=" w-full px-[40px]">
+        <StyledUl>
+          {socials && socials.sort((a, b) => a.value.localeCompare(b.value)).map((social) => (
+            <li key={social.value}>
+              <a href={social.href} target="_blank" rel="noreferrer">
+                <SocialIcon value={social.value.toLocaleLowerCase()} />
+              </a>
+            </li>
+          ))}
+        </StyledUl>
       </div>
     </div>
   );

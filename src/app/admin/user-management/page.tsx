@@ -1,6 +1,7 @@
 "use client";
 import DataTable from "@/components/dataTable";
 import { Button } from "@/components/ui/button";
+import { TeamInvite } from "@/components/teamInvite";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
@@ -13,7 +14,6 @@ import {
 import useEvents from "@/hooks/useEvents";
 import useTeams from "@/hooks/useTeams";
 
-import TeamInvite from "@/components/teamInvite";
 import { EventStorage } from "@/types/events";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
@@ -24,7 +24,7 @@ import { toast } from "sonner";
 
 export default function Page() {
   const { events, deleteEvent } = useEvents();
-  const { members } = useTeams();
+  const { members, addMember  } = useTeams();
   const [modal, setModal] = useState<boolean>(false);
 
   const columns: ColumnDef<Models.Membership>[] = [
@@ -42,8 +42,8 @@ export default function Page() {
       cell: ({ row }) => {
         return (
           <div className="font-medium">
-            {row.original.roles.map((role) => {
-              return <span className="capitalize">{role}</span>;
+            {row.original.roles.map((role, index) => {
+              return <span key={index} className="capitalize">{role}</span>;
             })}
           </div>
         );
@@ -113,24 +113,28 @@ export default function Page() {
     },
   ];
 
-  async function removeEvent(event: EventStorage) {
-    toast.promise(
-      async () => {
-        try {
-          const res = await deleteEvent(event.$id);
-        } catch (error) {
-          console.log(error);
-          throw error;
-        }
-      },
-      {
-        loading: `removing command ${event.title}`,
-        success(data) {
-          return `${event.title} has been removed`;
-        },
-        error: `failed to remove command ${event.title}`,
-      }
-    );
+  async function handleInvite(user: Models.User<Models.Preferences>) {
+    //check if the user is already in the onekingdom team
+
+    const x = members.find((member) => member.userId === user.$id);
+
+    if (x) {
+      toast.custom((t) => (
+        <div className="bg-white rounded-sm w-96 h">
+          <img src="/memes/bugs.jpg" alt="" />
+          <div className="p-4 bg-black">
+            <h2 className="text-lg font-bold">User already in team</h2>
+            <p className="text-sm text-gray-500">The user is already in the team</p>
+        </div>
+        </div>
+      ));
+      return;
+    }
+
+    await addMember(user.$id);
+
+
+
   }
 
   return (
@@ -150,7 +154,7 @@ export default function Page() {
                   <DialogTitle>Invite User</DialogTitle>
                   <DialogDescription>The user has to be recognized by the system</DialogDescription>
                 </DialogHeader>
-                <TeamInvite />
+                <TeamInvite handleInvite={handleInvite}  />
                 {/* <DialogFooter>
                   <Button type="submit">Save changes</Button>
                 </DialogFooter> */}

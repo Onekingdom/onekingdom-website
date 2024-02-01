@@ -9,10 +9,11 @@ import Sidebar from "@/components/nav/sidebar";
 import { dashboardConfig } from "@/config/dashboard";
 import { databases } from "@/lib/constants";
 import { client } from "@/utils/clientAppwrite";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getSessionData } from "../../redux/auth/AuthActions";
 import NotFound from "@/components/no-access";
+import useTeams from "@/hooks/useTeams";
 
 type DashboardLayout = {
   children: ReactNode;
@@ -20,20 +21,41 @@ type DashboardLayout = {
 
 export default function DashboardLayout({ children }: DashboardLayout) {
   const { session, loading } = useAppSelector((state) => state.auth);
+  // const { acceptInvite } = useTeams();
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
 
   const init = async () => {
     const res = await dispatch(getSessionData());
 
-    try {
-      client.subscribe(`databases.${databases.commands.databaseID}.collections.${session.channelID}.documents`, (response: any) => {
-        if (response.events.includes(`databases.${databases.commands.databaseID}.collections.${session.channelID}.documents.*.delete`)) {
-          toast.success(`${response.payload.command} has been removed`);
-        }
-      });
-    } catch (error) {
-      console.log(error);
+    // try {
+    //   client.subscribe(`databases.${databases.commands.databaseID}.collections.${session.channelID}.documents`, (response: any) => {
+    //     if (response.events.includes(`databases.${databases.commands.databaseID}.collections.${session.channelID}.documents.*.delete`)) {
+    //       toast.success(`${response.payload.command} has been removed`);
+    //     }
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    if (searchParams.has("teaminvite")) {
+      //check if we have all the params
+      const teamID = searchParams.get("teamID");
+      const membershipID = searchParams.get("membershipID");
+      const userID = searchParams.get("userID");
+      const secret = searchParams.get("secret");
+
+      // if (teamID && membershipID && userID && secret) {
+      //   //accept the invite
+      //   try {
+      //     await acceptInvite(teamID, membershipID, userID, secret);
+      //     toast.success("You have joined the team");
+      //     router.push("/admin");
+      //   } catch (error) {
+      //     toast.error("Something went wrong, please try again later.");
+      //   }
+      // }
     }
   };
 
@@ -47,7 +69,7 @@ export default function DashboardLayout({ children }: DashboardLayout) {
   }
 
   if (loading === "failed") {
-    return <NotFound />
+    return <NotFound />;
   }
 
   return (

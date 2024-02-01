@@ -12,24 +12,24 @@ interface Props {
   onImageAdded: (image: Models.File) => void;
   onImageRemoved: (imageID: string) => void;
   selectedFiles: string[];
+  bucketID: string;
 }
 
-export default function SelectImage({ onImageAdded, onImageRemoved, selectedFiles }: Props) {
+export default function SelectImage({ onImageAdded, onImageRemoved, selectedFiles, bucketID }: Props) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [images, setImages] = React.useState<Models.File[]>([]);
 
-  useEffect(() => {
-    const getImages = async () => {
-      setLoading(true);
-      const result = await storage.listFiles("658fad6a1cfcc5125a99");
+  const getImages = async () => {
+    setLoading(true);
+    const result = await storage.listFiles(bucketID);
 
-      setImages(result.files);
-      setLoading(false);
-    };
+    setImages(result.files);
+    setLoading(false);
+  };
+
+  useEffect(() => {
     getImages();
   }, []);
-
-
 
   const handleRemoveFile = async (index: number) => {
     const updatedFiles = [...images];
@@ -37,7 +37,7 @@ export default function SelectImage({ onImageAdded, onImageRemoved, selectedFile
     toast.promise(
       async () => {
         setImages(updatedFiles);
-        await storage.deleteFile("658fad6a1cfcc5125a99", file.$id);
+        await storage.deleteFile(bucketID, file.$id);
       },
       {
         loading: "Deleting image...",
@@ -47,18 +47,35 @@ export default function SelectImage({ onImageAdded, onImageRemoved, selectedFile
     );
   };
 
+  const uploadFile = async (file: File) => {
+    toast.promise(
+      async () => {
+        const result = await storage.createFile(bucketID, file.name, file);
+        setImages([...images, result]);
+      },
+      {
+        loading: "Uploading image...",
+        success: "Image uploaded",
+        error(error) {
+          console.log(error);
+          return error.message;
+        },
+     
+      }
+    );
+  };
 
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex justify-between ">
         <h2>Images</h2>
         <p>{selectedFiles.length} selected</p>
       </div>
       {loading && <p>Loading...</p>}
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-4 max-h-96 overflow-y-scroll">
         {images.map((image) => {
-          const x = storage.getFilePreview("658fad6a1cfcc5125a99", image.$id, 250, 250);
+          const x = storage.getFilePreview(bucketID, image.$id, 250, 250);
           const isSelected = selectedFiles.includes(image.$id);
 
           const handleImageClick = () => {
@@ -70,7 +87,7 @@ export default function SelectImage({ onImageAdded, onImageRemoved, selectedFile
           };
 
           return (
-            <div key={image.$id}>
+            <div key={image.$id} className="w-max">
               <TruncatedText message={image.name} />
               <div className="relative">
                 <img src={x.href} alt={image.name} key={image.$id} onClick={handleImageClick} className={`${isSelected ? "border" : ""}`} />
@@ -90,13 +107,10 @@ export default function SelectImage({ onImageAdded, onImageRemoved, selectedFile
         })}
       </div>
 
-      <div>
-        <Button variant="outline" disabled={selectedFiles.length === 0}>
-          Save
-        </Button>
-      </div>
 
-      <MultipleFileUpload />
+      <div className="mt-4">
+        <MultipleFileUpload bucketID={bucketID} handleUpload={uploadFile} />
+      </div>
     </div>
   );
 }

@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-export default function page() {
+export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { addEvent } = useEvents();
 
@@ -48,7 +48,7 @@ export default function page() {
         ...data,
         description: "",
         published: true,
-      });
+      } as any);
       toast.success("Event created");
     } catch (error) {
       toast.error("Error creating event");
@@ -115,7 +115,7 @@ export default function page() {
                       Event Date
                     </label>
                     <FormControl className="w-96">
-                      <DatePicker onChange={(e) => field.onChange(e)} />
+                      <DatePicker onChange={(e) => field.onChange(e)} Value={field.value} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -176,12 +176,13 @@ export default function page() {
                               selectedFiles={form.getValues("Images").map((i) => i.imageID)}
                               onImageAdded={handleAddImage}
                               onImageRemoved={handleRemoveImage}
+                              bucketID="658fad6a1cfcc5125a99"
                             />
                           </DialogContent>
                         </Dialog>
                         <div className="flex">
-                          {form.getValues("Images").map((image: imageSchemaType) => (
-                            <img src={storage.getFilePreview(image.bucketID, image.imageID, 50, 50).href} />
+                          {form.getValues("Images").map((image: imageSchemaType, index) => (
+                            <img key={index} src={storage.getFilePreview(image.bucketID, image.imageID, 50, 50).href} />
                           ))}
                         </div>
                       </>

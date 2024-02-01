@@ -31,7 +31,7 @@ export function Carousel({ imgs }: Props) {
         className="mySwiper"
       >
         {imgs.map((image) => (
-          <SwiperSlide>
+          <SwiperSlide key="">
             <ImageContainer image={image} />
           </SwiperSlide>
         ))}
