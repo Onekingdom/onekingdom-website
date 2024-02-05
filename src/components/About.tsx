@@ -16,7 +16,7 @@ const AboutComponent = () => {
             <SlideLeft>
               <div className="content_item">
                 <div className="neoh_fn_title" data-align="left">
-                  <h3 className="fn_title">One KingDom</h3>
+                  <h3 className="fn_title">One Kingdom</h3>
                   <div className="line">
                     <span />
                   </div>

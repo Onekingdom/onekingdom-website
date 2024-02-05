@@ -21,12 +21,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { storage } from "@/utils/clientAppwrite";
-export default function page() {
+
+
+export default function Page() {
   const [members, setMembers] = useState<memberStorage[]>([]);
-  const { getMembers } = useMembers();
+  const { getMembers, deleteMember } = useMembers();
 
   useEffect(() => {
-    console.log("members", members);
     async function fetchMembers() {
       const res = await getMembers();
       if (res) setMembers(res.documents);
@@ -34,6 +35,21 @@ export default function page() {
     }
     fetchMembers();
   }, [setMembers]);
+
+
+
+
+  async function removeMember(event: memberStorage) {
+    try {
+      await deleteMember(event.$id);
+      toast.success("Member deleted");
+      setMembers((members) => members.filter((member) => member.$id !== event.$id));
+    } catch (error) {
+      toast.error("Error deleting member");
+    }
+  }
+
+
 
   const columns: ColumnDef<memberStorage>[] = [
     {
@@ -115,7 +131,7 @@ export default function page() {
               <DropdownMenuItem
                 onClick={async (e) => {
                   e.preventDefault();
-                  // await removeEvent(row.original);
+                  await removeMember(row.original);
                 }}
               >
                 Delete
@@ -126,6 +142,12 @@ export default function page() {
       },
     },
   ];
+
+
+
+
+
+  1
   return (
     <div className="hidden h-full border rounded flex-1 flex-col p-4 md:flex">
       <div className="flex items-center justify-between space-y-2">
@@ -143,7 +165,7 @@ export default function page() {
         columns={columns}
         filter={{
           filterID: "name",
-          placeholder: "Filter events...",
+          placeholder: "Filter members...",
         }}
       />
     </div>

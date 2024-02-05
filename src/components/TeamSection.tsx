@@ -24,7 +24,7 @@ export default function TeamSection({ title, description, members }: Props) {
           <ul className="team_list">
             {members &&
               members.map((member) => (
-                <li className="team_item">
+                <li className="team_item" key={member.$id}>
                   <TeamCard key={member.$id} socials={member.socialMedia} name={member.name} description={member.description} img={member.image} />
                 </li>
               ))}

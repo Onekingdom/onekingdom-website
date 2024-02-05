@@ -77,7 +77,6 @@ export default function TeamCard({ name, description, img, socials }: TeamCardPr
   `;
 
 
-  console.log(socials)
 
   return (
     <div className="border-2 border-var(--extra-color) rounded-lg transition-all duration-300 ease">

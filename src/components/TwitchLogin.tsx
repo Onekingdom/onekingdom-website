@@ -19,7 +19,10 @@ export default function TwitchLogin({ redirect }: TwitchLoginProps) {
     "user:read:subscriptions",
     "channel:manage:schedule",
     "channel:manage:raids",
-    "user:read:moderated_channels"
+    "user:read:moderated_channels",
+    "user:read:chat",
+    
+
   ];
 
   function handleLogin() {

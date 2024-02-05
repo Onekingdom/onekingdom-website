@@ -19,7 +19,7 @@ import SocialIcon from "./SocialIcon";
 import TwitchLogin from "./TwitchLogin";
 
 interface UserAuthFormProps {
-  redirect: string | null
+  redirect: string | null;
 }
 
 export function UserAuthForm({ redirect }: UserAuthFormProps) {

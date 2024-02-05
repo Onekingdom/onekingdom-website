@@ -68,7 +68,9 @@
 
 
 
-
+html {
+  scroll-behavior: smooth;
+}
 
 
 

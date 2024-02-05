@@ -6,6 +6,7 @@ import Hero from "@/components/hero";
 import { memberStorage } from "@/types/database/members";
 import { EventStorage } from "@/types/events";
 import { database } from "@/utils/serverAppwrite";
+import { Query } from "appwrite";
 
 //get events
 async function getEvents() {
@@ -13,29 +14,29 @@ async function getEvents() {
   return res;
 }
 
-
 //get partners
 
-async function getParthers(){
+async function getMembers() {
   const res = await database.listDocuments<memberStorage>("658fabb7b076a84d06d2", "65b88761559a4aa41f38");
   return res;
 }
 
-
 export default async function Home() {
   const events = await getEvents();
-  const partners = await getParthers();
+  const members = await getMembers();
 
-  console.log("partners", partners.documents[0].socialMedia);
+  const parthers = members.documents.filter((member) => member.partneredStreamer === true);
+  const staff = members.documents.filter((member) => member.staffMember === true);
+
 
   return (
     <>
       <Hero title="One Kingdom" subtitle="Welcome to" description="Welcome to" />
       <About />
-      <TeamSection title="Our Partnered Streamers" description="The One Kingdom Team" members={partners.documents} />
+      <TeamSection title="Our Partnered Streamers" description="The One Kingdom Team" members={parthers} />
       <EventTimeline title="Events" events={events} />
-      <Investors Title="Investors" />
-      <TeamSection title="Our Staff Members" description="The One Kingdom Team" />
+      {/* <Investors Title="Investors" /> */}
+      <TeamSection title="Our Staff Members" description="The One Kingdom Team"  members={staff}/>
     </>
   );
 }

@@ -7,11 +7,8 @@ import React from "react";
 export default function useMembers() {
   //create a new member
   async function createMember(member: memberSchemaType) {
-    try {
-      const res = await database.createDocument("658fabb7b076a84d06d2", "65b88761559a4aa41f38", ID.unique(), member);
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await database.createDocument("658fabb7b076a84d06d2", "65b88761559a4aa41f38", ID.unique(), member);
+    return res;
   }
 
   //get all members
@@ -37,9 +34,18 @@ export default function useMembers() {
 
   //update a member
   async function updateMember(id: string, member: memberSchemaType) {
-    console.log(member)
+    console.log(member);
     try {
       const res = await database.updateDocument<memberStorage>("658fabb7b076a84d06d2", "65b88761559a4aa41f38", id, member);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function deleteMember(id: string) {
+    try {
+      const res = await database.deleteDocument("658fabb7b076a84d06d2", "65b88761559a4aa41f38", id);
       return res;
     } catch (error) {
       console.log(error);
@@ -51,5 +57,6 @@ export default function useMembers() {
     getMemberByID,
     createMember,
     updateMember,
+    deleteMember,
   };
 }

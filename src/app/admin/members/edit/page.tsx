@@ -1,26 +1,26 @@
 "use client";
 
-import { memberSchema } from "@/schemas/member";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React, { use, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import SelectImage from "@/components/SelectImage";
+import SocialIcon from "@/components/SocialIcon";
+import TeamCard from "@/components/TeamCard";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { CheckboxLabel } from "@/components/ui/checkboxLabel";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import SelectImage from "@/components/SelectImage";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { toast } from "sonner";
-import { CheckboxLabel } from "@/components/ui/checkboxLabel";
-import TeamCard from "@/components/TeamCard";
-import { Models } from "appwrite";
-import { storage } from "@/utils/clientAppwrite";
-import { Socialmedia } from "@/types/payload";
-import SocialIcon from "@/components/SocialIcon";
 import useMembers from "@/hooks/useMembers";
-import { useSearchParams } from "next/navigation";
-import { memberStorage } from "@/types/database/members";
 import { cn } from "@/lib/utils";
+import { memberSchema } from "@/schemas/member";
+import { memberStorage } from "@/types/database/members";
+import { Socialmedia } from "@/types/payload";
+import { storage } from "@/utils/clientAppwrite";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Models } from "appwrite";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -28,6 +28,8 @@ export default function Page() {
   const [member, setMember] = useState<memberStorage>();
   const { createMember, getMemberByID, updateMember } = useMembers();
   const searchParmas = useSearchParams();
+  const params = new URLSearchParams(searchParmas.toString())
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof memberSchema>>({
     resolver: zodResolver(memberSchema),
@@ -53,7 +55,14 @@ export default function Page() {
         }
       }
     } else {
-      await createMember(data);
+      toast.promise(createMember(data), {
+        success(data) {
+          router.push("/admin/members/edit?memberID=" + data.$id);
+          return "Member created successfully"
+        },
+        loading: "Creating member",
+        error: "Error creating member",
+      });
     }
   };
 
@@ -95,7 +104,6 @@ export default function Page() {
   };
 
   useEffect(() => {
-    console.log("check");
     const memberID = searchParmas.get("memberID");
     if (memberID) {
       const fetchMember = async () => {
