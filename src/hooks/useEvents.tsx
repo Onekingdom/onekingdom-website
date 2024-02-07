@@ -42,15 +42,9 @@ export default function useEvents() {
   }
 
   async function updateEvent(id: string, event: Event) {
+    const x = await database.updateDocument<EventStorage>("658fabb7b076a84d06d2", "658fabbcde4c0d2a25cd", id, event);
     console.log(event);
-    try {
-      const x = await database.updateDocument<EventStorage>("658fabb7b076a84d06d2", "658fabbcde4c0d2a25cd", id, event);
-      console.log(x);
-      return;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
+    return;
   }
 
   return { events, deleteEvent, addEvent, getEventbyID, updateEvent };

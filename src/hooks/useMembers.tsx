@@ -25,7 +25,13 @@ export default function useMembers() {
   //get a member by id
   async function getMemberByID(id: string) {
     try {
-      const res = await database.getDocument<memberStorage>("658fabb7b076a84d06d2", "65b88761559a4aa41f38", id);
+      let res = await database.getDocument<memberStorage>("658fabb7b076a84d06d2", "65b88761559a4aa41f38", id);
+
+      if(Array.isArray(res.image)){
+        res.image = undefined
+      }
+
+
       return res;
     } catch (error) {
       console.log(error);
@@ -45,7 +51,8 @@ export default function useMembers() {
 
   async function deleteMember(id: string) {
     try {
-      const res = await database.deleteDocument("658fabb7b076a84d06d2", "65b88761559a4aa41f38", id);
+      let res = await database.deleteDocument("658fabb7b076a84d06d2", "65b88761559a4aa41f38", id);
+
       return res;
     } catch (error) {
       console.log(error);

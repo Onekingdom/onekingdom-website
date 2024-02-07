@@ -22,7 +22,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { storage } from "@/utils/clientAppwrite";
 
-
 export default function Page() {
   const [members, setMembers] = useState<memberStorage[]>([]);
   const { getMembers, deleteMember } = useMembers();
@@ -36,9 +35,6 @@ export default function Page() {
     fetchMembers();
   }, [setMembers]);
 
-
-
-
   async function removeMember(event: memberStorage) {
     try {
       await deleteMember(event.$id);
@@ -49,8 +45,6 @@ export default function Page() {
     }
   }
 
-
-
   const columns: ColumnDef<memberStorage>[] = [
     {
       accessorKey: "image",
@@ -59,7 +53,13 @@ export default function Page() {
       cell: ({ row }) => (
         <div className="w-10 h-10 roundobject-cover rounded-full">
           <Avatar>
-            <AvatarImage src={storage.getFilePreview(row.original.image.bucketID, row.original.image.imageID).href} alt="@shadcn" />
+            <AvatarImage
+              src={(() => {
+                const img = row.original.image;
+                return img ? storage.getFilePreview(img.bucketID, img.imageID, 320, 320).href : "/teamMembers/placeholder.jpg";
+              })()}
+              alt="@shadcn"
+            />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </div>
@@ -143,11 +143,7 @@ export default function Page() {
     },
   ];
 
-
-
-
-
-  1
+  1;
   return (
     <div className="hidden h-full border rounded flex-1 flex-col p-4 md:flex">
       <div className="flex items-center justify-between space-y-2">

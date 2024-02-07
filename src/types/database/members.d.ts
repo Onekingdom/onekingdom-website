@@ -3,7 +3,7 @@ import { Models } from "appwrite";
 export interface Member {
     name: string;
     description: string;
-    image: imageStorage
+    image?: imageStorage 
     socialMedia: {
         value: string;
         href: string;

@@ -28,7 +28,7 @@ export default function Page() {
   const [member, setMember] = useState<memberStorage>();
   const { createMember, getMemberByID, updateMember } = useMembers();
   const searchParmas = useSearchParams();
-  const params = new URLSearchParams(searchParmas.toString())
+  const params = new URLSearchParams(searchParmas.toString());
   const router = useRouter();
 
   const form = useForm<z.infer<typeof memberSchema>>({
@@ -58,7 +58,7 @@ export default function Page() {
       toast.promise(createMember(data), {
         success(data) {
           router.push("/admin/members/edit?memberID=" + data.$id);
-          return "Member created successfully"
+          return "Member created successfully";
         },
         loading: "Creating member",
         error: "Error creating member",
@@ -68,7 +68,7 @@ export default function Page() {
 
   const handleAddImage = (image: Models.File) => {
     form.setValue("image", {
-      $id: member?.image.$id,
+      $id: member?.image?.$id,
       bucketID: image.bucketId,
       imageID: image.$id,
     });
@@ -107,11 +107,21 @@ export default function Page() {
     const memberID = searchParmas.get("memberID");
     if (memberID) {
       const fetchMember = async () => {
-        const res = await getMemberByID(memberID);
+        let res = await getMemberByID(memberID);
+
+        console.log("res", res);
 
         if (res) {
           setMember(res);
-          form.reset(res);
+
+          form.reset({
+            name: res.name,
+            description: res.description,
+            partneredStreamer: res.partneredStreamer,
+            staffMember: res.staffMember,
+            socialMedia: res.socialMedia,
+            image: Array.isArray(res.image) ? undefined : res.image,
+          });
         }
 
         if (!res) toast.error("Member with the given ID does not exist in the database");

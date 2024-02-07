@@ -1,9 +1,7 @@
 import { z } from "zod";
+import { imageSchema } from "./image";
 
-export const imageSchema = z.object({
-  bucketID: z.string(),
-  imageID: z.string(),
-});
+
 
 export const eventSchema = z.object({
   title: z.string().min(4).max(50),

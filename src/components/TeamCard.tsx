@@ -76,14 +76,18 @@ export default function TeamCard({ name, description, img, socials }: TeamCardPr
     }
   `;
 
+  const imgURL = img
+    ? storage.getFilePreview(img.bucketID, img.imageID, 320, 320) && storage.getFilePreview(img.bucketID, img.imageID, 320, 320).href
+    : "/teamMembers/placeholder.jpg";
 
+  
 
   return (
     <div className="border-2 border-var(--extra-color) rounded-lg transition-all duration-300 ease">
       <div className="px-[40px] py-[40px] pt-[20px] text-center">
         <div className="w-full max-w-240 mx-auto mb-[26px]">
           <img
-            src={img ? storage.getFilePreview(img.bucketID, img.imageID, 320, 320).href : "/teamMembers/placeholder.jpg"}
+            src={imgURL}
             alt="person Placeholder"
             className="w-full h-full object-cover rounded-full"
           />
@@ -95,13 +99,16 @@ export default function TeamCard({ name, description, img, socials }: TeamCardPr
       </div>
       <div className=" w-full px-[40px]">
         <StyledUl>
-          {socials && socials.sort((a, b) => a.value.localeCompare(b.value)).map((social) => (
-            <li key={social.value}>
-              <a href={social.href} target="_blank" rel="noreferrer">
-                <SocialIcon value={social.value.toLocaleLowerCase()} />
-              </a>
-            </li>
-          ))}
+          {socials &&
+            socials
+              .sort((a, b) => a.value.localeCompare(b.value))
+              .map((social) => (
+                <li key={social.value}>
+                  <a href={social.href} target="_blank" rel="noreferrer">
+                    <SocialIcon value={social.value.toLocaleLowerCase()} />
+                  </a>
+                </li>
+              ))}
         </StyledUl>
       </div>
     </div>

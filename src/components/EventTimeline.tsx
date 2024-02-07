@@ -5,6 +5,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import EventTimelineCard from "./EventTimelineCard";
 import EventTimelineNav from "./EventTimelineNav";
 import FadeIn from "./Framer/FadeIn";
+import Image from "next/image";
+import Divider from "@/components/svg/Divider.svg";
 
 interface Props {
   title: string;
@@ -15,8 +17,13 @@ const Timeline = ({ title, events }: Props) => {
   return (
     <FadeIn>
       <div className="relative py-40">
-        <img src="svg/divider.svg" alt="" className="fn__svg fn__divider top_divider" />
-        <img src="svg/divider.svg" alt="" className="fn__svg fn__divider bottom_divider" />
+        <span className="fill-[#111111] absolute inset-x-0 w-full top-0 h-auto block z-50 text-black">
+          <Divider />
+        </span>
+        <span className="fill-[#111111] absolute inset-x-0 bottom-[-1px] transform rotate-180">
+          <Divider />
+        </span>
+
         <div className="container">
           <div className="neoh_fn_title">
             <h3 className="fn_title">{title}</h3>
@@ -24,7 +31,6 @@ const Timeline = ({ title, events }: Props) => {
               <span />
             </div>
           </div>
-
           <div className="neoh_fn_timeline">
             <div className="timeline_content">
               <Swiper

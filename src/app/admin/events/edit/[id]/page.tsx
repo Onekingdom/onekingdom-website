@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import useEvents from "@/hooks/useEvents";
 import { setElements } from "@/redux/pageBuilder/PageBuilderSlice";
 import { eventSchema, imageSchemaType } from "@/schemas/event";
+import { EventStorage } from "@/types/events";
 import { storage } from "@/utils/clientAppwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Models } from "appwrite";
@@ -23,6 +24,7 @@ import { z } from "zod";
 
 export default function Page({ params }: { params: { id: string } }) {
   const { getEventbyID, updateEvent } = useEvents();
+  const [event, setEvent] = useState<EventStorage>();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -43,23 +45,33 @@ export default function Page({ params }: { params: { id: string } }) {
 
   const handleSubmit = async (data: z.infer<typeof eventSchema>) => {
     setIsLoading(true);
-    try {
-      await updateEvent(params.id, {
-        ...data,
-        eventDate: data.eventDate.toISOString(),
-        description: JSON.stringify(elements),
-        published: true,
-      });
-      toast.success("Event updated");
-    } catch (error) {
-      toast.error("Error updating event");
-    } finally {
-      setIsLoading(false);
-    }
+    toast.promise(
+      async () => {
+        await updateEvent(params.id, {
+          ...data,
+          eventDate: data.eventDate.toISOString(),
+          description: JSON.stringify(elements),
+          published: true,
+        });
+        const event = await getEvent();
+      },
+      {
+        loading: "Publishing...",
+        success: "Event Published",
+        // error: "Failed to Publish Event",
+        error(error) {
+          return error.message;
+        },
+
+        finally: () => setIsLoading(false),
+      }
+    );
   };
 
   //add image
   const handleAddImage = (image: Models.File) => {
+    //find if image already exists
+
     form.setValue("Images", [
       ...form.getValues("Images"),
       {
@@ -78,21 +90,23 @@ export default function Page({ params }: { params: { id: string } }) {
     );
   };
 
+  const getEvent = async () => {
+    const event = await getEventbyID(params.id);
+    console.log(event);
+    if (!event) return;
+    setEvent(event);
+    form.reset({
+      ...event,
+      eventDate: new Date(event.eventDate),
+    });
+
+    if (event.description) dispatch(setElements(JSON.parse(event.description)));
+
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const x = async () => {
-      const event = await getEventbyID(params.id);
-      if (!event) return;
-      form.reset({
-        ...event,
-        eventDate: new Date(event.eventDate),
-      });
-
-      if (event.description) dispatch(setElements(JSON.parse(event.description)));
-
-      setIsLoading(false);
-    };
-
-    x();
+    getEvent();
   }, [params.id]);
 
   if (isLoading) return <div>Loading...</div>;

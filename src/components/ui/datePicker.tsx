@@ -21,9 +21,7 @@ export function DatePicker({ onChange, Value }: DatePickerProps) {
     }
   };
 
-  React.useEffect(() => {
-    console.log(Value);
-  }, [Value]);
+
 
   return (
     <Popover>
