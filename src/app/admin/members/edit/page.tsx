@@ -28,7 +28,6 @@ export default function Page() {
   const [member, setMember] = useState<memberStorage>();
   const { createMember, getMemberByID, updateMember } = useMembers();
   const searchParmas = useSearchParams();
-  const params = new URLSearchParams(searchParmas.toString());
   const router = useRouter();
 
   const form = useForm<z.infer<typeof memberSchema>>({

@@ -5,5 +5,5 @@ export default function FormComponent({ elementInstance }: { elementInstance: Fo
   const element = elementInstance as CustomTitleInstance;
   const { title } = element.extraAttributes;
 
-  return <h2>{title}</h2>;
+  return <h2 className="m-0 p-0 text-3xl font-medium leading-tight mb-3">{title}</h2>;
 }

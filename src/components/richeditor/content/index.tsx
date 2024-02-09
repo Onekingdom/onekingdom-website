@@ -6,19 +6,23 @@ import EditorStyled from "./style";
 
 interface Props {
   setContent: (value: string) => void;
+  initialContent?: string;
   content: string;
   limit?: number;
 }
 
-export default function EditorComponent({ content, setContent, limit }: Props) {
+export default function EditorComponent({ content, setContent, limit, initialContent }: Props) {
   const { editor } = useShortEditor({ savedContent: content, limit });
 
   useEffect(() => {
-    // console.log(editor?.getHTML());
     setContent(editor?.getHTML() || "");
   }, [editor?.getHTML()]);
 
-  // editor?.commands.setContent(content);
+  useEffect(() => {
+    if (initialContent) {
+      editor?.commands.setContent(initialContent);
+    }
+  }, [initialContent]);
 
   return (
     <div>

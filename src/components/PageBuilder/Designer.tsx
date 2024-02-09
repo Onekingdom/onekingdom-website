@@ -168,6 +168,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
   if (draggable.isDragging) return null; // temporary remove the element from designer
 
   const DesignerElement = FormElements[element.type].designerComponent;
+  
   return (
     <div
       ref={draggable.setNodeRef}

@@ -1,16 +1,17 @@
-import { MdTextFields, MdTitle } from "react-icons/md";
+import { imageSchemaType } from "@/schemas/event";
+import { MdImage } from "react-icons/md";
 import { ElementsType, FormElement, FormElementInstance } from "../../FormElements";
 import DesignerComponent from "./DesignerComponent";
 import FormComponent from "./FormComponent";
 import PropertiesComponent from "./PropertiesComponent";
 
-const type: ElementsType = "TextField";
+const type: ElementsType = "singleImage";
 
 const extraAttributes = {
-  textField: "Paragraph",
+  image: null as imageSchemaType | null,
 };
 
-export const TextFieldFormElement: FormElement = {
+export const singleImageFormElement: FormElement = {
   type,
   construct: (id: string) => ({
     id,
@@ -19,8 +20,8 @@ export const TextFieldFormElement: FormElement = {
   }),
 
   designerBtnElement: {
-    icon: MdTextFields,
-    label: "Paragraph",
+    icon: MdImage,
+    label: "Single Image",
   },
 
   designerComponent: DesignerComponent,

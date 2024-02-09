@@ -8,6 +8,7 @@ export interface Event {
   shortDescription: string;
   Images: Image[];
   published: boolean;
+  author: string;
 }
 
 export interface Image {

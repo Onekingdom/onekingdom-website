@@ -9,9 +9,10 @@ function FormElementsSidebar() {
         <p className="text-sm text-muted-foreground col-span-1 md:col-span-2 my-2 place-self-start">Text Components</p>
         <SidebarBtnElement formElement={FormElements.TitleField} />
         <SidebarBtnElement formElement={FormElements.TextField} />
-        <SidebarBtnElement formElement={FormElements.ImageSlider} />
 
         <p className="text-sm text-muted-foreground col-span-1 md:col-span-2 my-2 place-self-start">Images</p>
+        <SidebarBtnElement formElement={FormElements.ImageSlider} />
+        <SidebarBtnElement formElement={FormElements.singleImage} />
       </div>
   );
 }

@@ -16,20 +16,25 @@ import { EventStorage } from "@/types/events";
 import { storage } from "@/utils/clientAppwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Models } from "appwrite";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdOutlinePublish } from "react-icons/md";
 import { toast } from "sonner";
 import { z } from "zod";
 
-export default function Page({ params }: { params: { id: string } }) {
-  const { getEventbyID, updateEvent } = useEvents();
+export default function Page() {
+  const { getEventbyID, updateEvent, addEvent } = useEvents();
   const [event, setEvent] = useState<EventStorage>();
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const searchParmas = useSearchParams();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const { elements } = useAppSelector((state) => state.pageBuilder);
+  const { session } = useAppSelector((state) => state.auth);
+
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof eventSchema>>({
     resolver: zodResolver(eventSchema),
@@ -47,13 +52,26 @@ export default function Page({ params }: { params: { id: string } }) {
     setIsLoading(true);
     toast.promise(
       async () => {
-        await updateEvent(params.id, {
-          ...data,
-          eventDate: data.eventDate.toISOString(),
-          description: JSON.stringify(elements),
-          published: true,
-        });
-        const event = await getEvent();
+        if (isEditing) {
+          const eventID = searchParmas.get("eventID");
+          if (!eventID) throw "Event ID not found";
+
+          await updateEvent(eventID, {
+            ...data,
+            eventDate: data.eventDate.toISOString(),
+            description: JSON.stringify(elements),
+            published: true,
+            author: session.username || "One Kingdom",
+          });
+          const event = await getEvent(eventID);
+        } else {
+          const newEvent = await addEvent({
+            ...data,
+            description: "",
+            published: true,
+          } as any);
+          router.push(`/admin/events/edit?eventID=${newEvent.$id}`);
+        }
       },
       {
         loading: "Publishing...",
@@ -90,13 +108,15 @@ export default function Page({ params }: { params: { id: string } }) {
     );
   };
 
-  const getEvent = async () => {
-    const event = await getEventbyID(params.id);
-    console.log(event);
+  const getEvent = async (eventID: string) => {
+    const event = await getEventbyID(eventID);
+
     if (!event) return;
+
     setEvent(event);
     form.reset({
       ...event,
+      shortDescription: event.shortDescription,
       eventDate: new Date(event.eventDate),
     });
 
@@ -106,8 +126,21 @@ export default function Page({ params }: { params: { id: string } }) {
   };
 
   useEffect(() => {
-    getEvent();
-  }, [params.id]);
+    const eventID = searchParmas.get("eventID");
+    if (eventID) {
+      getEvent(eventID);
+      setIsEditing(true);
+    }
+    form.reset();
+    setIsLoading(false);
+
+    return () => {
+      console.log("unmount");
+      dispatch(setElements([]));
+    };
+
+
+  }, [searchParmas]);
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -205,7 +238,12 @@ export default function Page({ params }: { params: { id: string } }) {
                   </label>
                   <FormControl className="">
                     <div>
-                      <EditorComponent content={form.watch("shortDescription")} setContent={field.onChange} limit={250} />
+                      <EditorComponent
+                        content={form.getValues("shortDescription")}
+                        setContent={field.onChange}
+                        limit={250}
+                        initialContent={event?.shortDescription}
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -226,7 +264,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     <>
                       <Dialog>
                         <DialogTrigger>Add Images</DialogTrigger>
-                        <DialogContent>
+                        <DialogContent className="w-1/2">
                           <SelectImage
                             selectedFiles={form.getValues("Images").map((i) => i.imageID)}
                             onImageAdded={handleAddImage}
@@ -235,7 +273,7 @@ export default function Page({ params }: { params: { id: string } }) {
                           />
                         </DialogContent>
                       </Dialog>
-                      <div className="flex">
+                      <div className="flex ">
                         {form.getValues("Images").map((image: imageSchemaType) => (
                           <img key={image.imageID} src={storage.getFilePreview(image.bucketID, image.imageID, 50, 50).href} />
                         ))}

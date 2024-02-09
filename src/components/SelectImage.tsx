@@ -1,12 +1,11 @@
 import { storage } from "@/utils/clientAppwrite";
 import { formatBytes } from "@/utils/utils";
 import { Models } from "appwrite";
+import { Check, TrashIcon } from "lucide-react";
 import React, { useEffect } from "react";
+import { toast } from "sonner";
 import TruncatedText from "./ui/TruncatedText";
 import MultipleFileUpload from "./uploadFile";
-import { Check, TrashIcon } from "lucide-react";
-import { toast } from "sonner";
-import { Button } from "./ui/button";
 
 interface Props {
   onImageAdded: (image: Models.File) => void;
@@ -75,7 +74,7 @@ export default function SelectImage({ onImageAdded, onImageRemoved, selectedFile
 
       <div className="grid grid-cols-4 gap-4 max-h-96 overflow-y-scroll">
         {images.map((image) => {
-          const x = storage.getFilePreview(bucketID, image.$id, 250, 250);
+          const x = storage.getFilePreview(bucketID, image.$id, 250, 250,);
           const isSelected = selectedFiles.includes(image.$id);
 
           const handleImageClick = () => {

@@ -1,5 +1,6 @@
 import FormSubmitComponent from "@/components/PageBuilder/FormSubmitComponent";
 import Share from "@/components/Share";
+import { TracingBeam } from "@/components/aceternity/tracing-beam";
 import { EventStorage } from "@/types/events";
 import { storage } from "@/utils/clientAppwrite";
 import { database } from "@/utils/serverAppwrite";
@@ -21,6 +22,8 @@ export default async function page({ params }: { params: { slug: string } }) {
   // console.log(event);
 
   if (!event) return <h1>404</h1>;
+
+  const description = await JSON.parse(event.description);
 
   return (
     <div className="neoh_fn_roadmap neoh_fn_single">
@@ -50,17 +53,17 @@ export default async function page({ params }: { params: { slug: string } }) {
             </div>
             <div className="m_item">
               <span>
-                By <a href="#">Admin</a>
+                By <a href="#">{event.author}</a>
               </span>
             </div>
           </div>
           {/* !Mini Items  */}
           {/* Single Title */}
+
           <div className="single_title">
             <h2 className="fn_title">{event.title}</h2>
           </div>
-            <FormSubmitComponent content={JSON.parse(event.description)}  />
-
+          <FormSubmitComponent content={description} />
         </div>
       </div>
       {/* !Single Content */}

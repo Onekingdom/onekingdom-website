@@ -26,14 +26,8 @@ export default function useEvents() {
   }
 
   async function addEvent(event: Event) {
-    console.log(event);
-    try {
-      await database.createDocument<EventStorage>("658fabb7b076a84d06d2", "658fabbcde4c0d2a25cd", ID.unique(), event);
-      return;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
+    const res = await database.createDocument<EventStorage>("658fabb7b076a84d06d2", "658fabbcde4c0d2a25cd", ID.unique(), event);
+    return res;
   }
 
   async function getEventbyID(id: string) {
@@ -42,8 +36,8 @@ export default function useEvents() {
   }
 
   async function updateEvent(id: string, event: Event) {
-    const x = await database.updateDocument<EventStorage>("658fabb7b076a84d06d2", "658fabbcde4c0d2a25cd", id, event);
-    console.log(event);
+    await database.updateDocument<EventStorage>("658fabb7b076a84d06d2", "658fabbcde4c0d2a25cd", id, event);
+
     return;
   }
 

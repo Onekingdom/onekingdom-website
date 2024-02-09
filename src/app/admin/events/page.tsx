@@ -74,7 +74,7 @@ export default function Page() {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
 
-              <Link href={`/admin/events/edit/${row.original.$id}`}>
+              <Link href={`/admin/events/edit?eventID=${row.original.$id}`}>
                 <DropdownMenuItem
                   onClick={() => {
                     setModal(true);
@@ -126,7 +126,7 @@ export default function Page() {
             <h2 className="text-2xl font-bold tracking-tight">Events</h2>
           </div>
           <div className="flex items-center space-x-2">
-            <Link href="/admin/events/new">
+            <Link href="/admin/events/edit">
               <Button variant="outline">Add Event</Button>
             </Link>
           </div>

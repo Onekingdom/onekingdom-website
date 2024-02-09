@@ -27,13 +27,9 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
     resolver: zodResolver(propertiesSchema),
     mode: "onBlur",
     defaultValues: {
-      textField: element.extraAttributes.textField ? element.extraAttributes.textField : "",
+      textField: element?.extraAttributes?.textField || "",
     },
   });
-
-  useEffect(() => {
-    form.reset({textField: element.extraAttributes.textField});
-  }, [element, form]);
 
   function applyChanges(values: propertiesFormSchemaType) {
     const { textField } = values;

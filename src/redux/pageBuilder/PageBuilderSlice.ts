@@ -26,6 +26,8 @@ const pageBuilderSlice = createSlice({
     },
     removeElement: (state, action: PayloadAction<string>) => {
       state.elements = state.elements.filter((element) => element.id !== action.payload);
+      state.selectedElement = null;
+
     },
     setSelectedElement: (state, action: PayloadAction<FormElementInstance | null>) => {
       state.selectedElement = action.payload;
