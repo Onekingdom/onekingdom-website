@@ -1,5 +1,6 @@
 "use client"
 import React, { useRef, useState } from "react";
+import Image from "next/image";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -46,7 +47,7 @@ export function Carousel({ imgs }: Props) {
 const ImageContainer = ({ image }: { image: string }) => {
   return (
     <div className="w-full h-full bg-[url('/logo.png')] bg-contain">
-      <img src={image} className="" />
+      <Image src={image} alt="" layout="fill" />
     </div>
   );
 };

@@ -41,8 +41,8 @@ export default function AuthenticationPage() {
                   <TooltipTrigger asChild>
                     <footer>Master Oogway</footer>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <img src={storage.getFilePreview("6596c5baec6aaeaf5010", "6596c5e045742a77d13c").href} alt="Master Mo" />
+                  <TooltipContent className="relative">
+                    <Image src={storage.getFilePreview("6596c5baec6aaeaf5010", "6596c5e045742a77d13c").href} alt="Master Mo" width={1000} height={1000} />
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -55,7 +55,7 @@ export default function AuthenticationPage() {
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
             <p className="text-sm text-muted-foreground">
-              {/* Don't have an account?{" "} */}
+              {/* Don't have an account? */}
               {/* <Link href="/register" className="underline underline-offset-4 hover:text-primary">
                 Register
               </Link> */}
@@ -63,11 +63,11 @@ export default function AuthenticationPage() {
           </div>
           <UserAuthForm redirect={redirect}  />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            By clicking continue, you agree to our{" "}
+            By clicking continue, you agree to our
             <Link href="/terms" className="underline underline-offset-4 hover:text-primary">
               Terms of Service
-            </Link>{" "}
-            and{" "}
+            </Link>
+            and
             <Link href="/privacy" className="underline underline-offset-4 hover:text-primary">
               Privacy Policy
             </Link>

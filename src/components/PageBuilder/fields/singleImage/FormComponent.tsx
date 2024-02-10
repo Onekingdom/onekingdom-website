@@ -2,7 +2,7 @@ import React from "react";
 import { FormElementInstance } from "../../FormElements";
 import { CustomTitleInstance } from ".";
 import { storage } from "@/utils/clientAppwrite";
-import { Carousel } from "@/components/ui/Carousel";
+import Image from "next/image";
 
 export default function FormComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
   const element = elementInstance as CustomTitleInstance;
@@ -10,7 +10,12 @@ export default function FormComponent({ elementInstance }: { elementInstance: Fo
   return (
     <>
       {element.extraAttributes && element.extraAttributes.image && (
-        <img src={storage.getFilePreview(element.extraAttributes.image.bucketID, element.extraAttributes.image.imageID).href} />
+        <Image
+          src={storage.getFilePreview(element.extraAttributes.image.bucketID, element.extraAttributes.image.imageID).href}
+          alt=""
+          width={50}
+          height={50}
+        />
       )}{" "}
     </>
   );

@@ -21,6 +21,7 @@ import { Models } from "appwrite";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+import Image from "next/image";
 
 export default function Page() {
   const { events, deleteEvent } = useEvents();
@@ -121,11 +122,11 @@ export default function Page() {
     if (x) {
       toast.custom((t) => (
         <div className="bg-white rounded-sm w-96 h">
-          <img src="/memes/bugs.jpg" alt="" />
+          <Image src="/memes/bugs.jpg" alt="Master Mo" fill/>
           <div className="p-4 bg-black">
             <h2 className="text-lg font-bold">User already in team</h2>
             <p className="text-sm text-gray-500">The user is already in the team</p>
-        </div>
+        I</div>
         </div>
       ));
       return;

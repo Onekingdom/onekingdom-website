@@ -1,4 +1,5 @@
 "use client";
+import { Metadata } from 'next'
 import "@/styles/globals.scss";
 import "./globals.css";
 
@@ -35,3 +36,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
+ 

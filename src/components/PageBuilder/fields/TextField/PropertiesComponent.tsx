@@ -61,16 +61,14 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
           control={form.control}
           name="textField"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Text Field</FormLabel>
+            <FormItem>            
               <FormControl>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline">Edit Profile</Button>
+                    <Button variant="outline">Edit Text</Button>
                   </DialogTrigger>
                   <DialogContent className="w-1/3">
                     <EditorComponent content={form.watch("textField")} setContent={field.onChange} />
-
                     <DialogFooter>
                       <Button type="submit">Save changes</Button>
                     </DialogFooter>

@@ -7,6 +7,7 @@ import { memberStorage } from "@/types/database/members";
 import { EventStorage } from "@/types/events";
 import { database } from "@/utils/serverAppwrite";
 import { Query } from "appwrite";
+import { Metadata } from "next";
 
 //get events
 async function getEvents() {
@@ -15,11 +16,17 @@ async function getEvents() {
 }
 
 //get partners
-
 async function getMembers() {
   const res = await database.listDocuments<memberStorage>("658fabb7b076a84d06d2", "65b88761559a4aa41f38");
   return res;
 }
+
+
+export const metadata: Metadata = {
+  title: "Home | One Kingdom",
+}
+
+
 
 export default async function Home() {
   const events = await getEvents();

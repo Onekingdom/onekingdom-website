@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import { toast } from "sonner";
 import TruncatedText from "./ui/TruncatedText";
 import MultipleFileUpload from "./uploadFile";
+import Image from "next/image";
 
 interface Props {
   onImageAdded: (image: Models.File) => void;
@@ -89,8 +90,9 @@ export default function SelectImage({ onImageAdded, onImageRemoved, selectedFile
             <div key={image.$id} className="w-max">
               <TruncatedText message={image.name} />
               <div className="relative">
-                <img src={x.href} alt={image.name} key={image.$id} onClick={handleImageClick} className={`${isSelected ? "border" : ""}`} />
-                {isSelected && (
+                <Image src={x.href} alt={image.name} key={image.$id} onClick={handleImageClick} className={`${isSelected ? "border" : ""}`} width={250} height={250}/>
+                {isSelected
+                 && (
                   <span className="absolute top-2 right-2">
                     <Check size={48} strokeWidth={3} />
                   </span>

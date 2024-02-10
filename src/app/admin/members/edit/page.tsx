@@ -16,6 +16,7 @@ import { Socialmedia } from "@/types/payload";
 import { storage } from "@/utils/clientAppwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Models } from "appwrite";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -231,9 +232,12 @@ export default function Page() {
                       </Dialog>
                       <div>
                         {field.value && (
-                          <img
+          
+                          <Image
                             src={`${storage.getFilePreview(field.value.bucketID, field.value.imageID, 250, 250).href}`}
                             alt="profile image"
+                            width={250}
+                            height={250}
                             className="w-20 h-20 object-cover rounded-full"
                           />
                         )}

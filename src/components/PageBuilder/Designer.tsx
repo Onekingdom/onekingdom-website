@@ -98,7 +98,7 @@ function Designer() {
   return (
     <div className="flex w-full h-full">
       <div
-        className="p-4 w-full"
+        className="p-4 w-full rounded"
         onClick={() => {
           if (selectedElement) dispatch(setSelectedElement(null));
         }}

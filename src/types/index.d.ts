@@ -15,6 +15,8 @@ export type SidebarNavItem = {
   disabled?: boolean
   premium?: boolean
   new?: boolean
+  beta? : boolean
+  commingSoon?: boolean
 }
 
 export type DashboardSection = {

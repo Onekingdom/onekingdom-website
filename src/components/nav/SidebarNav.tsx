@@ -20,8 +20,6 @@ export function SidebarNav({ config }: Props) {
   const [activeRoute, setActiveRoute] = useState(pathname);
   const { session } = useAppSelector((state) => state.auth);
 
-  //TODO: import session
-
   useEffect(() => {
     setActiveRoute(pathname);
   }, [pathname]);
@@ -44,6 +42,8 @@ export function SidebarNav({ config }: Props) {
                       <div className="flex flex-row gap-2">
                         {route.premium && <Crown className="h-4 w-4" />}
                         {route.new && <Badge className="pointer-events-none h-4 rounded px-1.5 text-[0.65rem] text-muted">new</Badge>}
+                        {route.beta && <Badge className="pointer-events-none h-4 rounded px-1.5 text-[0.65rem] text-muted">beta</Badge>}
+                        {route.commingSoon && <Badge className="pointer-events-none h-4 rounded px-1.5 text-[0.65rem] text-muted">Soon</Badge>}
                       </div>
                     </div>
                   ) : (
@@ -59,9 +59,13 @@ export function SidebarNav({ config }: Props) {
                         <route.icon className="h-4 w-4 text-primary" />
                         <p className="truncate">{route.label}</p>
                       </div>
-                      <div className="flex flex-row gap-2">
+                      <div className="flex flex-row gap-2 truncate">
                         {route.premium && <Crown className="h-4 w-4 text-amber-500" />}
                         {route.new && <Badge className="pointer-events-none h-4 rounded px-1.5 text-[0.65rem] text-muted">new</Badge>}
+                        {route.beta && <Badge className="pointer-events-none h-4 rounded px-1.5 text-[0.65rem] text-muted">Beta</Badge>}
+                        {route.commingSoon && (
+                          <Badge className="pointer-events-none h-4 w-4 rounded px-1.5 text-[0.65rem] text-muted truncate">Soon</Badge>
+                        )}
                       </div>
                     </Link>
                   )}

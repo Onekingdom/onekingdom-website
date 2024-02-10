@@ -1,6 +1,9 @@
 import { DashboardConfig } from "@/types";
 
 import { LayoutGrid, MessageSquare, User2 } from "lucide-react";
+import { FaPager } from "react-icons/fa6";
+import { MdContactPage } from "react-icons/md";
+import { CiCalendarDate } from "react-icons/ci";
 
 export const dashboardConfig: DashboardConfig = {
   overview: {
@@ -9,6 +12,7 @@ export const dashboardConfig: DashboardConfig = {
         label: "Overview",
         href: "/admin",
         icon: LayoutGrid,
+        
       },
     ],
   },
@@ -19,12 +23,21 @@ export const dashboardConfig: DashboardConfig = {
       {
         label: "Events",
         href: "/admin/events/",
-        icon: MessageSquare,
+        icon: CiCalendarDate,
+        beta: true,
       },
       {
         label: "Members",
         href: "/admin/members/",
-        icon: User2,
+        icon: MdContactPage ,
+        beta: true,
+      },
+      {
+        label: "Pages",
+        href: "/admin/members/",
+        icon: FaPager,
+        commingSoon: true,
+        disabled: true,
       },
     ],
   },
@@ -35,6 +48,8 @@ export const dashboardConfig: DashboardConfig = {
         label: "User Management",
         href: "/admin/user-management/",
         icon: User2,
+        disabled: true,
+        commingSoon: true,
       },
     ],
   },

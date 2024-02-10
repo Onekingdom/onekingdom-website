@@ -91,7 +91,7 @@ export const DiscordServerLink = "https://discord.gg/gjQgv8GGKn";
 //returns the url for the default page
 export const defaultPage = "/dashboard/twitch/commands";
 
-export const baseURl = process.env.NEXT_PUBLIC_BASE_URL
+export const baseURl = process.env.NEXT_PUBLIC_BASE_URL!
 
 export const spotifyRedirectURL = baseURl + "/api/spotify/callback"
 

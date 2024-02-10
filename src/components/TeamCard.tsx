@@ -4,6 +4,7 @@ import SocialIcon from "./SocialIcon";
 import styled from "@emotion/styled";
 import { storage } from "@/utils/clientAppwrite";
 import { socialMediaType } from "@/schemas/member";
+import Image from "next/image";
 
 interface TeamCardProps {
   name?: string;
@@ -86,11 +87,8 @@ export default function TeamCard({ name, description, img, socials }: TeamCardPr
     <div className="border-2 border-var(--extra-color) rounded-lg transition-all duration-300 ease">
       <div className="px-[40px] py-[40px] pt-[20px] text-center">
         <div className="w-full max-w-240 mx-auto mb-[26px]">
-          <img
-            src={imgURL}
-            alt="person Placeholder"
-            className="w-full h-full object-cover rounded-full"
-          />
+
+          <Image src={imgURL} alt="person Placeholder" width={320} height={320} className="w-full h-full object-cover rounded-full" />
         </div>
         <div className="w-full">
           <h3 className="m-0 p-0 text-[22px] font-medium mb-[8px]">{name ? name : "Jochemwhite"}</h3>

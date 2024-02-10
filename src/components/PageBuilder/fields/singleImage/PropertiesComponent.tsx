@@ -9,6 +9,7 @@ import { updateElement } from "@/redux/pageBuilder/PageBuilderSlice";
 import { CustomTitleInstance } from ".";
 import { imageSchemaType } from "@/schemas/event";
 import { storage } from "@/utils/clientAppwrite";
+import Image from "next/image";
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
   const element = elementInstance as CustomTitleInstance;
@@ -74,7 +75,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
 
         {element.extraAttributes.image && (
           <div className="col-span-1 md:col-span-2 my-2 place-self-start">
-            <img src={storage.getFilePreview(element.extraAttributes.image.bucketID, element.extraAttributes.image.imageID, 250, 250).href} />
+            <Image src={storage.getFilePreview(element.extraAttributes.image.bucketID, element.extraAttributes.image.imageID, 250, 250).href} alt="" width={250} height={250} />
           </div>
         )}
       </div>

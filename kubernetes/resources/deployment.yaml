@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: onekingdom-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: onekingdom-frontend
+  template:
+    metadata:
+      labels:
+        app: onekingdom-frontend
+    spec:
+      containers:
+      - name: onekingdom-frontend
+        image: ghcr.io/Onekingdom/onekingdom-website:latest
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: onekingdom-frontend

@@ -24,24 +24,7 @@ export default function EventTimelineNav({ events, active }: Props) {
     <>
       <div className="timeline_progress">
         {/* Nav */}
-        <a
-          className="nav_prev c-pointer"
-          onClick={() => {
-            prev();
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          <img src="svg/right-arr.svg" alt="" className="fn__svg" style={{ cursor: "pointer" }} />
-        </a>
-        <a
-          onClick={() => {
-            next();
-          }}
-          className="nav_next c-pointer"
-          style={{ cursor: "pointer" }}
-        >
-          <img src="svg/right-arr.svg" alt="" className="fn__svg" />
-        </a>
+
         {/* !Nav */}
         <div className="progress_line_wrapper">
           <div className={`progress_line `}>

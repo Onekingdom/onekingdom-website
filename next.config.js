@@ -25,6 +25,15 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "appwrite.amrio.nl",
+      },
+    ],
+  },
+  output: "standalone",
 };
 
 module.exports = nextConfig;

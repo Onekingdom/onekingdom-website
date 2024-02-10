@@ -1,5 +1,7 @@
 import React from "react";
 import AnimatedTitle from "./AnimatedTitle";
+import RightArrow from "@/components/svg/right-arr.svg";
+import Image from "next/image";
 
 interface Props {
   subtitle: string;
@@ -32,7 +34,7 @@ export default function Hero({ subtitle, title, description }: Props) {
       <a href="#about" className="neoh_fn_down magic-hover magic-hover__square">
         <span className="text">Scroll Down</span>
         <span className="icon">
-          <img src="svg/right-arr.svg" alt="right-arr" className="fn__svg" />
+          {/* <RightArrow /> */}
         </span>
       </a>
     </div>
@@ -47,5 +49,5 @@ const Backround = ({ mimeType, url }: { mimeType: string; url: string }) => {
       </video>
     );
   }
-  return <img src={url} alt="" />;
+  return <Image src={url} alt=""  />;
 };

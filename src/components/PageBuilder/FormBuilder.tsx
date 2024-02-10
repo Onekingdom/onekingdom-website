@@ -49,8 +49,7 @@ function FormBuilder({ form }: { form: any }) {
   return (
     <DndContext sensors={sensors}>
       <main className="flex flex-col w-full">
-
-        <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto  bg-accent bg-[url(/paper.svg)] dark:bg-[url(/paper-dark.svg)]">
+        <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto  bg-accent rounded-md">
           {/* Pass elements and selectedElement as props to Designer */}
           <Designer />
         </div>

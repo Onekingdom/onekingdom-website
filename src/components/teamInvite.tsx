@@ -47,7 +47,6 @@ export function TeamInvite({ handleInvite }: Props) {
             return (
               <li key={result.$id} className="flex items-center justify-between border rounded-sm my-4">
                 <div className="flex items-center">
-                  {/* <img src={result.thumbnail_url} alt="" className="w-10 h-10 rounded-full" /> */}
                   <div className="ml-2">
                     <div className="text-sm font-medium">{result.name}</div>
                   </div>

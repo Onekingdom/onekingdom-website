@@ -4,6 +4,8 @@ import { TracingBeam } from "@/components/aceternity/tracing-beam";
 import { EventStorage } from "@/types/events";
 import { storage } from "@/utils/clientAppwrite";
 import { database } from "@/utils/serverAppwrite";
+import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -15,6 +17,23 @@ async function getEvent(slug: string) {
   } catch (error) {
     console.log(error);
   }
+}
+
+type Props = {
+  params: { slug: string };
+  searchParams: URLSearchParams;
+};
+
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const event = await getEvent(params.slug);
+
+  if (!event) return { title: "404" };
+
+  const title = event.title;
+
+  return {
+    title: title + " - One Kingdom",
+  };
 }
 
 export default async function page({ params }: { params: { slug: string } }) {
@@ -44,7 +63,7 @@ export default async function page({ params }: { params: { slug: string } }) {
             </p>
           </div>
           <div className="single_img">
-            <img src={storage.getFilePreview(event.Images[0].bucketID, event.Images[0].imageID).href} alt="" />
+            <Image src={storage.getFilePreview(event.Images[0].bucketID, event.Images[0].imageID, 1200, 600).href } alt="" width={1200} height={600}  />
           </div>
           {/* Mini Items  */}
           <div className="neoh_fn_minis">

@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { MdOutlinePublish } from "react-icons/md";
 import { toast } from "sonner";
 import { z } from "zod";
+import Image from "next/image";
 
 export default function Page() {
   const { getEventbyID, updateEvent, addEvent } = useEvents();
@@ -63,7 +64,7 @@ export default function Page() {
             published: true,
             author: session.username || "One Kingdom",
           });
-          const event = await getEvent(eventID);
+         await getEvent(eventID);
         } else {
           const newEvent = await addEvent({
             ...data,
@@ -138,169 +139,158 @@ export default function Page() {
       console.log("unmount");
       dispatch(setElements([]));
     };
-
-
   }, [searchParmas]);
 
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit, (error) => {
-          console.log(error);
-        })}
-      >
-        <div className="flex items-center gap-2 justify-end">
-          <PreviewDialogBtn />
-          {/* {!form.getValues("title") && ( */}
-          <>
-            {/* <Button
+    <div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSubmit, (error) => {
+            console.log(error);
+          })}
+        >
+          <div className="flex items-center gap-2 justify-end">
+            <PreviewDialogBtn />
+            {/* {!form.getValues("title") && ( */}
+            <>
+              {/* <Button
                 variant={"outline"}
                 className="gap-2"
                 disabled={isLoading}
                 onClick={() => {
                   // startTransition(updateFormContent);
                 }}
-              >
+                >
                 <HiSaveAs className="h-4 w-4" />
                 Save
                 {isLoading && <FaSpinner className="animate-spin" />}
               </Button> */}
 
-            <Button className="gap-2 text-white bg-gradient-to-r from-indigo-400 to-cyan-400" type="submit">
-              <MdOutlinePublish className="h-4 w-4" />
-              Publish
-            </Button>
-          </>
-          {/* )} */}
-        </div>
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <FormField
-              name="title"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor="title" className="block font-semibold mb-1">
-                    Title
-                  </label>
-                  <FormControl className="w-96">
-                    <Input id="title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <Button className="gap-2 text-white bg-gradient-to-r from-indigo-400 to-cyan-400" type="submit">
+                <MdOutlinePublish className="h-4 w-4" />
+                Publish
+              </Button>
+            </>
+            {/* )} */}
           </div>
-          <div>
-            <FormField
-              name="eventDate"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor="eventDate" className="block font-semibold mb-1">
-                    Event Date
-                  </label>
-                  <FormControl className="w-96">
-                    <DatePicker onChange={(e) => field.onChange(e)} Value={field.value} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div>
-            <FormField
-              name="Location"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor="Location" className="block font-semibold mb-1">
-                    Location
-                  </label>
-                  <FormControl className="w-96">
-                    <Input id="Location" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="row-span-3">
-            <FormField
-              name="shortDescription"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor="shortDescription" className="block font-semibold mb-1">
-                    Short Description
-                  </label>
-                  <FormControl className="">
-                    <div>
-                      <EditorComponent
-                        content={form.getValues("shortDescription")}
-                        setContent={field.onChange}
-                        limit={250}
-                        initialContent={event?.shortDescription}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="row-span-3">
-            <FormField
-              name="Images"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor="shortDescription" className="block font-semibold mb-1">
-                    Preview Images
-                  </label>
-                  <FormControl className="">
-                    <>
-                      <Dialog>
-                        <DialogTrigger>Add Images</DialogTrigger>
-                        <DialogContent className="w-1/2">
-                          <SelectImage
-                            selectedFiles={form.getValues("Images").map((i) => i.imageID)}
-                            onImageAdded={handleAddImage}
-                            onImageRemoved={handleRemoveImage}
-                            bucketID="658fad6a1cfcc5125a99"
-                          />
-                        </DialogContent>
-                      </Dialog>
-                      <div className="flex ">
-                        {form.getValues("Images").map((image: imageSchemaType) => (
-                          <img key={image.imageID} src={storage.getFilePreview(image.bucketID, image.imageID, 50, 50).href} />
-                        ))}
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <FormField
+                name="title"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="title" className="block font-semibold mb-1">
+                      Title
+                    </label>
+                    <FormControl className="w-96">
+                      <Input id="title" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                name="eventDate"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="eventDate" className="block font-semibold mb-1">
+                      Event Date
+                    </label>
+                    <FormControl className="w-96">
+                      <DatePicker onChange={(e) => field.onChange(e)} Value={field.value} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                name="Location"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="Location" className="block font-semibold mb-1">
+                      Location
+                    </label>
+                    <FormControl className="w-96">
+                      <Input id="Location" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="row-span-3">
+              <FormField
+                name="shortDescription"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="shortDescription" className="block font-semibold mb-1">
+                      Short Description
+                    </label>
+                    <FormControl className="">
+                      <div>
+                        <EditorComponent
+                          content={form.getValues("shortDescription")}
+                          setContent={field.onChange}
+                          limit={250}
+                          initialContent={event?.shortDescription}
+                        />
                       </div>
-                    </>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="row-span-3">
+              <FormField
+                name="Images"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="shortDescription" className="block font-semibold mb-1">
+                      Preview Images
+                    </label>
+                    <FormControl className="">
+                      <>
+                        <Dialog>
+                          <DialogTrigger>Add Images</DialogTrigger>
+                          <DialogContent className="w-1/2">
+                            <SelectImage
+                              selectedFiles={form.getValues("Images").map((i) => i.imageID)}
+                              onImageAdded={handleAddImage}
+                              onImageRemoved={handleRemoveImage}
+                              bucketID="658fad6a1cfcc5125a99"
+                            />
+                          </DialogContent>
+                        </Dialog>
+                        <div className="flex ">
+                          {form.getValues("Images").map((image: imageSchemaType) => (
+                            <Image key={image.imageID} src={storage.getFilePreview(image.bucketID, image.imageID, 50, 50).href} alt="" width={50} height={50}/>
+                          ))}
+                        </div>
+                      </>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
-        </div>
-        <div className="row-span-3">
-          <FormField
-            name="description"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <FormBuilder form="" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+      <div className="mt-8">
+        <FormBuilder form="" />
+      </div>
+    </div>
   );
 }

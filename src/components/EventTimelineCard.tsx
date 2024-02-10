@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { EventStorage } from "@/types/events";
@@ -6,6 +6,7 @@ import formatDate from "@/utils/formatDate";
 import { storage } from "@/utils/clientAppwrite";
 import useShortEditor from "@/hooks/editors/useShortEditor";
 import { EditorContent } from "@tiptap/react";
+import Image from "next/image";
 
 interface Props {
   event: EventStorage;
@@ -16,11 +17,11 @@ export default function EventTimelineCard({ event }: Props) {
 
   useEffect(() => {
     if (!editor) {
-      return undefined
+      return undefined;
     }
 
-    editor.setEditable(false)
-  }, [editor])
+    editor.setEditable(false);
+  }, [editor]);
 
   return (
     <li className="road_item w-full" style={{ margin: "1rem 0" }}>
@@ -33,7 +34,7 @@ export default function EventTimelineCard({ event }: Props) {
 
                 return (
                   <div className={`item ${index === 0 ? "row2" : ""}`} key={index}>
-                    <img src={x.href} alt={image.imageID} />
+                    <Image src={x.href} alt="" width={250} height={250} />
                   </div>
                 );
               })}

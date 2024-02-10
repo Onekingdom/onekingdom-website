@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { Icons } from "./icons";
 import SocialIcon from "./SocialIcon";
 import { account } from "@/utils/clientAppwrite";
+import { baseURl } from "@/lib/constants";
 
 interface TwitchLoginProps {
   redirect: string | null;
@@ -21,12 +22,10 @@ export default function TwitchLogin({ redirect }: TwitchLoginProps) {
     "channel:manage:raids",
     "user:read:moderated_channels",
     "user:read:chat",
-    
-
   ];
 
   function handleLogin() {
-    account.createOAuth2Session("twitch", `http://10.10.10.250:3000${redirect ? redirect : "/admin"}`, "http://localhost:3000/error", scopes);
+    account.createOAuth2Session("twitch", `${baseURl}${redirect ? redirect : "/admin"}`, `${baseURl}/error`, scopes);
   }
 
   return (

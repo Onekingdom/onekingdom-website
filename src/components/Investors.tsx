@@ -1,6 +1,7 @@
 import { InvestorStorage } from "@/types/Investors";
 import { storage } from "@/utils/clientAppwrite";
 import { database } from "@/utils/serverAppwrite";
+import Image from "next/image";
 
 interface Props {
   Title: string;
@@ -23,8 +24,6 @@ const Investors = async ({ Title }: Props) => {
     return (
       <section id="investor">
         {/* Dividers */}
-        <img src="svg/divider.svg" alt="" className="fn__svg fn__divider top_divider" />
-        <img src="svg/divider.svg" alt="" className="fn__svg fn__divider bottom_divider" />
         {/* !Dividers */}
         <div className="container">
           {/* Main Title */}
@@ -41,7 +40,7 @@ const Investors = async ({ Title }: Props) => {
                 return (
                   <li key={Investor.$id}>
                     <div className="item">
-                      <img src={image.href} alt={Investor.InvestorName} />
+                      <Image src={image.href} alt={Investor.InvestorName} />
                       <a href={Investor.InvestorURL} target="_blank" className="full_link" />
                     </div>
                   </li>
