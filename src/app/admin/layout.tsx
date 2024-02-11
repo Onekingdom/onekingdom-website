@@ -22,7 +22,6 @@ type DashboardLayout = {
 export default function DashboardLayout({ children }: DashboardLayout) {
   const { session, loading } = useAppSelector((state) => state.auth);
   // const { acceptInvite } = useTeams();
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const searchParams = useSearchParams();
 
