@@ -45,6 +45,6 @@ next-env.d.ts
 
 
 #exclode public folder
-/public
+
 /.next
 
