@@ -61,7 +61,7 @@ export default function DashboardLayout({ children }: DashboardLayout) {
 
   useEffect(() => {
     init();
-  }, [searchParams]);
+  }, []);
 
   if (loading === "loading") {
     // return <Loading />;
