@@ -29,7 +29,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "appwrite.amrio.nl",
+        hostname: "appwrite.jochemwhite.nl",
       },
     ],
   },

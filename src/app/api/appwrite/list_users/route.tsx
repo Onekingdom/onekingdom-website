@@ -41,7 +41,7 @@ export async function GET(request: Request) {
     }
 
     const client = new Client();
-    client.setEndpoint("https://appwrite.amrio.nl/v1").setProject("658fab9280f434656e3b").setJWT(token);
+    client.setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT).setProject("658fab9280f434656e3b").setJWT(token);
 
     const team = new Teams(client);
 

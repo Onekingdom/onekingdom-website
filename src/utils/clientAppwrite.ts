@@ -2,7 +2,7 @@ import { Client, Databases, Account, Storage, Teams } from "appwrite";
 
 const client = new Client();
 
-client.setEndpoint("https://appwrite.amrio.nl/v1").setProject("658fab9280f434656e3b");
+client.setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT).setProject("658fab9280f434656e3b");
 
 const database = new Databases(client);
 const account = new Account(client);

@@ -17,7 +17,7 @@ export default function Hero({ subtitle, title, description }: Props) {
         {/* Overlay Color */}
         <div className="bg_color" />
         <div className="overlay_slider vegas-slide vegas-container" style={{ height: `100%` }}>
-          <Backround mimeType="video/mp4" url="https://appwrite.amrio.nl/v1/storage/buckets/65c825ce8e79d2939e99/files/65c832f9bc27b7fd47e9/view?project=658fab9280f434656e3b&mode=admin" />
+          <Backround mimeType="video/mp4" url="https://appwrite.jochemwhite.nl/v1/storage/buckets/65c825ce8e79d2939e99/files/65c832f9bc27b7fd47e9/view?project=658fab9280f434656e3b&mode=admin" />
         </div>
       </div>
       <div className="hero_content">
