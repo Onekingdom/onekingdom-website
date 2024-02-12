@@ -41,7 +41,11 @@ export default function SelectImage({ onImageAdded, onImageRemoved, selectedFile
       },
       {
         loading: "Deleting image...",
-        success: "Image deleted",
+        // success: "Image deleted",
+        success(data) {
+          onImageRemoved(file.$id);
+          return "Image deleted";
+        },
         error: "Error deleting image",
       }
     );

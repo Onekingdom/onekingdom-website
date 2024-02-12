@@ -62,8 +62,8 @@ export default async function page({ params }: { params: { slug: string } }) {
               <span className="current">{event.title}</span>
             </p>
           </div>
-          <div className="single_img">
-            <Image src={storage.getFilePreview(event.Images[0].bucketID, event.Images[0].imageID, 1200, 600).href } alt="" width={1200} height={600}  />
+          <div className="single_img aspect-video relative w-[1200px] h-[600px]">
+            <Image src={storage.getFileView(event.Images[0].bucketID, event.Images[0].imageID).href } alt="" fill className="object-cover"   objectFit="cover"/>
           </div>
           {/* Mini Items  */}
           <div className="neoh_fn_minis">
