@@ -75,7 +75,15 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
 
         {element.extraAttributes.image && (
           <div className="col-span-1 md:col-span-2 my-2 place-self-start">
-            <Image src={storage.getFilePreview(element.extraAttributes.image.bucketID, element.extraAttributes.image.imageID, 250, 250).href} alt="" width={250} height={250} />
+            <Image
+              src={storage.getFilePreview(element.extraAttributes.image.bucketID, element.extraAttributes.image.imageID, 250, 250).href}
+              alt=""
+              width={250}
+              height={250}
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
           </div>
         )}
       </div>

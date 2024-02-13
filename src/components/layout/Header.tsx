@@ -35,7 +35,15 @@ const Header = () => {
           <div className="flex justify-between items-center">
             <div className="flex justify-between items-center">
               <Link href="/">
-                <Image src="/logo.png" width={75} height={75} alt="One Kingdom Logo" />
+                <Image
+                  src="/logo.png"
+                  width={75}
+                  height={75}
+                  alt="One Kingdom Logo"
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto"
+                  }} />
               </Link>
               <div className="menu">
                 <ul className="flex ml-12">

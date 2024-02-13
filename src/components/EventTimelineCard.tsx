@@ -34,7 +34,15 @@ export default function EventTimelineCard({ event }: Props) {
 
                 return (
                   <div className={`item ${index === 0 ? "row2" : ""}`} key={index}>
-                    <Image src={x.href} alt="" width={250} height={250} />
+                    <Image
+                      src={x.href}
+                      alt=""
+                      width={250}
+                      height={250}
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                   </div>
                 );
               })}

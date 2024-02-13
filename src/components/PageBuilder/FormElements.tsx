@@ -1,9 +1,10 @@
 import { TextFieldFormElement } from "./fields/TextField";
 import { TitleFieldFormElement } from "./fields/TitleField";
+import { VideoPopup } from "./fields/VideoPopup";
 import { ImageSliderFormElement } from "./fields/imageSlider";
 import { singleImageFormElement } from "./fields/singleImage";
 
-export type ElementsType = "TextField" | "TitleField" | "ImageSlider" | "singleImage";
+export type ElementsType = "TextField" | "TitleField" | "ImageSlider" | "singleImage" | "VideoPopup"
 
 export type SubmitFunction = (key: string, value: string) => void;
 
@@ -48,4 +49,5 @@ export const FormElements: FormElementsType = {
   TitleField: TitleFieldFormElement,
   ImageSlider: ImageSliderFormElement,
   singleImage: singleImageFormElement,
+  VideoPopup: VideoPopup
 };

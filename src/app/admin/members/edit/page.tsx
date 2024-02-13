@@ -239,7 +239,10 @@ export default function Page() {
                             width={250}
                             height={250}
                             className="w-20 h-20 object-cover rounded-full"
-                          />
+                            style={{
+                              maxWidth: "100%",
+                              height: "auto"
+                            }} />
                         )}
                       </div>
                     </>

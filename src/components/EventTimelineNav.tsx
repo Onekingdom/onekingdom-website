@@ -2,6 +2,7 @@
 import { EventsStorage } from "@/types/events";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import FadeIn from "./Framer/FadeIn";
+import "swiper/css";
 
 interface Props {
   events: EventsStorage;
@@ -23,9 +24,6 @@ export default function EventTimelineNav({ events, active }: Props) {
   return (
     <>
       <div className="timeline_progress">
-        {/* Nav */}
-
-        {/* !Nav */}
         <div className="progress_line_wrapper">
           <div className={`progress_line `}>
             <Swiper
@@ -35,8 +33,7 @@ export default function EventTimelineNav({ events, active }: Props) {
               pagination={{
                 clickable: true,
               }}
-              // modules={[FreeMode]}
-          
+              style={{ overflow: "visible" }}
             >
               {events.documents.map((event, index) => {
                 let delay = 0.3 * (index + 1);
@@ -62,7 +59,6 @@ export default function EventTimelineNav({ events, active }: Props) {
                 );
               })}
             </Swiper>
-            <span className="active_line" />
           </div>
         </div>
       </div>

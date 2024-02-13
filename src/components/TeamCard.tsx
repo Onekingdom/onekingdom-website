@@ -88,7 +88,16 @@ export default function TeamCard({ name, description, img, socials }: TeamCardPr
       <div className="px-[40px] py-[40px] pt-[20px] text-center">
         <div className="w-full max-w-240 mx-auto mb-[26px]">
 
-          <Image src={imgURL} alt="person Placeholder" width={320} height={320} className="w-full h-full object-cover rounded-full" />
+          <Image
+            src={imgURL}
+            alt="person Placeholder"
+            width={320}
+            height={320}
+            className="w-full h-full object-cover rounded-full"
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
         </div>
         <div className="w-full">
           <h3 className="m-0 p-0 text-[22px] font-medium mb-[8px]">{name ? name : "Jochemwhite"}</h3>

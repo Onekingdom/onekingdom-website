@@ -40,7 +40,13 @@ const Investors = async ({ Title }: Props) => {
                 return (
                   <li key={Investor.$id}>
                     <div className="item">
-                      <Image src={image.href} alt={Investor.InvestorName} />
+                      <Image
+                        src={image.href}
+                        alt={Investor.InvestorName}
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto"
+                        }} />
                       <a href={Investor.InvestorURL} target="_blank" className="full_link" />
                     </div>
                   </li>

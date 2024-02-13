@@ -94,7 +94,18 @@ export default function SelectImage({ onImageAdded, onImageRemoved, selectedFile
             <div key={image.$id} className="w-max">
               <TruncatedText message={image.name} />
               <div className="relative">
-                <Image src={x.href} alt={image.name} key={image.$id} onClick={handleImageClick} className={`${isSelected ? "border" : ""}`} width={250} height={250}/>
+                <Image
+                  src={x.href}
+                  alt={image.name}
+                  key={image.$id}
+                  onClick={handleImageClick}
+                  className={`${isSelected ? "border" : ""}`}
+                  width={250}
+                  height={250}
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto"
+                  }} />
                 {isSelected
                  && (
                   <span className="absolute top-2 right-2">

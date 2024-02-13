@@ -11,7 +11,15 @@ export default function DesignerComponent({ elementInstance }: { elementInstance
       <p>Single Image</p>
       <div className="flex">
         {element.extraAttributes && element.extraAttributes.image && (
-          <Image src={storage.getFilePreview(element.extraAttributes.image.bucketID, element.extraAttributes.image.imageID, 50, 50).href} alt="" width={50} height={50} />
+          <Image
+            src={storage.getFilePreview(element.extraAttributes.image.bucketID, element.extraAttributes.image.imageID, 50, 50).href}
+            alt=""
+            width={50}
+            height={50}
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
         )}
       </div>
     </div>

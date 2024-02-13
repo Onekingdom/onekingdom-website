@@ -30,7 +30,15 @@ export default function AuthenticationPage() {
       <div className="relative  h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
         <div className="absolute inset-0 bg-zinc-900" />
         <div className="z-50 h-full flex justify-center items-center flex-col relative">
-          <Image src="/logo.png" width={700} height={700} alt="Logo" />
+          <Image
+            src="/logo.png"
+            width={700}
+            height={700}
+            alt="Logo"
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
           <blockquote className="space-y-2 absolute bottom-0">
             <p className="text-lg">
               &ldquo;Yesterday is history, tomorrow is a mystery, but today is a gift. That is why it is called the present.&rdquo;
@@ -42,7 +50,15 @@ export default function AuthenticationPage() {
                     <footer>Master Oogway</footer>
                   </TooltipTrigger>
                   <TooltipContent className="relative">
-                    <Image src={storage.getFilePreview("6596c5baec6aaeaf5010", "6596c5e045742a77d13c").href} alt="Master Mo" width={1000} height={1000} />
+                    <Image
+                      src={storage.getFilePreview("6596c5baec6aaeaf5010", "6596c5e045742a77d13c").href}
+                      alt="Master Mo"
+                      width={1000}
+                      height={1000}
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>

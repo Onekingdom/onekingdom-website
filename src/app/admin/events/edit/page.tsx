@@ -275,7 +275,16 @@ export default function Page() {
                         </Dialog>
                         <div className="flex ">
                           {form.getValues("Images").map((image: imageSchemaType) => (
-                            <Image key={image.imageID} src={storage.getFilePreview(image.bucketID, image.imageID, 50, 50).href} alt="" width={50} height={50}/>
+                            <Image
+                              key={image.imageID}
+                              src={storage.getFilePreview(image.bucketID, image.imageID, 50, 50).href}
+                              alt=""
+                              width={50}
+                              height={50}
+                              style={{
+                                maxWidth: "100%",
+                                height: "auto"
+                              }} />
                           ))}
                         </div>
                       </>

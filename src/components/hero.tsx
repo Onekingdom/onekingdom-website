@@ -49,5 +49,13 @@ const Backround = ({ mimeType, url }: { mimeType: string; url: string }) => {
       </video>
     );
   }
-  return <Image src={url} alt=""  />;
+  return (
+    <Image
+      src={url}
+      alt=""
+      style={{
+        maxWidth: "100%",
+        height: "auto"
+      }} />
+  );
 };

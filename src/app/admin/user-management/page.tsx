@@ -122,7 +122,14 @@ export default function Page() {
     if (x) {
       toast.custom((t) => (
         <div className="bg-white rounded-sm w-96 h">
-          <Image src="/memes/bugs.jpg" alt="Master Mo" fill/>
+          <Image
+            src="/memes/bugs.jpg"
+            alt="Master Mo"
+            fill
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
           <div className="p-4 bg-black">
             <h2 className="text-lg font-bold">User already in team</h2>
             <p className="text-sm text-gray-500">The user is already in the team</p>

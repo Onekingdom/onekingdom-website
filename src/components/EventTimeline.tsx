@@ -1,12 +1,13 @@
 "use client";
 import { EventsStorage } from "@/types/events";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import EventTimelineCard from "./EventTimelineCard";
 import EventTimelineNav from "./EventTimelineNav";
 import FadeIn from "./Framer/FadeIn";
 import Image from "next/image";
 import Divider from "@/components/svg/Divider.svg";
+import { Controller } from "swiper/modules";
 
 interface Props {
   title: string;
@@ -14,6 +15,7 @@ interface Props {
 }
 const Timeline = ({ title, events }: Props) => {
   const [active, setActive] = useState(1);
+
   return (
     <FadeIn>
       <div className="relative py-40">
@@ -37,9 +39,9 @@ const Timeline = ({ title, events }: Props) => {
                 spaceBetween={50}
                 slidesPerView={1}
                 onSlideChange={(x) => setActive(x.activeIndex + 1)}
-                onSwiper={(swiper) => console.log(swiper)}
                 className="timeline_list"
                 style={{ width: "100%" }}
+                modules={[Controller]}
               >
                 <EventTimelineNav events={events} active={active} />
                 {events.documents &&

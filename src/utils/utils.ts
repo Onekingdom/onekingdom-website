@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function capitalizeFirstLetter(inputString: string) {
   return inputString.replace(/\b\w/g, function (match) {
     return match.toUpperCase()
-  })
+  });
 }
 
 
