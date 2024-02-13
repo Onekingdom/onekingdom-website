@@ -3,7 +3,7 @@ import React, { CSSProperties } from "react";
 import SocialIcon from "./SocialIcon";
 import styled from "@emotion/styled";
 import { storage } from "@/utils/clientAppwrite";
-import { socialMediaType } from "@/schemas/member";
+import { socialMediaType } from "@/schemas/socialMedia";
 import Image from "next/image";
 
 interface TeamCardProps {
