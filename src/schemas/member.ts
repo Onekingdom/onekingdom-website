@@ -1,12 +1,8 @@
 import { z } from "zod";
 import { imageSchema } from "./image";
+import { socailMediaSchema } from "./socialMedia";
 
 
-const socailMediaSchema = z.object({
-  $id: z.string().optional(),
-  value: z.string().min(4).max(50),
-  href: z.string().min(4).max(50),
-});
 
 export const memberSchema = z.object({
   name: z.string().min(4).max(50),
@@ -19,5 +15,5 @@ export const memberSchema = z.object({
 
 //create type from imageSchema
 
-export type socialMediaType = z.infer<typeof socailMediaSchema>;
+
 export type memberSchemaType = z.infer<typeof memberSchema>;

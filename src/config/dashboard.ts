@@ -1,6 +1,6 @@
 import { DashboardConfig } from "@/types";
 
-import { LayoutGrid, MessageSquare, User2 } from "lucide-react";
+import { Globe, LayoutGrid, MessageSquare, User2 } from "lucide-react";
 import { FaPager } from "react-icons/fa6";
 import { MdContactPage } from "react-icons/md";
 import { CiCalendarDate } from "react-icons/ci";
@@ -34,10 +34,17 @@ export const dashboardConfig: DashboardConfig = {
       },
       {
         label: "Pages",
-        href: "/admin/members/",
+        href: "/admin/pages/",
         icon: FaPager,
         commingSoon: true,
         disabled: true,
+      },
+      {
+        label: "Globals",
+        href: "/admin/globals/",
+        icon: Globe,
+        beta: true,
+      
       },
     ],
   },
