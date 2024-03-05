@@ -1,4 +1,4 @@
-import SocialMedia from '@/components/globals/SocialMedia'
+import SocialMedia from '@/components/global/SocialMedia'
 import React from 'react'
 
 export default function page() {
