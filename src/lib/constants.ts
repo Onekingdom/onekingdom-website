@@ -1,5 +1,6 @@
 import { defaultConfig } from "next/dist/server/config-shared";
 
+
 export enum UserlevelEnum {
   Everyone = "everyone",
   Follower = "follower",
@@ -34,6 +35,8 @@ export const findKeyByValue = (value: string) => {
 
 //the twitch scopes needed for the streamwizard
 export const scopes: string[] = ["channel:manage:redemptions", "channel:read:redemptions"];
+
+const onekingdomDB = "658fabb7b076a84d06d2";
 
 //returns the value for a spedific database and collection
 export const databases = {
@@ -83,6 +86,10 @@ export const databases = {
       User: "65afdd31d1222a19ecfc",
     },
   },
+  pages: {
+    databaseID: onekingdomDB,
+    collectionID: "65cf612a10b631f9d906",
+  }
 };
 
 //returns the value for the discord server

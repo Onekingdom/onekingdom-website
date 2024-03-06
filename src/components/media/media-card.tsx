@@ -1,5 +1,4 @@
 "use client";
-import { Media } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
@@ -23,33 +22,39 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import { Copy, MoreHorizontal, Trash } from "lucide-react";
-import { deleteMedia, saveActivityLogsNotification } from "@/lib/querys";
-import { useToast } from "@/components/ui/use-toast";
+
+import { Models } from "appwrite";
+import { storage } from "@/lib/appwrite";
+import { toast } from "sonner";
 
 type Props = {
-  file: Media;
+  file: Models.File;
 };
 
 export default function MediaCard({ file }: Props) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { toast } = useToast();
+ 
+
+  const imageHref = storage.getFileView(file.bucketId, file.$id).href;
+
   return (
     <AlertDialog>
       <DropdownMenu>
         <article className="border w-full rounded-lg bg-slate-900">
           <div className="relative w-full h-40">
             <Image
-              src={file.link}
+              src={imageHref}
               alt="preview image"
               fill
               className="object-cover rounded-lg"
+              sizes="100% 100%"
             />
           </div>
           <p className="opacity-0 h-0 w-0">{file.name}</p>
           <div className="p-4 relative">
             <p className="text-muted-foreground">
-              {file.createdAt.toDateString()}
+              {file.$createdAt.toString()}
             </p>
             <p>{file.name}</p>
             <div className="absolute top-4 right-4 p-[1px] cursor-pointer ">
@@ -65,8 +70,8 @@ export default function MediaCard({ file }: Props) {
             <DropdownMenuItem
               className="flex gap-2"
               onClick={() => {
-                navigator.clipboard.writeText(file.link);
-                toast({ title: "Copied To Clipboard" });
+                navigator.clipboard.writeText(imageHref);
+                toast.success("Copied Image Link");
               }}
             >
               <Copy size={15} /> Copy Image Link
@@ -96,16 +101,13 @@ export default function MediaCard({ file }: Props) {
             className="bg-destructive hover:bg-destructive"
             onClick={async () => {
               setLoading(true);
-              const response = await deleteMedia(file.id);
-              await saveActivityLogsNotification({
-                agencyId: undefined,
-                description: `Deleted a media file | ${response?.name}`,
-                subaccountId: response.subAccountId,
-              });
-              toast({
-                title: "Deleted File",
-                description: "Successfully deleted the file",
-              });
+              const response = await storage.deleteFile(file.$updatedAt, file.$id);
+
+              if (response) {
+                toast.success("File Deleted");
+              } else {
+                toast.error("Error Deleting File");
+              }
               setLoading(false);
               router.refresh();
             }}

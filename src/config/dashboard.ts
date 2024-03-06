@@ -36,8 +36,7 @@ export const dashboardConfig: DashboardConfig = {
         label: "Pages",
         href: "/admin/pages/",
         icon: FaPager,
-        commingSoon: true,
-        disabled: true,
+        beta: true,
       },
       {
         label: "Globals",

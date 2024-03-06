@@ -1,6 +1,4 @@
 "use client";
-import FormBuilder from "@/components/PageBuilder/FormBuilder";
-import PreviewDialogBtn from "@/components/PageBuilder/PreviewDialogBtn";
 import SelectImage from "@/components/SelectImage";
 import EditorComponent from "@/components/richeditor/content";
 import { Button } from "@/components/ui/button";
@@ -152,7 +150,7 @@ export default function Page() {
           })}
         >
           <div className="flex items-center gap-2 justify-end">
-            <PreviewDialogBtn />
+            {/* <PreviewDialogBtn /> */}
             {/* {!form.getValues("title") && ( */}
             <>
               {/* <Button
@@ -298,7 +296,7 @@ export default function Page() {
         </form>
       </Form>
       <div className="mt-8">
-        <FormBuilder form="" />
+        {/* <FormBuilder form="" /> */}
       </div>
     </div>
   );

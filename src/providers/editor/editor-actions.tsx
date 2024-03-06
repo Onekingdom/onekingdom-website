@@ -1,4 +1,4 @@
-import { DeviceTypes, EditorElement } from "./editor-provider";
+import { DeviceTypes, EditorElement } from "@/types/pageEditor";
 
 export type EditorAction =
   | {
@@ -58,9 +58,4 @@ export type EditorAction =
         withLive: boolean;
       };
     }
-  | {
-      type: "SET_FUNNELPAGE_ID";
-      payload: {
-        funnelPageId: string;
-      };
-    };
+  

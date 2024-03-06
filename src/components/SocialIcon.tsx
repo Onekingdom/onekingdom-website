@@ -1,54 +1,55 @@
-import React from "react";
 import { Socialmedia } from "@/types/payload";
-import { FaDiscord, FaFacebook, FaInstagram, FaTiktok, FaTwitch, FaYoutube,  } from "react-icons/fa";
+import React from "react";
+import { FaDiscord, FaFacebook, FaInstagram, FaTiktok, FaTwitch, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 interface Props {
   value: "twitter" | "facebook" | "instagram" | "discord" | "tiktok" | "twitch" | "youtube" | string;
+  size?: number;
 }
 
-export default function SocialIcon({ value }: Props) {
+export default function SocialIcon({ value, size }: Props) {
   switch (value) {
     case Socialmedia.Twitter:
       return (
         <span>
-          <FaXTwitter />
+          <FaXTwitter size={size} />
         </span>
       );
     case Socialmedia.Facebook:
       return (
         <span>
-          <FaFacebook />
+          <FaFacebook size={size} />
         </span>
       );
     case Socialmedia.Instagram:
       return (
         <span>
-          <FaInstagram />
+          <FaInstagram size={size} />
         </span>
       );
     case Socialmedia.Discord:
       return (
         <span>
-          <FaDiscord />
+          <FaDiscord size={size} />
         </span>
       );
     case Socialmedia.TikTok:
       return (
         <span>
-          <FaTiktok />
+          <FaTiktok size={size} />
         </span>
       );
     case Socialmedia.Twitch:
       return (
         <span>
-          <FaTwitch />
+          <FaTwitch size={size} />
         </span>
       );
     case Socialmedia.YouTube:
       return (
         <span>
-          <FaYoutube />
+          <FaYoutube size={size} />
         </span>
       );
 
