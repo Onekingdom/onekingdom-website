@@ -42,7 +42,7 @@ export default function Recursive({ element }: Props) {
 
   return (
     <div
-      style={element.styles}
+      style={element.styles.activeStyle}
       onClick={handleOnClikBody}
       className={cn("relative", {
         "!border-blue-500": state.editor.selectedElement.id === element.id && !state.editor.liveMode,

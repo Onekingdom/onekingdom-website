@@ -1,12 +1,14 @@
 import { defaultStyles } from "@/lib/constants";
-import { ElementSidebar } from "@/types/pageEditor";
+import { EditorElement, ElementSidebar } from "@/types/pageEditor";
 import { Container } from "lucide-react";
-import { white } from "tailwindcss/colors";
+import { blue, white } from "tailwindcss/colors";
 import { v4 } from "uuid";
 import ContainerComponent from "../container";
 import MainContainer from "../mainContainer";
 
-const container: ElementSidebar = {
+interface ContainerProps {}
+
+const container: ElementSidebar<EditorElement[]> = {
   icon: Container,
   group: "layout",
   id: "container",
@@ -18,8 +20,16 @@ const container: ElementSidebar = {
     id: v4(),
     name: "Container",
     styles: {
-      ...defaultStyles,
+      styles: {
+        backgroundColor: "blue",
+      },
+      mediaQuerys: [
+        {minWidth: 0, styles: {backgroundColor: "black"}},
+      ],
+      activeStyle: {},
     },
+
+
     type: "container",
   },
   component: MainContainer,

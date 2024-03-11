@@ -1,18 +1,11 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
+const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
 
 const config = {
   darkMode: ["class"],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
     container: {
@@ -72,25 +65,46 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        lineFromTopToBottom: {
+          "0%": {
+            transform: "scaleY(0)",
+            "transform-origin": "top",
+          },
+          "100%": {
+            transform: "scaleY(1)",
+            "transform-origin": "top",
+          },
+        },
+        lineFrombottomToBottomEnd: {
+          "0%": {
+            transform: "scaleY(1)",
+            "transform-origin": "top",
+            display: "block",
+          },
+          "100%": {
+            transform: "scaleY(0)",
+            "transform-origin": "top",
+            display: "none",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        lineFromTopToBottom: "lineFromTopToBottom .3s ease-in ",
+        lineFrombottomToBottomEnd: "lineFrombottomToBottomEnd .3s ease-in  ",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), addVariablesForColors,],
-} satisfies Config
+  plugins: [require("tailwindcss-animate"), addVariablesForColors],
+} satisfies Config;
 
-export default config
-
+export default config;
 
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  );
- 
+  let newVars = Object.fromEntries(Object.entries(allColors).map(([key, val]) => [`--${key}`, val]));
+
   addBase({
     ":root": newVars,
   });

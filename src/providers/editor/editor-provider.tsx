@@ -2,7 +2,6 @@
 import { Editor, EditorElement, EditorProps, EditorState, HistoryState, PageDetails } from "@/types/pageEditor";
 import { Dispatch, createContext, use, useContext, useEffect, useReducer } from "react";
 import { EditorAction } from "./editor-actions";
-import { it } from "node:test";
 
 const initialEditorState: EditorState["editor"] = {
   elements: [
@@ -11,9 +10,9 @@ const initialEditorState: EditorState["editor"] = {
       id: "__body",
       name: "Body",
       styles: {
-        height: "100%",
-        width: "100%",
-        
+        styles: {},
+        mediaQuerys: [],
+        activeStyle: {},
       },
       type: "container",
     },
@@ -22,7 +21,11 @@ const initialEditorState: EditorState["editor"] = {
     id: "",
     content: [],
     name: "",
-    styles: {},
+    styles: {
+      styles: {},
+      mediaQuerys: [],
+      activeStyle: {},
+    },
     type: null,
   },
   device: "Desktop",
@@ -62,7 +65,7 @@ const addAnElement = (editorArray: EditorElement[], action: EditorAction): Edito
 
 const updateAnElement = (editorArray: EditorElement[], action: EditorAction): EditorElement[] => {
   if (action.type !== "UPDATE_ELEMENT") {
-    throw Error("You sent the wron action type to the update Element State");
+    throw Error("You sent the wrong action type to the update Element State");
   }
 
   return editorArray.map((item) => {
@@ -76,19 +79,11 @@ const updateAnElement = (editorArray: EditorElement[], action: EditorAction): Ed
           },
         };
 
-
         return newobj;
       }
 
-      const updatedElement = {
-        ...item,
-        ...action.payload.elementDetails,
-      };
-
-
       return { ...item, ...action.payload.elementDetails };
     } else if (item.content && Array.isArray(item.content)) {
-
       return {
         ...item,
         content: updateAnElement(item.content, action),
@@ -146,7 +141,11 @@ const editorReducer = (state: EditorState = initialState, action: EditorAction):
               id: "",
               content: [],
               name: "",
-              styles: {},
+              styles: {
+                mediaQuerys: [],
+                styles: {},
+                activeStyle: {},
+              },
               type: null,
             },
       };
@@ -166,6 +165,38 @@ const editorReducer = (state: EditorState = initialState, action: EditorAction):
       };
 
       return updatedEditor;
+
+    case "UPDATE_ELEMENT_STYLES":
+      //set the active style for the current device
+      const updatedElementsWithStyles = state.editor.elements.map((element) => {
+        if (element.id === "__body") {
+          return {
+            ...element,
+            styles: {
+              ...element.styles,
+              activeStyle: element.styles.styles,
+            },
+          };
+        }
+        return element;
+      });
+
+
+
+
+
+      return {
+        ...state,
+        editor: {
+          ...state.editor,
+          elements: updatedElementsWithStyles,
+        },
+      
+      }
+
+
+
+      
 
     case "DELETE_ELEMENT":
       ///perofmr your logic to delete the element from the state
@@ -199,7 +230,11 @@ const editorReducer = (state: EditorState = initialState, action: EditorAction):
             id: "",
             content: [],
             name: "",
-            styles: {},
+            styles: {
+              mediaQuerys: [],
+              styles: {},
+              activeStyle: {},
+            },
             type: null,
           },
         },
@@ -295,9 +330,7 @@ export const EditorContext = createContext<{
 const EditorProvider = (props: EditorProps) => {
   const [state, dispatch] = useReducer(editorReducer, initialState);
 
-  useEffect(() => {
-    console.log("state.editor.elements", state.editor.elements);
-  }, [state.editor.elements]);
+
 
   return (
     <EditorContext.Provider

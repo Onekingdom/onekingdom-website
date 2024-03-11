@@ -18,11 +18,7 @@ export type DeviceTypes = "Desktop" | "Mobile" | "Tablet";
 
 export type EditorElement <T = any> = {
   id: string;
-  styles: {
-    deviceWidth: number;
-    deviceHeight: number;
-    styles: CSSProperties;
-  }[]
+  styles: Styles
   name: string;
   type: string | null;
   content: T
@@ -32,6 +28,15 @@ export type QuoteProps = {
   styles?: CSSProperties;
 };
 export type TypeTextP = "Parrafo" | "Title" | "SubTitle";
+
+export type Styles = {
+  styles: CSSProperties;
+  mediaQuerys?: {
+    minWidth: number;
+    styles: CSSProperties;
+  }[];
+}
+
 
 export type Editor = {
   liveMode: boolean;

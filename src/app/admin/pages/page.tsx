@@ -9,24 +9,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import useEvents from "@/hooks/useEvents";
-import useMembers from "@/hooks/useMembers";
-import { memberStorage } from "@/types/database/members";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
-import { EventStorage } from "@/types/events";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import usePageEditor from "@/hooks/usePageEditor";
+import { PageDetailStorage } from "@/types/database/pages";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { storage } from "@/utils/clientAppwrite";
-import usePageEditor from "@/hooks/usePageEditor";
-import { PageDetailStorage } from "@/types/database/pages";
+import NewPageForm from "@/components/forms/new-page-form";
 
 export default function Page() {
   const [pages, setPages] = useState<PageDetailStorage[]>([]);
-  const { getAllPages,deletePage  } = usePageEditor();
+  const { getAllPages, deletePage } = usePageEditor();
 
   useEffect(() => {
     async function fetchPages() {
@@ -120,9 +116,19 @@ export default function Page() {
           <h2 className="text-2xl font-bold tracking-tight">Pages</h2>
         </div>
         <div className="flex items-center space-x-2">
-          <Link href="/admin/members/edit">
-            <Button variant="outline">Add Page</Button>
-          </Link>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline">New Page</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Page Details</DialogTitle>
+                <DialogDescription>You will be redirect to the page editor.</DialogDescription>
+              </DialogHeader>
+                <NewPageForm />
+
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <DataTable

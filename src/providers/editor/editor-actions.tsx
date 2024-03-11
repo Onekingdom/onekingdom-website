@@ -1,4 +1,4 @@
-import { DeviceTypes, EditorElement } from "@/types/pageEditor";
+import { DeviceTypes, EditorElement, Styles } from "@/types/pageEditor";
 
 export type EditorAction =
   | {
@@ -12,6 +12,12 @@ export type EditorAction =
       type: "UPDATE_ELEMENT";
       payload: {
         elementDetails: EditorElement;
+      };
+    }
+  | {
+      type: "UPDATE_ELEMENT_STYLES";
+      payload: {
+        elements: EditorElement[];
       };
     }
   | {
@@ -29,7 +35,15 @@ export type EditorAction =
               id: "";
               content: [];
               name: "";
-              styles: {};
+              styles: {
+                styles: {};
+                mediaQuerys: {
+                  minWidth: number;
+                  styles: {};
+                }[];
+                activeStyle: {};
+              
+              };
               type: null;
             };
       };

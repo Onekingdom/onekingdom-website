@@ -1,7 +1,6 @@
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import MediaCard from "./media-card";
 import { FolderSearch } from "lucide-react";
-import { getMediaFiles } from "@/types/database/media";
 import useMedia from "@/hooks/useMedia";
 
 type Props = {
