@@ -4,6 +4,9 @@ import { useEditor } from "@/providers/editor/editor-provider";
 import { Trash } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { elements } from "../components";
+import useStyles from "@/hooks/useStyles";
+import { useEffect, useState } from "react";
+import { storage } from "@/utils/clientAppwrite";
 
 type Props = {
   element: EditorElement;
@@ -11,7 +14,23 @@ type Props = {
 
 export default function Recursive({ element }: Props) {
   const Component = elements.find((el) => el.type === element.type)?.component;
+  const { activeStyle } = useStyles({ styles: element.styles });
   const { state, dispatch } = useEditor();
+  const [fontFace, setFontFace] = useState<FontFace>();
+
+  useEffect(() => {
+    if (activeStyle.customFont !== undefined) {
+      const url = storage.getFileView("65f05c4a768b37937d9e", activeStyle.customFont).href;
+
+      const fontName = activeStyle.customFont.split(".")[0];
+
+      const fontFace = new FontFace(fontName, `url(${url})`);
+      fontFace.load().then((loadedFontFace) => {
+        document.fonts.add(loadedFontFace);
+        setFontFace(loadedFontFace);
+      });
+    }
+  }, [activeStyle.customFont]);
 
   if (!Component) {
     console.log("Component not found");
@@ -36,13 +55,16 @@ export default function Recursive({ element }: Props) {
     });
   };
 
-  if (element.type === "container" || element.type === "2Col" ) {
+  if (element.type === "container" || element.type === "2Col") {
     return <Component element={element} />;
   }
 
   return (
     <div
-      style={element.styles.activeStyle}
+      style={{
+        ...activeStyle,
+        fontFamily: fontFace?.family,
+      }}
       onClick={handleOnClikBody}
       className={cn("relative", {
         "!border-blue-500": state.editor.selectedElement.id === element.id && !state.editor.liveMode,

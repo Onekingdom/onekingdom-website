@@ -10,9 +10,11 @@ const initialEditorState: EditorState["editor"] = {
       id: "__body",
       name: "Body",
       styles: {
-        styles: {},
+        styles: {
+          minHeight: "100vh",
+          height: "fit-content",
+        },
         mediaQuerys: [],
-        activeStyle: {},
       },
       type: "container",
     },
@@ -24,7 +26,6 @@ const initialEditorState: EditorState["editor"] = {
     styles: {
       styles: {},
       mediaQuerys: [],
-      activeStyle: {},
     },
     type: null,
   },
@@ -82,8 +83,8 @@ const updateAnElement = (editorArray: EditorElement[], action: EditorAction): Ed
         return newobj;
       }
 
-      return { ...item, ...action.payload.elementDetails };
-    } else if (item.content && Array.isArray(item.content)) {
+      return { ...item };
+    } else if (item.content && Array.isArray(item.content) && item.content.length > 0) {
       return {
         ...item,
         content: updateAnElement(item.content, action),
@@ -91,6 +92,39 @@ const updateAnElement = (editorArray: EditorElement[], action: EditorAction): Ed
     }
     return item;
   });
+};
+
+const updateAnElementStyle = (editorArray: EditorElement[], action: EditorAction): EditorElement[] => {
+  if (action.type !== "UPDATE_ELEMENT_STYLES") {
+    throw Error("You sent the wrong action type to the update Element State");
+  }
+
+  return editorArray.map((item) => {
+    if (item.id === action.payload.elementID.id) {
+      console.log("element found", item);
+      return {
+        ...item,
+        styles: {         
+          styles: {
+            ...item.styles.styles,
+            ...action.payload.elementID.styles,
+          },
+          mediaQuerys: action.payload.styles.mediaQuerys,
+        },
+      }
+    } else if (item.content && Array.isArray(item.content) && item.content.length > 0) {
+      console.log("element not found", item.id);
+      
+      return {
+        ...item,
+        content: updateAnElementStyle(item.content, action),
+      }
+    }
+
+    return item;
+  
+  });
+
 };
 
 const deleteAndElement = (editorArray: EditorElement[], action: EditorAction): EditorElement[] => {
@@ -144,7 +178,6 @@ const editorReducer = (state: EditorState = initialState, action: EditorAction):
               styles: {
                 mediaQuerys: [],
                 styles: {},
-                activeStyle: {},
               },
               type: null,
             },
@@ -168,35 +201,27 @@ const editorReducer = (state: EditorState = initialState, action: EditorAction):
 
     case "UPDATE_ELEMENT_STYLES":
       //set the active style for the current device
-      const updatedElementsWithStyles = state.editor.elements.map((element) => {
-        if (element.id === "__body") {
-          return {
-            ...element,
-            styles: {
-              ...element.styles,
-              activeStyle: element.styles.styles,
-            },
-          };
-        }
-        return element;
-      });
+      const updatedElementsStyles = updateAnElementStyle(state.editor.elements, action);
+      const updatedEditorStateWithUpdateStyles = {
+        ...state.editor,
+        elements: updatedElementsStyles,
+      };
+      const updatedHistoryWithUpdateStyles = [
+        ...state.history.history.slice(0, state.history.currentIndex + 1),
+        { ...updatedEditorStateWithUpdateStyles },
+      ];
 
-
-
-
-
-      return {
+      const updatedEditorWithStyles = {
         ...state,
-        editor: {
-          ...state.editor,
-          elements: updatedElementsWithStyles,
+        editor: updatedEditorStateWithUpdateStyles,
+        history: {
+          ...state.history,
+          history: updatedHistoryWithUpdateStyles,
+          currentIndex: updatedHistoryWithUpdateStyles.length - 1,
         },
-      
-      }
+      };
 
-
-
-      
+      return updatedEditorWithStyles;
 
     case "DELETE_ELEMENT":
       ///perofmr your logic to delete the element from the state
@@ -233,7 +258,6 @@ const editorReducer = (state: EditorState = initialState, action: EditorAction):
             styles: {
               mediaQuerys: [],
               styles: {},
-              activeStyle: {},
             },
             type: null,
           },
@@ -329,8 +353,6 @@ export const EditorContext = createContext<{
 
 const EditorProvider = (props: EditorProps) => {
   const [state, dispatch] = useReducer(editorReducer, initialState);
-
-
 
   return (
     <EditorContext.Provider

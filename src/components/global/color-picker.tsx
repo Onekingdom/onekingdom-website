@@ -10,14 +10,14 @@ type Props = {
 };
 
 export const CustomColorPicker = ({ onChange, color, children }: Props) => {
-  const [colorValue, setColorValue] = useState<string>(color || "#000000");
+  const [colorValue, setColorValue] = useState<string | undefined>(color);
 
   const handleChange = (value: string) => {
     setColorValue(value);
   };
 
   useEffect(() => {
-    //create debounce
+    if(colorValue === undefined) return;
     onChange(colorValue);
   }, [colorValue]);
 

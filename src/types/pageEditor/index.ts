@@ -30,13 +30,18 @@ export type QuoteProps = {
 export type TypeTextP = "Parrafo" | "Title" | "SubTitle";
 
 export type Styles = {
-  styles: CSSProperties;
+  styles: customSettings;
   mediaQuerys?: {
     minWidth: number;
-    styles: CSSProperties;
+    styles: customSettings;
   }[];
 }
 
+
+export interface customSettings extends CSSProperties {
+  backgroundVideo?: string;
+  customFont?: string;
+}
 
 export type Editor = {
   liveMode: boolean;

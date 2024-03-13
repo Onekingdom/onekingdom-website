@@ -2,13 +2,11 @@ import { FileIcon, X } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-type Props = {
-  apiEndPoint: "agencyLogo" | "avatar" | "subaccountLogo";
-  onChange: (url?: string) => void;
+type Props = {  onChange: (url?: string) => void;
   value?: string;
 };
 
-export const FileUpload = ({ apiEndPoint, onChange, value }: Props) => {
+export const FileUpload = ({ onChange, value }: Props) => {
   const type = value?.split(".").pop();
   if (value) {
     return (

@@ -31,8 +31,8 @@ export function Carousel({ imgs }: Props) {
         modules={[Pagination, Navigation]}
         className="mySwiper"
       >
-        {imgs.map((image) => (
-          <SwiperSlide key="">
+        {imgs.map((image, index) => (
+          <SwiperSlide key={index}>
             <ImageContainer image={image} />
           </SwiperSlide>
         ))}

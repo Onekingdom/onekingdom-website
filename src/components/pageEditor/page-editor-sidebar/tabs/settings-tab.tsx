@@ -1,15 +1,24 @@
 "use client";
 
+import SelectCustomFont from "@/components/Typography/SelectCustomFont";
 import { CustomColorPicker as ColorPicker } from "@/components/global/color-picker";
+import FontUpload from "@/components/global/font-upload";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import React, { useState, useEffect, use } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useStyles from "@/hooks/useStyles";
 import { useEditor } from "@/providers/editor/editor-provider";
-import { PropertisElementHandler } from "@/types/pageEditor";
+import { PropertisElementHandler, Styles, customSettings } from "@/types/pageEditor";
 import {
   AlignCenter,
   AlignHorizontalJustifyCenterIcon,
@@ -27,12 +36,49 @@ import {
   LucideImage,
   Rows,
 } from "lucide-react";
+import { use, useEffect, useState } from "react";
 import { elements } from "../../components";
-import useStyles from "@/hooks/useStyles";
 
 export default function SettingsTab() {
-  const { dispatch, state } = useEditor();
-  const { activeStyle, handleOnChanges } = useStyles({ styles: state.editor.selectedElement.styles });
+  const { state, dispatch } = useEditor();
+      console.log("updating the element styles");
+  const [activeStyle, setActiveStyle] = useState<customSettings>(state.editor.selectedElement.styles.styles);
+  const [openFontModal, setOpenFontModal] = useState(false);
+
+  const device = state.editor.device;
+  const styles = state.editor.selectedElement.styles;
+
+  useEffect(() => {
+    if (device === "Desktop") {
+      setActiveStyle(styles.styles);
+      return;
+    }
+    if (!styles.mediaQuerys) {
+      setActiveStyle(styles.styles);
+      return;
+    }
+
+    if (device === "Tablet") {
+      //find the tablet style
+      const tabletStyle = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth >= 421);
+
+      setActiveStyle({
+        ...styles.styles,
+        ...tabletStyle?.styles,
+      });
+    }
+
+    if (device === "Mobile") {
+      //find the mobile style
+      const mobileStyle = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth>= 0);
+
+
+      setActiveStyle({
+        ...styles.styles,
+        ...mobileStyle?.styles,
+      });
+    }
+  }, [state.editor.elements]);
 
   const defaultValueOpacity = [
     typeof activeStyle.opacity === "number" ? activeStyle.opacity : parseFloat((activeStyle.opacity ?? "0").replace("%", "")) ?? 0,
@@ -40,6 +86,75 @@ export default function SettingsTab() {
   const defulValueBorderRaidus = [
     typeof activeStyle.borderRadius === "number" ? activeStyle.borderRadius : parseFloat((activeStyle.borderRadius ?? "0").replace("%", "")) ?? 0,
   ];
+
+  function handleOnChanges(e: PropertisElementHandler) {
+
+    const styleSettings = e.target.id as keyof typeof activeStyle;
+    const { id, value } = e.target;
+    const styleObject = {
+      [styleSettings]: value,
+    };
+
+
+    if (state.editor.selectedElement.styles.styles[styleSettings] !== value) {
+      const newStyles: Styles = {
+        ...state.editor.selectedElement.styles,
+      };
+
+      switch (state.editor.device) {
+        case "Desktop":
+          newStyles.styles = {
+            ...newStyles.styles,
+            ...styleObject,
+          };
+          break;
+        case "Tablet":
+          newStyles.mediaQuerys = newStyles.mediaQuerys || [];
+          const tabletIndex = newStyles.mediaQuerys.findIndex((mediaQuery) => mediaQuery.minWidth >= 421);
+          if (tabletIndex === -1) {
+            newStyles.mediaQuerys.push({
+              minWidth: 421,
+              styles: {
+                ...styleObject,
+              },
+            });
+          } else {
+            newStyles.mediaQuerys[tabletIndex].styles = {
+              ...newStyles.mediaQuerys[tabletIndex].styles,
+              ...styleObject,
+            };
+          }
+          break;
+        case "Mobile":
+          newStyles.mediaQuerys = newStyles.mediaQuerys || [];
+          const mobileIndex = newStyles.mediaQuerys.findIndex((mediaQuery) => mediaQuery.minWidth >= 0);
+          if (mobileIndex === -1) {
+            newStyles.mediaQuerys.push({
+              minWidth: 0,
+              styles: {
+                ...styleObject,
+              },
+            });
+          } else {
+            newStyles.mediaQuerys[mobileIndex].styles = {
+              ...newStyles.mediaQuerys[mobileIndex].styles,
+              ...styleObject,
+            };
+          }
+          break;
+      }
+
+
+
+      dispatch({
+        type: "UPDATE_ELEMENT_STYLES",
+        payload: {
+          elementID: state.editor.selectedElement,
+          styles: newStyles,
+        },
+      });
+    }
+  }
 
   const onChangeColorBg = (color: string) => {
     handleOnChanges({
@@ -49,6 +164,22 @@ export default function SettingsTab() {
       },
     });
   };
+
+  const toggleUploadFontModal = () => {
+    setOpenFontModal(!openFontModal);
+  }
+
+
+  const handleCustomFontChange = ({name}: {name: string, }) => {
+    handleOnChanges({
+      target: {
+        id: "customFont",
+        value: name,
+      },
+    });
+    
+  }
+
 
   return (
     <Accordion
@@ -102,8 +233,21 @@ export default function SettingsTab() {
             </Tabs>
           </div>
           <div className="flex flex-col gap-2">
-            <p className="text-muted-foreground">Font Family</p>
-            <Input id="DM Sans" onChange={handleOnChanges} value={activeStyle.fontFamily} />
+            <div className="flex justify-between">
+              <p className="text-muted-foreground">Font Family</p>
+              <AlertDialog open={openFontModal}>
+                <AlertDialogTrigger asChild>
+                  <button className="text-muted-foreground" onClick={toggleUploadFontModal}>Upload Font</button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Upload Font</AlertDialogTitle>
+                    <FontUpload toggleModal={toggleUploadFontModal}/>
+                  </AlertDialogHeader>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+            <SelectCustomFont onChange={handleCustomFontChange}/>
           </div>
           <div className="flex gap-4">
             <div>
@@ -283,6 +427,24 @@ export default function SettingsTab() {
                 id="backgroundImage"
                 onChange={handleOnChanges}
                 value={activeStyle.backgroundImage}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label className="text-muted-foreground">Background Video</Label>
+            <div className="flex border-[1px] rounded-md overflow-clip">
+              <div
+                className="w-12"
+                style={{
+                  backgroundImage: activeStyle.backgroundVideo,
+                }}
+              />
+              <Input
+                placeholder="url()"
+                className="!border-y-0 rounded-none !border-r-0 mr-2"
+                id="backgroundVideo"
+                onChange={handleOnChanges}
+                value={activeStyle.backgroundVideo}
               />
             </div>
           </div>

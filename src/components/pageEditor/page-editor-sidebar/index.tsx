@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function PageEditorSidebar() {
-  const { state, dispatch } = useEditor();
+  const { state } = useEditor();
   return (
     <Sheet open={true} modal={false}>
       <Tabs className="w-full" defaultValue="Settings">

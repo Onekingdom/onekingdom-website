@@ -17,7 +17,8 @@ export type EditorAction =
   | {
       type: "UPDATE_ELEMENT_STYLES";
       payload: {
-        elements: EditorElement[];
+        elementID: EditorElement,
+        styles: Styles;
       };
     }
   | {

@@ -3,14 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import { EditorBtns } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useEditor } from "@/providers/editor/editor-provider";
-import { EditorElement } from "@/types/pageEditor";
+import { EditorElement, customSettings } from "@/types/pageEditor";
 import { Trash } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { elements } from "..";
 import { v4 } from "uuid";
 import Recursive from "../../editor/recursive";
 import useStyles from "@/hooks/useStyles";
-
+import Image from "next/image";
 
 type Props = {
   element: EditorElement<EditorElement[]>;
@@ -22,7 +22,39 @@ export default function MainContainer({ element }: Props) {
   const selectItemAndNotLiveMode = state.editor.selectedElement.id === id && !state.editor.liveMode;
   const isLiveMode = state.editor.liveMode;
   const canDrag = !isLiveMode;
-  const { activeStyle } = useStyles({ styles });
+  const [activeStyle, setActiveStyle] = useState<customSettings>(styles.styles);
+  const device = state.editor.device;
+  useEffect(() => {
+    if (device === "Desktop") {
+      setActiveStyle(styles.styles);
+      return;
+    }
+    if (!styles.mediaQuerys) {
+      setActiveStyle(styles.styles);
+      return;
+    }
+
+    if (device === "Tablet") {
+      //find the tablet style
+      const tabletStyle = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth >= 421);
+
+      setActiveStyle({
+        ...styles.styles,
+        ...tabletStyle?.styles,
+      });
+    }
+
+    if (device === "Mobile") {
+      //find the mobile style
+      const mobileStyle = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth>= 0);
+
+
+      setActiveStyle({
+        ...styles.styles,
+        ...mobileStyle?.styles,
+      });
+    }
+  }, [styles, device, state.editor.elements]);
 
   const handleOnDrop = (e: React.DragEvent, type: string) => {
     e.stopPropagation();
@@ -38,7 +70,6 @@ export default function MainContainer({ element }: Props) {
       return;
     }
 
-    console.log("Element found", Element.defaultPayload.content);
 
     dispatch({
       type: "ADD_ELEMENT",
@@ -80,11 +111,10 @@ export default function MainContainer({ element }: Props) {
     });
   };
 
-
   return (
     <div
       style={activeStyle}
-      className={cn("relative  transition-all group", {
+      className={cn("relative z-50 transition-all group", {
         "max-w-full w-full": type === "container" || type === "2Col",
         "h-fit": type === "container",
         "h-full": id === "__body",
@@ -101,11 +131,13 @@ export default function MainContainer({ element }: Props) {
       onClick={handleOnCLickBody}
     >
       {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
-        <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg">{state.editor.selectedElement.name}</Badge>
+        <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg z-50">{state.editor.selectedElement.name}</Badge>
       )}
+
       {Array.isArray(content) && content.map((childElement) => <Recursive element={childElement} key={childElement.id} />)}
+
       {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
-        <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
+        <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white z-50">
           <Trash
             className="cursor-pointer"
             size={16}
@@ -115,6 +147,25 @@ export default function MainContainer({ element }: Props) {
           />
         </div>
       )}
+      {activeStyle.backgroundVideo && (
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-[1]">
+          <video autoPlay loop muted className="w-full h-full object-cover">
+            <source
+              src={activeStyle.backgroundVideo}
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      )}
     </div>
   );
 }
+
+const Backround = ({ mimeType, url }: { mimeType: string; url: string }) => {
+  return (
+    <video playsInline={true} autoPlay={true} muted={true} loop={true}>
+      <source src={url} type="video/mp4" />
+    </video>
+  );
+};
