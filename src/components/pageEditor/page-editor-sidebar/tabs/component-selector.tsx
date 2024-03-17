@@ -24,7 +24,7 @@ export default function ComponentsTab({}: Props) {
           <AccordionTrigger className="!no-underline capitalize">{groupName}</AccordionTrigger>
           <AccordionContent className="grid grid-cols-2 gap-2">
             {elements.map((element, index) => (
-              <div key={element.index} className="flex flex-col items-center justify-center">
+              <div key={index} className="flex flex-col items-center justify-center">
                 <PlaceHolder Type={element.id} Icon={element.icon} />
                 <span className="text-muted-foreground">{element.label}</span>
               </div>

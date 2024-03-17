@@ -1,8 +1,8 @@
 import { EditorElement } from "@/types/pageEditor";
 import React from "react";
 import { TitleContent } from ".";
-import { useEditor } from "@/providers/editor/editor-provider";
 import { Checkbox } from "@/components/ui/checkbox";
+import useEditor from "@/hooks/useEditor";
 
 type Props = {
   element: EditorElement<TitleContent>;

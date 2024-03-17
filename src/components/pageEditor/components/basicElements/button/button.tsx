@@ -3,8 +3,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import button, { ButtonContent } from ".";
 import { cn } from "@/lib/utils";
-import { useEditor } from "@/providers/editor/editor-provider";
 import SocialIcon from "@/components/SocialIcon";
+import useEditor from "@/hooks/useEditor";
 
 type Props = {
   element: EditorElement<ButtonContent>;

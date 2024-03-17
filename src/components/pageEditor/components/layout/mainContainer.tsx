@@ -2,7 +2,6 @@
 import { Badge } from "@/components/ui/badge";
 import { EditorBtns } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { useEditor } from "@/providers/editor/editor-provider";
 import { EditorElement, customSettings } from "@/types/pageEditor";
 import { Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import { v4 } from "uuid";
 import Recursive from "../../editor/recursive";
 import useStyles from "@/hooks/useStyles";
 import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 
 type Props = {
   element: EditorElement<EditorElement[]>;
@@ -18,43 +18,14 @@ type Props = {
 
 export default function MainContainer({ element }: Props) {
   const { id, content, name, styles, type } = element;
-  const { dispatch, state } = useEditor();
+  const state = useAppSelector((state) => state.pageEditor);
+  const dispatch = useAppDispatch();
+
   const selectItemAndNotLiveMode = state.editor.selectedElement.id === id && !state.editor.liveMode;
   const isLiveMode = state.editor.liveMode;
   const canDrag = !isLiveMode;
-  const [activeStyle, setActiveStyle] = useState<customSettings>(styles.styles);
+  const { activeStyle } = useStyles({ styles });
   const device = state.editor.device;
-  useEffect(() => {
-    if (device === "Desktop") {
-      setActiveStyle(styles.styles);
-      return;
-    }
-    if (!styles.mediaQuerys) {
-      setActiveStyle(styles.styles);
-      return;
-    }
-
-    if (device === "Tablet") {
-      //find the tablet style
-      const tabletStyle = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth >= 421);
-
-      setActiveStyle({
-        ...styles.styles,
-        ...tabletStyle?.styles,
-      });
-    }
-
-    if (device === "Mobile") {
-      //find the mobile style
-      const mobileStyle = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth>= 0);
-
-
-      setActiveStyle({
-        ...styles.styles,
-        ...mobileStyle?.styles,
-      });
-    }
-  }, [styles, device, state.editor.elements]);
 
   const handleOnDrop = (e: React.DragEvent, type: string) => {
     e.stopPropagation();
@@ -70,9 +41,8 @@ export default function MainContainer({ element }: Props) {
       return;
     }
 
-
     dispatch({
-      type: "ADD_ELEMENT",
+      type: "pageEditor/addAnElement",
       payload: {
         elementDetails: {
           ...Element.defaultPayload,
@@ -96,18 +66,14 @@ export default function MainContainer({ element }: Props) {
   const handleOnCLickBody = (e: React.MouseEvent) => {
     e.stopPropagation();
     dispatch({
-      type: "CHANGE_CLICKED_ELEMENT",
-      payload: {
-        elementDetails: element,
-      },
+      type: "pageEditor/setSelectedAnElement",
+      payload: element,
     });
   };
   const handleDeleteElement = () => {
     dispatch({
-      type: "DELETE_ELEMENT",
-      payload: {
-        elementDetails: state.editor.selectedElement,
-      },
+      type: "pageEditor/deleteAnElement",
+      payload: state.editor.selectedElement,
     });
   };
 
@@ -123,8 +89,8 @@ export default function MainContainer({ element }: Props) {
         "!border-blue-500": state.editor.selectedElement.id === id && !state.editor.liveMode && state.editor.selectedElement.type !== "__body",
         "!border-yellow-400 !border-4":
           state.editor.selectedElement.id === id && !state.editor.liveMode && state.editor.selectedElement.type === "__body",
-        "!border-solid": state.editor.selectedElement.id === id && !state.editor.liveMode,
-        "border-dashed border-[1px] border-slate-300 p-4": !state.editor.liveMode,
+        "!border-solid": state.editor.selectedElement.id === id && !state.editor.liveMode || !state.editor.previewMode,
+        "border-dashed border-[1px] border-slate-300 p-4": !state.editor.liveMode || !state.editor.previewMode,
       })}
       onDrop={(e) => handleOnDrop(e, id)}
       onDragOver={handleDragOver}
@@ -148,12 +114,9 @@ export default function MainContainer({ element }: Props) {
         </div>
       )}
       {activeStyle.backgroundVideo && (
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-[1]">
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-[1] opacity-50 ">
           <video autoPlay loop muted className="w-full h-full object-cover">
-            <source
-              src={activeStyle.backgroundVideo}
-              type="video/mp4"
-            />
+            <source src={activeStyle.backgroundVideo} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
@@ -162,10 +125,4 @@ export default function MainContainer({ element }: Props) {
   );
 }
 
-const Backround = ({ mimeType, url }: { mimeType: string; url: string }) => {
-  return (
-    <video playsInline={true} autoPlay={true} muted={true} loop={true}>
-      <source src={url} type="video/mp4" />
-    </video>
-  );
-};
+

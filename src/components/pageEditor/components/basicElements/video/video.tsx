@@ -1,9 +1,9 @@
 "use client";
 
+import useEditor from "@/hooks/useEditor";
 import useStyles from "@/hooks/useStyles";
 import { EditorBtns } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { useEditor } from "@/providers/editor/editor-provider";
 import { EditorElement } from "@/types/pageEditor";
 import React from "react";
 

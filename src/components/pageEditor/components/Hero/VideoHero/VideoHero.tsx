@@ -4,7 +4,7 @@ import RightArrow from "@/components/svg/right-arr.svg";
 import Image from "next/image";
 import { EditorElement } from "@/types/pageEditor";
 import { VideoHeroContent } from "./index";
-import { useEditor } from "@/providers/editor/editor-provider";
+import useEditor from "@/hooks/useEditor";
 
 type Props = {
   element: EditorElement<VideoHeroContent>;

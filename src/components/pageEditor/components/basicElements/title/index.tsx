@@ -34,15 +34,7 @@ const title: ElementSidebar<TitleContent> = {
         fontWeight: "normal",
         textAlign: "center",
       },
-      mediaQuerys: [
-        {
-          minWidth: 375,
-          styles: {
-            fontSize: "40px",
-          }
-        }
-
-      ],
+      mediaQuerys: [],
     },
     type: "title",
   },

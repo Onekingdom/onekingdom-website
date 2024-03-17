@@ -5,9 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import useEditor from "@/hooks/useEditor";
 import usePageEditor from "@/hooks/usePageEditor";
 import { cn } from "@/lib/utils";
-import { useEditor } from "@/providers/editor/editor-provider";
 import { DeviceTypes, PageDetails } from "@/types/pageEditor";
 import { ArrowLeftCircle, EyeIcon, Laptop, Redo2, Smartphone, Tablet, Undo2 } from "lucide-react";
 import Link from "next/link";
@@ -40,8 +40,7 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
   };
 
   const handlePreviewClick = () => {
-    dispatch({ type: "TOGGLE_PREVIEW_MODE" });
-    dispatch({ type: "TOGGLE_LIVE_MODE" });
+    dispatch({ type: "pageEditor/setPreviewMode" });
   };
   const handleUdo = () => {
     dispatch({
@@ -105,8 +104,8 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
             value={state.editor.device}
             onValueChange={(value) => {
               dispatch({
-                type: "CHANGE_DEVICE",
-                payload: { device: value as DeviceTypes },
+                type: "pageEditor/setDeviceType",
+                payload: value as DeviceTypes,
               });
             }}
           >

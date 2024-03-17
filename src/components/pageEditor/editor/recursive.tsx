@@ -1,12 +1,12 @@
 import { EditorElement } from "@/types/pageEditor";
 import { Badge } from "@/components/ui/badge";
-import { useEditor } from "@/providers/editor/editor-provider";
 import { Trash } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { elements } from "../components";
 import useStyles from "@/hooks/useStyles";
 import { useEffect, useState } from "react";
 import { storage } from "@/utils/clientAppwrite";
+import useEditor from "@/hooks/useEditor";
 
 type Props = {
   element: EditorElement;
@@ -30,7 +30,7 @@ export default function Recursive({ element }: Props) {
         setFontFace(loadedFontFace);
       });
     }
-  }, [activeStyle.customFont]);
+  }, [activeStyle]);
 
   if (!Component) {
     console.log("Component not found");
@@ -39,19 +39,18 @@ export default function Recursive({ element }: Props) {
 
   const handleDeleteElement = () => {
     dispatch({
-      type: "DELETE_ELEMENT",
-      payload: {
-        elementDetails: element,
-      },
+      type: "pageEditor/deleteAnElement",
+      payload: state.editor.selectedElement
     });
   };
+
+
+  
   const handleOnClikBody = (e: React.MouseEvent) => {
     e.stopPropagation();
     dispatch({
-      type: "CHANGE_CLICKED_ELEMENT",
-      payload: {
-        elementDetails: element,
-      },
+      type: "pageEditor/setSelectedAnElement",
+      payload: element,
     });
   };
 

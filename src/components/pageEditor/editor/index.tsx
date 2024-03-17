@@ -1,15 +1,12 @@
 "use client";
 
-import { useEditor } from "@/providers/editor/editor-provider";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { PageDetails } from "@/types/pageEditor";
+import clsx from "clsx";
 import { EyeOff } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { EditorElement, PageDetails } from "@/types/pageEditor";
-import MainContainer from "../components/layout/mainContainer";
 import Recursive from "./recursive";
-import clsx from "clsx";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 
 type Props = {
   liveMode?: boolean;
@@ -17,33 +14,33 @@ type Props = {
 };
 
 export default function PageEditor({ pageDetails, liveMode }: Props) {
-  const { state, dispatch } = useEditor();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerHeight, setContainerHeight] = useState(0);
+  const state = useAppSelector((state) => state.pageEditor);
+  const dispatch = useAppDispatch();
+  
 
-  useEffect(() => {
-    if (containerRef.current) {
-      setContainerHeight(containerRef.current.scrollHeight);
-    }
-  }, [state.editor]);
+  // useEffect(() => {
+  //   if (containerRef.current) {
+  //     setContainerHeight(containerRef.current.scrollHeight);
+  //   }
+  // }, [state.editor]);
 
-  useEffect(() => {
-    if (liveMode) {
-      dispatch({
-        type: "TOGGLE_LIVE_MODE",
-        payload: {
-          value: true,
-        },
-      });
-    }
-  }, [liveMode]);
+  // useEffect(() => {
+  //   if (liveMode) {
+  //     dispatch({
+  //       type: "TOGGLE_LIVE_MODE",
+  //       payload: {
+  //         value: true,
+  //       },
+  //     });
+  //   }
+  // }, [liveMode]);
 
   useEffect(() => {
     const fetchData = async () => {
       if (!pageDetails) return;
 
       dispatch({
-        type: "LOAD_DATA",
+        type: "pageEditor/loadData",
         payload: {
           elements: pageDetails.content ? JSON.parse(pageDetails?.content) : null,
           withLive: !!liveMode,
@@ -62,14 +59,9 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
 
   const hanldeUnpreview = () => {
     dispatch({
-      type: "TOGGLE_PREVIEW_MODE",
-    });
-    dispatch({
-      type: "TOGGLE_LIVE_MODE",
+      type: "pageEditor/setPreviewMode",
     });
   };
-
-
 
   return (
     <div
@@ -81,17 +73,13 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
       })}
       onClick={handleClick}
     >
-      {state.editor.previewMode && state.editor.liveMode && (
+      {state.editor.previewMode && (
         <Button variant={"ghost"} size={"icon"} className="w-6 h-6 bg-slate-600 p-[2px] fixed top-0 left-0 z-[100]" onClick={hanldeUnpreview}>
           <EyeOff />
         </Button>
       )}
       {Array.isArray(state.editor.elements) &&
-        state.editor.elements.map((childElement) => (
-     
-            <Recursive key={childElement.id} element={childElement} />
-     
-        ))}
+        state.editor.elements.map((childElement) => <Recursive key={childElement.id} element={childElement} />)}
     </div>
   );
 }

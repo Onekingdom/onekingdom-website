@@ -37,8 +37,9 @@ export default function AuthenticationPage() {
             alt="Logo"
             style={{
               maxWidth: "100%",
-              height: "auto"
-            }} />
+              height: "auto",
+            }}
+          />
           <blockquote className="space-y-2 absolute bottom-0">
             <p className="text-lg">
               &ldquo;Yesterday is history, tomorrow is a mystery, but today is a gift. That is why it is called the present.&rdquo;
@@ -50,15 +51,7 @@ export default function AuthenticationPage() {
                     <footer>Master Oogway</footer>
                   </TooltipTrigger>
                   <TooltipContent className="relative">
-                    <Image
-                      src={storage.getFilePreview("6596c5baec6aaeaf5010", "6596c5e045742a77d13c").href}
-                      alt="Master Mo"
-                      width={1000}
-                      height={1000}
-                      style={{
-                        maxWidth: "100%",
-                        height: "auto"
-                      }} />
+                    <Image src="/memes/master-mo.png" alt="Master Mo" width={1000} height={1000} />
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -77,7 +70,7 @@ export default function AuthenticationPage() {
               </Link> */}
             </p>
           </div>
-          <UserAuthForm redirect={redirect}  />
+          <UserAuthForm redirect={redirect} />
           <p className="px-8 text-center text-sm text-muted-foreground">
             By clicking continue, you agree to our
             <Link href="/terms" className="underline underline-offset-4 hover:text-primary">

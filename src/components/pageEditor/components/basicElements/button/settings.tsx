@@ -1,8 +1,8 @@
 import ButtonForm from "@/components/forms/button-form";
-import { useEditor } from "@/providers/editor/editor-provider";
 import { EditorElement } from "@/types/pageEditor";
 import { ButtonContent } from ".";
 import { ButtonSchema } from "@/schemas/button";
+import useEditor from "@/hooks/useEditor";
 
 type Props = {
   element: EditorElement<ButtonContent>;

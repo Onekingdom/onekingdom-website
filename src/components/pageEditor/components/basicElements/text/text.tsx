@@ -1,11 +1,11 @@
 "use client";
-import { useEditor } from "@/providers/editor/editor-provider";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { EditorElement } from "@/types/pageEditor";
 import { Trash } from "lucide-react";
 import React from "react";
 import { TextContent } from ".";
+import useEditor from "@/hooks/useEditor";
 
 type Props = {
   element: EditorElement<TextContent>;

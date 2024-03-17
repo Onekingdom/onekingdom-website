@@ -1,7 +1,7 @@
 import { EditorElement } from "@/types/pageEditor";
 import React, { useEffect, useState } from "react";
 import { TitleContent } from ".";
-import { useEditor } from "@/providers/editor/editor-provider";
+import useEditor from "@/hooks/useEditor";
 
 type Props = {
   element: EditorElement<TitleContent>;
@@ -11,9 +11,6 @@ export default function TitleComponent({ element }: Props) {
   const { state, dispatch } = useEditor();
   const { title, devider } = element.content;
 
-
-
-
   return (
     <>
       <h3
@@ -22,15 +19,13 @@ export default function TitleComponent({ element }: Props) {
         onBlur={(e) => {
           const spanElemtn = e.target;
           dispatch({
-            type: "UPDATE_ELEMENT",
+            type: "pageEditor/updateAnElement",
             payload: {
-              elementDetails: {
-                ...element,
-                content: {
-                  title: spanElemtn.innerText,
-                },
+              ...element,
+              content: {
+                title: spanElemtn.innerText,
               },
-            },
+            } as EditorElement<TitleContent>,
           });
         }}
       >

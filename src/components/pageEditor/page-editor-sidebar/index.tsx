@@ -1,6 +1,5 @@
 "use client";
 
-import { useEditor } from "@/providers/editor/editor-provider";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
@@ -10,10 +9,9 @@ import SettingsTab from "./tabs/settings-tab";
 import MediaBucketTab from "./tabs/media-bucket-tab";
 import ComponentSelector from "./tabs/component-selector";
 import LayersComponent from "./tabs/layers-component";
+import useEditor from "@/hooks/useEditor";
 
-type Props = {
-  subaccountId: string;
-};
+
 
 export default function PageEditorSidebar() {
   const { state } = useEditor();

@@ -1,6 +1,6 @@
-import { useEditor } from "@/providers/editor/editor-provider";
 import { PropertisElementHandler, Styles, customSettings } from "@/types/pageEditor";
 import React, { use, useEffect } from "react";
+import useEditor from "./useEditor";
 
 interface Props {
   styles: Styles;
@@ -25,7 +25,7 @@ export default function useStyles({ styles }: Props) {
 
     if (device === "Tablet") {
       //find the tablet style
-      const tabletStyle = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth >= 421);
+      const tabletStyle = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth >= 420);
 
       setActiveStyle({
         ...styles.styles,
@@ -35,24 +35,16 @@ export default function useStyles({ styles }: Props) {
 
     if (device === "Mobile") {
       //find the mobile style
-      const mobileStyle = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth>= 0);
-
+      const mobileStyle = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth >= 0);
 
       setActiveStyle({
         ...styles.styles,
         ...mobileStyle?.styles,
       });
     }
-
-
-
   }, [device, styles, state.editor.elements]);
 
   //update the styles based on the device
 
-
-
   return { activeStyle };
 }
-
-
