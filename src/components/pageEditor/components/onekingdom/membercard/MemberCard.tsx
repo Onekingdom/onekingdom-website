@@ -1,19 +1,21 @@
 "use client";
-import React from "react";
+import { memberStorage } from "@/types/database/members";
+import { EditorElement } from "@/types/pageEditor";
+import { database, storage } from "@/utils/clientAppwrite";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { storage } from "@/lib/appwrite";
-import { socialMediaType } from "@/schemas/socialMedia";
+import React, { useEffect } from "react";
+import { MemberCardProps } from ".";
 import SocialIcon from "@/components/SocialIcon";
-import { EditorElement } from "@/types/pageEditor";
-import { TeamCardProps } from ".";
 
 type Props = {
-  element: EditorElement<TeamCardProps>;
+  element: EditorElement<MemberCardProps>;
 };
 
-export default function MemberCard({element}: Props) {
-  const { name, description, img,  } = element.content;
+export default function MemberCard({ element }: Props) {
+  const { userID } = element.content;
+  const [member, setMember] = React.useState<memberStorage | null>(null);
+  const [memberImage, setMemberImage] = React.useState<string>("/teamMembers/placeholder.jpg");
 
   const StyledUl = styled.ul`
     position: relative;
@@ -78,37 +80,50 @@ export default function MemberCard({element}: Props) {
     }
   `;
 
-  const imgURL = img
-    ? storage.getFilePreview(img.bucketID, img.imageID, 320, 320) && storage.getFilePreview(img.bucketID, img.imageID, 320, 320).href
-    : "/teamMembers/placeholder.jpg";
+  useEffect(() => {
+    const getMember = async () => {
+      if (!userID) return;
+      const member = await database.getDocument<memberStorage>("658fabb7b076a84d06d2", "65b88761559a4aa41f38", userID);
 
-  
+      setMember(member);
+      if (member?.image && !Array.isArray(member.image) ){
+        setMemberImage(storage.getFilePreview(member.image.bucketID, member.image.imageID, 320, 320).href);
+      }
+      else {
+        setMemberImage("/teamMembers/placeholder.jpg");
+      }
+    };
+    getMember();
+  }, [element.content.userID]);
+
+  if (!member) return <></>;
 
   return (
     <div className="border-2 border-var(--extra-color) rounded-lg transition-all duration-300 ease">
       <div className="px-[40px] py-[40px] pt-[20px] text-center">
         <div className="w-full max-w-240 mx-auto mb-[26px]">
-
           <Image
-            src={imgURL}
+            src={memberImage}
             alt="person Placeholder"
             width={320}
             height={320}
             className="w-full h-full object-cover rounded-full"
             style={{
               maxWidth: "100%",
-              height: "auto"
-            }} />
+              height: "auto",
+            }}
+          />
         </div>
+
         <div className="w-full">
-          <h3 className="m-0 p-0 text-[22px] font-medium mb-[8px]">{name ? name : "Jochemwhite"}</h3>
-          <p className="text-[18px]">{description ? description : "Jochem Van Der Wit"}</p>
+          <h3 className="m-0 p-0 text-[22px] font-medium mb-[8px]">{member.name ? member.name : "Jochemwhite"}</h3>
+          <p className="text-[18px]">{member.description ? member.description : "Jochem Van Der Wit"}</p>
         </div>
       </div>
       <div className=" w-full px-[40px]">
         <StyledUl>
-          {/* {socials &&
-            socials
+          {member.socialMedia &&
+           member.socialMedia
               .sort((a, b) => a.value.localeCompare(b.value))
               .map((social) => (
                 <li key={social.value}>
@@ -116,7 +131,7 @@ export default function MemberCard({element}: Props) {
                     <SocialIcon value={social.value.toLocaleLowerCase()} />
                   </a>
                 </li>
-              ))} */}
+              ))}
         </StyledUl>
       </div>
     </div>

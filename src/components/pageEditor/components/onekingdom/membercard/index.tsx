@@ -2,16 +2,14 @@ import { EditorElement, ElementSidebar } from "@/types/pageEditor";
 import { CircleUser, Container } from "lucide-react";
 import { v4 } from "uuid";
 import MemberCardComponent from "./MemberCard";
+import Settings from "./MemberSettings";
 
-export interface TeamCardProps {
-  name?: string;
-  description?: string;
-  img?: { bucketID: string; imageID: string };
-  // socials: socialMediaType[];
+export interface MemberCardProps {
+  userID?: string;
 }
 
 
-const container: ElementSidebar<TeamCardProps> = {
+const container: ElementSidebar<MemberCardProps> = {
   icon: CircleUser,
   group: "onekingdom",
   id: "memberCard",
@@ -20,8 +18,7 @@ const container: ElementSidebar<TeamCardProps> = {
   type: "memberCard",
   defaultPayload: {
     content: {
-      description: "description",
-      name: "name",
+
     },
     id: v4(),
     name: "memberCard",
@@ -35,6 +32,7 @@ const container: ElementSidebar<TeamCardProps> = {
     type: "memberCard",
   },
   component: MemberCardComponent,
+  settings: Settings,
 };
 
 export default container;

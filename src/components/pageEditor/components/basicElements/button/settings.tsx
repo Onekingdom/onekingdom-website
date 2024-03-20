@@ -23,12 +23,10 @@ export default function Settings({ element }: Props) {
     };
 
     dispatch({
-      type: "UPDATE_ELEMENT",
+      type: "pageEditor/updateAnElement",
       payload: {
-        elementDetails: {
-          ...element,
-          content: updatedContent,
-        },
+        ...element,
+        content: updatedContent,
       },
     });
   };

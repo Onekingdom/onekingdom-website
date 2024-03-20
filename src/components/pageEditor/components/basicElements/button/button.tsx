@@ -22,14 +22,12 @@ export default function ButtonElement({ element }: Props) {
   const handleTextChange = (e: React.FocusEvent<HTMLSpanElement, Element>) => {
     const spanElemtn = e.target;
     dispatch({
-      type: "UPDATE_ELEMENT",
+      type: "pageEditor/updateAnElement",
       payload: {
-        elementDetails: {
-          ...element,
-          content: {
-            ...element.content,
-            innerText: spanElemtn.innerText,
-          },
+        ...element,
+        content: {
+          ...element.content,
+          innerText: spanElemtn.innerText,
         },
       },
     });

@@ -96,6 +96,9 @@ const pageEditorSlice = createSlice({
 
     //update an element
     updateAnElement: (state, action: PayloadAction<EditorElement>) => {
+
+      console.log("updateAnElement", action.payload)
+
       const newArray = updateElement(state.editor.elements, action.payload);
 
       state.editor = {

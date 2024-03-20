@@ -16,15 +16,7 @@ export default function TextComponent({ element }: Props) {
 
   const sytles = element.styles;
 
-  const handleOnClikBody = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    dispatch({
-      type: "CHANGE_CLICKED_ELEMENT",
-      payload: {
-        elementDetails: element,
-      },
-    });
-  };
+
   ///WE ARE NOT ADDING DRAG DROP
   const content = !Array.isArray(element.content) ? element.content : null;
   return (
@@ -35,14 +27,14 @@ export default function TextComponent({ element }: Props) {
           onBlur={(e) => {
             const spanElemtn = e.target as HTMLSpanElement;
             dispatch({
-              type: "UPDATE_ELEMENT",
+              type: "pageEditor/updateAnElement",
               payload: {
-                elementDetails: {
+          
                   ...element,
                   content: {
                     innerText: spanElemtn.innerText,
                   },
-                },
+              
               },
             });
           }}

@@ -16,24 +16,26 @@ type Props = {
 export default function PageEditor({ pageDetails, liveMode }: Props) {
   const state = useAppSelector((state) => state.pageEditor);
   const dispatch = useAppDispatch();
+  const [containerHeight, setContainerHeight] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
   
 
-  // useEffect(() => {
-  //   if (containerRef.current) {
-  //     setContainerHeight(containerRef.current.scrollHeight);
-  //   }
-  // }, [state.editor]);
+  useEffect(() => {
+    if (containerRef.current) {
+      setContainerHeight(containerRef.current.scrollHeight);
+    }
+  }, [state.editor]);
 
-  // useEffect(() => {
-  //   if (liveMode) {
-  //     dispatch({
-  //       type: "TOGGLE_LIVE_MODE",
-  //       payload: {
-  //         value: true,
-  //       },
-  //     });
-  //   }
-  // }, [liveMode]);
+  useEffect(() => {
+    if (liveMode) {
+      dispatch({
+        type: "TOGGLE_LIVE_MODE",
+        payload: {
+          value: true,
+        },
+      });
+    }
+  }, [liveMode]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,11 +67,13 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
 
   return (
     <div
-      className={clsx("use-automation-zoom-in h-full pb-16  overflow-scroll mr-[385px] bg-background transition-all rounded-md", {
+      className={clsx("use-automation-zoom-in h-full overflow-scroll mr-[385px] bg-background transition-all rounded-md pb-40", {
         "!p-0 !mr-0": state.editor.previewMode === true || state.editor.liveMode === true,
         "!w-[850px]": state.editor.device === "Tablet",
         "!w-[420px]": state.editor.device === "Mobile",
         "w-full": state.editor.device === "Desktop",
+
+
       })}
       onClick={handleClick}
     >
