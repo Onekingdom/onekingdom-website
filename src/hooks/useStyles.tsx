@@ -7,13 +7,15 @@ interface Props {
 }
 
 export default function useStyles({ styles }: Props) {
-  const [activeStyle, setActiveStyle] = React.useState<customSettings>(styles.styles);
+  const [activeStyle, setActiveStyle] = React.useState<customSettings>({});
   const { state } = useEditor();
 
   const device = state.editor.device;
   const isLiveMode = state.editor.liveMode;
 
   useEffect(() => {
+    if(!styles) return;
+
     if (device === "Desktop") {
       setActiveStyle(styles.styles);
       return;

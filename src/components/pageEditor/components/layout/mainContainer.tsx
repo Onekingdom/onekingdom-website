@@ -1,16 +1,19 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import useStyles from "@/hooks/useStyles";
 import { EditorBtns } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { EditorElement, customSettings } from "@/types/pageEditor";
+import { EditorElement } from "@/types/pageEditor";
 import { Trash } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { elements } from "..";
+import React from "react";
 import { v4 } from "uuid";
+import { elements } from "..";
 import Recursive from "../../editor/recursive";
-import useStyles from "@/hooks/useStyles";
-import Image from "next/image";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { Reorder } from "framer-motion";
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import EditComponentName from "@/components/modals/edit-component-name";
 
 type Props = {
   element: EditorElement<EditorElement[]>;
@@ -19,13 +22,13 @@ type Props = {
 export default function MainContainer({ element }: Props) {
   const { id, content, name, styles, type } = element;
   const state = useAppSelector((state) => state.pageEditor);
+  const [editComponentName, setEditComponentName] = React.useState(false);
+
   const dispatch = useAppDispatch();
 
-  const selectItemAndNotLiveMode = state.editor.selectedElement.id === id && !state.editor.liveMode;
   const isLiveMode = state.editor.liveMode;
   const canDrag = !isLiveMode;
   const { activeStyle } = useStyles({ styles });
-  const device = state.editor.device;
 
   const handleOnDrop = (e: React.DragEvent, type: string) => {
     e.stopPropagation();
@@ -59,6 +62,21 @@ export default function MainContainer({ element }: Props) {
     });
   };
 
+  const handleReorder = (newOrder: string[]) => {
+    const newElement = { ...element, content: newOrder };
+    //parse the string to object
+    newElement.content = newElement.content.map((content) => JSON.parse(content));
+
+    updateElement(newElement);
+  };
+
+  const updateElement = (newElement: EditorElement) => {
+    dispatch({
+      type: "pageEditor/updateAnElement",
+      payload: newElement,
+    });
+  };
+
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
   };
@@ -78,7 +96,10 @@ export default function MainContainer({ element }: Props) {
   };
 
   return (
-    <div
+    <Reorder.Group
+      values={element.content.map((content) => JSON.stringify(content))}
+      onReorder={handleReorder}
+      axis="y"
       style={activeStyle}
       className={cn("relative z-50 transition-all group", {
         "max-w-full w-full": type === "container" || type === "2Col",
@@ -89,18 +110,36 @@ export default function MainContainer({ element }: Props) {
         "!border-blue-500": state.editor.selectedElement.id === id && !state.editor.liveMode && state.editor.selectedElement.type !== "__body",
         "!border-yellow-400 !border-4":
           state.editor.selectedElement.id === id && !state.editor.liveMode && state.editor.selectedElement.type === "__body",
-        "!border-solid": state.editor.selectedElement.id === id && !state.editor.liveMode || !state.editor.previewMode,
+        "!border-solid": (state.editor.selectedElement.id === id && !state.editor.liveMode) || !state.editor.previewMode,
         "border-dashed border-[1px] border-slate-300 p-4": !state.editor.liveMode || !state.editor.previewMode,
       })}
       onDrop={(e) => handleOnDrop(e, id)}
       onDragOver={handleDragOver}
       onClick={handleOnCLickBody}
     >
+
+      <EditComponentName open={editComponentName} title="Edit Component Name" handleClose={() => setEditComponentName(false)}/>
+
+
       {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
-        <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg z-50">{state.editor.selectedElement.name}</Badge>
+        <ContextMenu>
+          <ContextMenuTrigger>
+            <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg z-50">{state.editor.selectedElement.name}</Badge>
+          </ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem onClick={() => setEditComponentName(true)}>Edit Component Name</ContextMenuItem>
+
+            <ContextMenuItem>Save Component</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
       )}
 
-      {Array.isArray(content) && content.map((childElement) => <Recursive element={childElement} key={childElement.id} />)}
+      {Array.isArray(content) &&
+        content.map((childElement) => (
+          <Reorder.Item key={childElement.id} value={JSON.stringify(childElement)}>
+            <Recursive key={childElement.id} element={childElement} />
+          </Reorder.Item>
+        ))}
 
       {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
         <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white z-50">
@@ -113,6 +152,7 @@ export default function MainContainer({ element }: Props) {
           />
         </div>
       )}
+
       {activeStyle.backgroundVideo && (
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-[1] opacity-50 ">
           <video autoPlay loop muted className="w-full h-full object-cover">
@@ -121,8 +161,6 @@ export default function MainContainer({ element }: Props) {
           </video>
         </div>
       )}
-    </div>
+    </Reorder.Group>
   );
 }
-
-

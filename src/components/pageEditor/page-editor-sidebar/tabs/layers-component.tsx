@@ -47,7 +47,7 @@ const ElementRec = ({ element, index, onClickElemnt, selected, idSelct }: Props)
       <AccordionTrigger className={cn("w-full hover:bg-muted/80", selected && "bg-muted")}>
         <div className="w-full flex space-x-2 ">
           <BoxSelect size={20} />
-          <p> {element.type}</p>
+          <p> {element.name}</p>
         </div>
       </AccordionTrigger>
       <AccordionContent>

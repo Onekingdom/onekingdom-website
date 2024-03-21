@@ -61,6 +61,13 @@ const pageEditorSlice = createSlice({
       };
     },
 
+
+    // clear data
+    clearData: (state) => {
+      state.editor = initialEditorState;
+    },
+
+
     //add an element
     addAnElement: (
       state,
@@ -104,6 +111,7 @@ const pageEditorSlice = createSlice({
       state.editor = {
         ...state.editor,
         elements: newArray,
+        selectedElement: action.payload,
       };
     },
     //update an element
