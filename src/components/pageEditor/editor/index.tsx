@@ -78,6 +78,7 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
         "!w-[420px]": state.editor.device === "Mobile",
         "w-full": state.editor.device === "Desktop",
         "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] overflow-scroll ": !state.editor.liveMode,
+        "overflow-scroll": state.editor.previewMode,  
       })}
       onClick={handleClick}
     >
