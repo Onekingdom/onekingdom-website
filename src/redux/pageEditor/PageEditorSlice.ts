@@ -31,7 +31,7 @@ const initialEditorState: EditorState["editor"] = {
   },
   device: "Desktop",
   previewMode: false,
-  liveMode: false,
+  liveMode: true,
 };
 
 const initialHistoryState: HistoryState = {
@@ -62,6 +62,17 @@ const pageEditorSlice = createSlice({
     },
 
 
+    //TOGGLE_LIVE_MODE
+    TOGGLE_LIVE_MODE: (state, action: PayloadAction<{ value: boolean }>) => {
+      console.log("TOGGLE_LIVE_MODE", action.payload.value)
+
+
+      state.editor = {
+        ...state.editor,
+        liveMode: action.payload.value,
+      };
+    },
+
     // clear data
     clearData: (state) => {
       state.editor = initialEditorState;
@@ -76,12 +87,17 @@ const pageEditorSlice = createSlice({
         elementDetails: EditorElement;
       }>
     ) => {
+      const newArray = addElement(state.editor.elements, action.payload);
+      console.log("addAnElement", newArray)
       state.editor = {
         ...state.editor,
-        elements: addElement(state.editor.elements, action.payload),
+        elements: newArray,
         selectedElement: action.payload.elementDetails,
       };
     },
+
+
+
 
     //set the selected element
     setSelectedAnElement: (state, action: PayloadAction<EditorElement | null>) => {

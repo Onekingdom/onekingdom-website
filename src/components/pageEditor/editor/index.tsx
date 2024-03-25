@@ -18,7 +18,6 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
   const dispatch = useAppDispatch();
   const [containerHeight, setContainerHeight] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  
 
   useEffect(() => {
     if (containerRef.current) {
@@ -27,14 +26,14 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
   }, [state.editor]);
 
   useEffect(() => {
-    if (liveMode) {
-      dispatch({
-        type: "TOGGLE_LIVE_MODE",
-        payload: {
-          value: true,
-        },
-      });
-    }
+    console.log("liveMode", liveMode);
+
+    dispatch({
+      type: "pageEditor/TOGGLE_LIVE_MODE",
+      payload: {
+        value: liveMode,
+      },
+    });
   }, [liveMode]);
 
   useEffect(() => {
@@ -50,6 +49,12 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
       });
     };
     fetchData();
+
+    return () => {
+      dispatch({
+        type: "pageEditor/clearData",
+      });
+    };
   }, [pageDetails]);
 
   const handleClick = () => {
@@ -67,14 +72,12 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
 
   return (
     <div
-      className={clsx("use-automation-zoom-in h-full overflow-scroll mr-[385px]  transition-all rounded-md pb-40", {
+      className={clsx("use-automation-zoom-in h-full l mr-[385px]  transition-all  pb-40", {
         "!p-0 !mr-0": state.editor.previewMode === true || state.editor.liveMode === true,
         "!w-[850px]": state.editor.device === "Tablet",
         "!w-[420px]": state.editor.device === "Mobile",
         "w-full": state.editor.device === "Desktop",
-        "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]": !state.editor.previewMode,
-
-
+        "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] overflow-scroll ": !state.editor.liveMode,
       })}
       onClick={handleClick}
     >

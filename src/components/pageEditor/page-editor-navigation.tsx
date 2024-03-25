@@ -94,7 +94,7 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
           </Link>
           <div className="flex flex-col w-full">
             <Input defaultValue={PageDetails.name} className="border-none h-5 m-0 p-0 text-lg" onBlur={handleOnBlurTitleChange} />
-            <span className="text-sm text-muted-foreground">Path: /{PageDetails.pathName}</span>
+            <span className="text-sm text-muted-foreground">Path: {PageDetails.pathName}</span>
           </div>
         </aside>
         <aside>

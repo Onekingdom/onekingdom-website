@@ -55,7 +55,7 @@ export default function Page() {
       accessorKey: "pathName",
       header: () => <div>Path</div>,
       cell: ({ row }) => {
-        return <div className="font-medium">/{row.getValue("pathName")}</div>;
+        return <div className="font-medium">{row.getValue("pathName")}</div>;
       },
     },
 

@@ -57,10 +57,8 @@ export default function Page() {
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 z-[20] bg-background " suppressContentEditableWarning={true} suppressHydrationWarning>
       <PageEditorNavigation PageDetails={pageDetails} />
-      <div
-        className={cn("h-full flex justify-center")}
-      >
-        <PageEditor pageDetails={pageDetails} />
+      <div className={cn("h-full flex justify-center")}>
+        <PageEditor pageDetails={pageDetails} liveMode={false} />
       </div>
       <PageEditorSidebar />
     </div>

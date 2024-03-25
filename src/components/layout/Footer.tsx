@@ -1,7 +1,7 @@
 import Link from "next/link";
 const Footer = () => {
   return (
-    <footer id="footer" className="bottom-0 w-full fixed">
+    <footer id="footer" className="bottom-0 w-full static">
       <div className="neoh_fn_footer">
         <div className="footer_bottom">
           <div className="container">
@@ -27,7 +27,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        {/* !Footer Bottom */}
       </div>
     </footer>
   );
