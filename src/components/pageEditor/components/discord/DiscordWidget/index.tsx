@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import DiscordWidgetComponent from "./DiscordWidget";
 
 export interface DiscordWidgetContent {
+  serverID: string;
  
 }
 
@@ -16,7 +17,7 @@ const DiscordWidget: ElementSidebar<DiscordWidgetContent> = {
   type: "discord-widget",
   defaultPayload: {
     content: {
-      innerText: "Text",
+      serverID: "",
     },
     id: v4(),
     name: "Discord Widget",

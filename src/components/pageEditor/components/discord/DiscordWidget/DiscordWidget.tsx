@@ -1,13 +1,14 @@
 import { EditorElement } from "@/types/pageEditor";
+import { DiscordWidgetContent } from ".";
 
 type Props = {
-  element: EditorElement<any>;
+  element: EditorElement<DiscordWidgetContent>;
 };
 
 export default function DiscordWidgetComponent({ element }: Props) {
   return (
     <iframe
-      src={`https://discord.com/widget?id=706492500096974900&theme=dark`}
+      src={`https://discord.com/widget?id=${element.content.serverID}&theme=dark`}
       width={500}
       height={500}
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
