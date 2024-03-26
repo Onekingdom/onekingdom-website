@@ -1,67 +1,30 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PropertisElementHandler, customSettings } from "@/types/pageEditor";
-import { ToolTipButton } from "@/components/ui/tooltip-button";
+import React from "react";
 import {
-  AlignCenter,
   AlignHorizontalJustifyCenterIcon,
   AlignHorizontalJustifyEnd,
   AlignHorizontalJustifyStart,
   AlignHorizontalSpaceAround,
   AlignHorizontalSpaceBetween,
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
   AlignVerticalJustifyCenter,
   AlignVerticalJustifyEnd,
   AlignVerticalJustifyStart,
-  ChevronsLeftRightIcon,
   Columns,
-  LucideImage,
   Rows,
 } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
+import { ToolTipButton } from "@/components/ui/tooltip-button";
+import { PropertisElementHandler, customSettings } from "@/types/pageEditor";
 
 interface Props {
   activeStyle: customSettings;
   handleOnChanges: (e: PropertisElementHandler) => void;
 }
 
-export default function DisplaySettings({ activeStyle, handleOnChanges }: Props) {
-  // This function is used to handle the display change
-  function handleDisplayChange(value: string) {
-    handleOnChanges({
-      target: {
-        id: "display",
-        value,
-      },
-    });
-  }
 
+export default function FlexSettings({ activeStyle, handleOnChanges }: Props) {
   return (
     <>
-      <RadioGroup value={activeStyle.display ? activeStyle.display : "block"} className="flex pb-4" onValueChange={handleDisplayChange}>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="block" id="block" />
-          <Label htmlFor="display-block">Block</Label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="flex" id="display-flex" />
-          <Label htmlFor="display-flex">Flex</Label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="grid" id="display-flex" />
-          <Label htmlFor="display-flex">Grid</Label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="none" id="display-none" />
-          <Label htmlFor="display-none">None</Label>
-        </div>
-      </RadioGroup>
       <Label className="text-muted-foreground">Justify Content</Label>
       <Tabs
         onValueChange={(e) => {
@@ -177,5 +140,3 @@ export default function DisplaySettings({ activeStyle, handleOnChanges }: Props)
     </>
   );
 }
-
-
