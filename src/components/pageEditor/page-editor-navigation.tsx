@@ -16,15 +16,13 @@ import { FocusEventHandler } from "react";
 import { toast } from "sonner";
 
 type Props = {
-  PageDetails: PageDetails
+  PageDetails: PageDetails;
 };
 
 export default function PageEditorNavigation({ PageDetails }: Props) {
   const router = useRouter();
   const { dispatch, state } = useEditor();
   const { createNewPage, updatePage } = usePageEditor();
-
-  
 
   const handleOnBlurTitleChange: FocusEventHandler<HTMLInputElement> = async (event) => {
     if (event.target.value === PageDetails.name) return;
@@ -40,7 +38,12 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
   };
 
   const handlePreviewClick = () => {
-    dispatch({ type: "pageEditor/setPreviewMode" });
+    dispatch({
+      type: "pageEditor/SET_DISPLAY_MODE",
+      payload: {
+        value: "Preview",
+      },
+    });
   };
   const handleUdo = () => {
     dispatch({
@@ -64,7 +67,6 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
         try {
           // console.log(PageDetails)
           await updatePage(newPage, PageDetails.$id);
-
         } catch (error) {
           console.log(error);
         }
@@ -85,7 +87,7 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
     <TooltipProvider>
       <nav
         className={cn("border-b-[1px] flex items-center justify-between p-6 gap-2 transition-all", {
-          "!h-0 !p-0 !overflow-hidden": state.editor.previewMode,
+          "!h-0 !p-0 !overflow-hidden": state.editor.displayMode === "Preview",
         })}
       >
         <aside className="flex items-center gap-4 max-w-[206px] w-[300px]">

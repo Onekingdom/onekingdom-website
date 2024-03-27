@@ -44,11 +44,11 @@ export interface customSettings extends CSSProperties {
 }
 
 export type Editor = {
-  liveMode: boolean;
   elements: EditorElement[];
   selectedElement: EditorElement 
   device: DeviceTypes;
-  previewMode: boolean;
+  displayMode: 'Live' | 'Editor'| 'Preview';
+  width: number;
 };
 
 export type HistoryState = {

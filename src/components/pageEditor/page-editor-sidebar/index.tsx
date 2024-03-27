@@ -21,7 +21,7 @@ export default function PageEditorSidebar() {
         <SheetContent
           side="right"
           className={cn("mt-[97px] w-16 z-[80] shadow-none p-0 focus:border-none transition-all overflow-hidden", {
-            hidden: state.editor.previewMode,
+            hidden: state.editor.displayMode === "Preview",
           })}
         >
           <TabList />
@@ -29,7 +29,7 @@ export default function PageEditorSidebar() {
         <SheetContent
           side="right"
           className={cn("mt-[97px] w-80 z-[40] shadow-none p-0 mr-16 bg-background h-full transition-all overflow-hidden", {
-            hidden: state.editor.previewMode,
+            hidden: state.editor.displayMode === "Preview",
           })}
         >
           <div className="grid gap-4 h-full pb-36 overflow-y-auto">

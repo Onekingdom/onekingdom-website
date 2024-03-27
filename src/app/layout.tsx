@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <Provider store={store}>
         <body className="min-h-screen">
           <ThemeProvider attribute="class" defaultTheme="dark">
-            {path.includes("/admin") || path.includes("/login") ? (
+            {path.includes("/admin") || path.includes("/login") || path.includes("/test") ? (
               <>{children}</>
             ) : (
               <>

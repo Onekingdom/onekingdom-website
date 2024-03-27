@@ -3,7 +3,6 @@
 import PageEditor from "@/components/pageEditor/editor";
 import PageEditorNavigation from "@/components/pageEditor/page-editor-navigation";
 import PageEditorSidebar from "@/components/pageEditor/page-editor-sidebar";
-import useEditor from "@/hooks/useEditor";
 import usePageEditor from "@/hooks/usePageEditor";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +16,6 @@ export default function Page() {
   const [loading, setLoading] = useState<boolean>(true);
   const { getPageDetails } = usePageEditor();
   const pageID = searchParmas.get("pageID");
-  const { state } = useEditor();
 
   if (!pageID) throw new Error("Page ID is required");
 

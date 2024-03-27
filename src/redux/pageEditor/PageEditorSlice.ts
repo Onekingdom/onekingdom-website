@@ -30,8 +30,8 @@ const initialEditorState: EditorState["editor"] = {
     type: null,
   },
   device: "Desktop",
-  previewMode: false,
-  liveMode: true,
+  displayMode: "Live", 
+  width: 1920,
 };
 
 const initialHistoryState: HistoryState = {
@@ -52,32 +52,39 @@ const pageEditorSlice = createSlice({
       action: PayloadAction<{
         elements: EditorElement[] | null;
         withLive: boolean;
+        displayMode: "Live" | "Editor" | "Preview";
       }>
     ) => {
       state.editor = {
         ...state.editor,
         elements: action.payload.elements ?? state.editor.elements,
-        liveMode: action.payload.withLive,
+        displayMode: action.payload.displayMode ?? state.editor.displayMode,
       };
     },
 
-
-    //TOGGLE_LIVE_MODE
-    TOGGLE_LIVE_MODE: (state, action: PayloadAction<{ value: boolean }>) => {
-      console.log("TOGGLE_LIVE_MODE", action.payload.value)
-
-
-      state.editor = {
-        ...state.editor,
-        liveMode: action.payload.value,
-      };
-    },
 
     // clear data
     clearData: (state) => {
       state.editor = initialEditorState;
     },
 
+    //set the display mode
+    SET_DISPLAY_MODE: (state, action: PayloadAction<{ value: "Live" | "Editor" | "Preview" }>) => {
+      console.log("SET_DISPLAY_MODE", action.payload.value)
+      state.editor = {
+        ...state.editor,
+        displayMode: action.payload.value,
+      };
+    },
+
+    //set the width
+    SET_WIDTH: (state, action: PayloadAction<{ width: number }>) => {
+      console.log("SET_WIDTH", action.payload.width)
+      state.editor = {
+        ...state.editor,
+        width: action.payload.width,
+      };
+    },
 
     //add an element
     addAnElement: (
@@ -95,9 +102,6 @@ const pageEditorSlice = createSlice({
         selectedElement: action.payload.elementDetails,
       };
     },
-
-
-
 
     //set the selected element
     setSelectedAnElement: (state, action: PayloadAction<EditorElement | null>) => {
@@ -159,14 +163,7 @@ const pageEditorSlice = createSlice({
       };
     },
 
-    //set the preview mode
-    setPreviewMode: (state, action: PayloadAction<boolean>) => {
-      state.editor = {
-        ...state.editor,
-        previewMode: !state.editor.previewMode,
-        liveMode: !state.editor.previewMode,
-      };
-    },
+
   },
 });
 

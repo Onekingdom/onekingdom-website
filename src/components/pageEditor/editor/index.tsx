@@ -7,6 +7,9 @@ import { EyeOff } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Recursive from "./recursive";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import ResizableDiv from "@/components/resizable-div";
+import { cn } from "@/lib/utils";
+import { useDebounce } from "@uidotdev/usehooks";
 
 type Props = {
   liveMode?: boolean;
@@ -16,39 +19,17 @@ type Props = {
 export default function PageEditor({ pageDetails, liveMode }: Props) {
   const state = useAppSelector((state) => state.pageEditor);
   const dispatch = useAppDispatch();
-  const [containerHeight, setContainerHeight] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (containerRef.current) {
-      setContainerHeight(containerRef.current.scrollHeight);
-    }
-  }, [state.editor]);
-
-  useEffect(() => {
-    console.log("liveMode", liveMode);
-
+    if (!pageDetails) return;
     dispatch({
-      type: "pageEditor/TOGGLE_LIVE_MODE",
+      type: "pageEditor/loadData",
       payload: {
-        value: liveMode,
+        elements: pageDetails.content ? JSON.parse(pageDetails?.content) : null,
+        withLive: !!liveMode,
+        displayMode: "Editor",
       },
     });
-  }, [liveMode]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!pageDetails) return;
-
-      dispatch({
-        type: "pageEditor/loadData",
-        payload: {
-          elements: pageDetails.content ? JSON.parse(pageDetails?.content) : null,
-          withLive: !!liveMode,
-        },
-      });
-    };
-    fetchData();
 
     return () => {
       dispatch({
@@ -66,29 +47,46 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
 
   const hanldeUnpreview = () => {
     dispatch({
-      type: "pageEditor/setPreviewMode",
+      type: "pageEditor/SET_DISPLAY_MODE",
+      payload: {
+        value: "Editor",
+      },
+    });
+  };
+
+
+  const handleResize = (width: number) => {
+
+    dispatch({
+      type: "pageEditor/SET_WIDTH",
+      payload: {
+        width: width,
+      },
     });
   };
 
   return (
-    <div
-      className={clsx("use-automation-zoom-in h-full l mr-[385px]  transition-all  pb-40", {
-        "!p-0 !mr-0": state.editor.previewMode === true || state.editor.liveMode === true,
-        "!w-[850px]": state.editor.device === "Tablet",
-        "!w-[420px]": state.editor.device === "Mobile",
-        "w-full": state.editor.device === "Desktop",
-        "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] overflow-scroll ": !state.editor.liveMode,
-        "overflow-scroll": state.editor.previewMode,  
-      })}
+    <ResizableDiv    
+      handleChange={handleResize}
       onClick={handleClick}
+      maxWidth={1920}
+      minWidth={375}
+      canDrag={state.editor.displayMode === "Editor"}
+      className={cn("relative  h-full l  pb-40", {
+        "!p-0 !mr-0": state.editor.displayMode !== "Editor",
+        "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] mr-[385px] pb-[40px]":
+          state.editor.displayMode === "Editor",
+        "overflow-scroll": state.editor.displayMode === "Editor" || state.editor.displayMode === "Preview",
+      })}
     >
-      {state.editor.previewMode && (
+      {state.editor.displayMode === "Preview" && (
         <Button variant={"ghost"} size={"icon"} className="w-6 h-6 bg-slate-600 p-[2px] fixed top-0 left-0 z-[100]" onClick={hanldeUnpreview}>
           <EyeOff />
         </Button>
       )}
+
       {Array.isArray(state.editor.elements) &&
         state.editor.elements.map((childElement) => <Recursive key={childElement.id} element={childElement} />)}
-    </div>
+    </ResizableDiv>
   );
 }
