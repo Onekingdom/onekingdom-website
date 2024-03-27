@@ -64,13 +64,14 @@ export const updateElementStyle = (payload: {
   device: DeviceTypes;
   element: EditorElement;
   style: customSettings;
+  width: number;
 }): EditorElement[] => {
-  const { device, element, style } = payload;
+  const { device, element, style, width } = payload;
   return payload.editorArray.map((item) => {
     if (item.id === element.id) {
       let newElementStyles: Styles = {} as Styles;
 
-      if (device === "Desktop") {
+      if (width === 1920) {
         newElementStyles = {
           ...item.styles,
           styles: {
@@ -81,17 +82,17 @@ export const updateElementStyle = (payload: {
         };
       }
 
-      if (device === "Tablet") {
-        const tabletStyleIndex = item.styles.mediaQuerys!.findIndex((mediaQuery) => mediaQuery.minWidth === 420);
+      if (width !== 1920) {
+        const mediaQuery = item.styles.mediaQuerys!.findIndex((mediaQuery) => mediaQuery.minWidth === width);
 
-        if (tabletStyleIndex !== -1) {
+        if (mediaQuery !== -1) {
 
-          const tabletStyle = item.styles.mediaQuerys![tabletStyleIndex];
+          const tabletStyle = item.styles.mediaQuerys![mediaQuery];
 
           newElementStyles = {
             ...item.styles,
             mediaQuerys: [
-              ...item.styles.mediaQuerys!.slice(0, tabletStyleIndex),
+              ...item.styles.mediaQuerys!.slice(0, mediaQuery),
               {
                 ...tabletStyle,
                 styles: {
@@ -99,7 +100,7 @@ export const updateElementStyle = (payload: {
                   ...style,
                 },
               },
-              ...item.styles.mediaQuerys!.slice(tabletStyleIndex + 1),
+              ...item.styles.mediaQuerys!.slice(mediaQuery + 1),
             ],
           };
         } else {
@@ -108,7 +109,7 @@ export const updateElementStyle = (payload: {
             mediaQuerys: [
               ...item.styles.mediaQuerys!,
               {
-                minWidth: 420,
+                minWidth: width,
                 styles: {
                   ...style,
                 },
@@ -118,41 +119,7 @@ export const updateElementStyle = (payload: {
         }
       }
 
-      if (device === "Mobile") {
-        const MobileStyleIndex = item.styles.mediaQuerys!.findIndex((mediaQuery) => mediaQuery.minWidth === 0);
 
-        if (MobileStyleIndex !== -1) {
-          const MobileStyle = item.styles.mediaQuerys![MobileStyleIndex];
-
-          newElementStyles = {
-        ...item.styles,
-        mediaQuerys: [
-          {
-            ...MobileStyle,
-            styles: {
-          ...MobileStyle.styles,
-          ...style,
-            },
-          },
-          ...item.styles.mediaQuerys!.slice(0, MobileStyleIndex),
-          ...item.styles.mediaQuerys!.slice(MobileStyleIndex + 1),
-        ],
-          };
-        } else {
-          newElementStyles = {
-        ...item.styles,
-        mediaQuerys: [
-          {
-            minWidth: 0,
-            styles: {
-          ...style,
-            },
-          },
-          ...item.styles.mediaQuerys!,
-        ],
-          };
-        }
-      }
 
       const newElement = {
         ...element,
@@ -168,6 +135,7 @@ export const updateElementStyle = (payload: {
           editorArray: item.content,
           element,
           style,
+          width: payload.width,
         }),
       };
     }

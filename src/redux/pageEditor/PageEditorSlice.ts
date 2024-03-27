@@ -146,7 +146,7 @@ const pageEditorSlice = createSlice({
 
       const { element, style } = action.payload;
 
-      const newElementArray = updateElementStyle({ device, element, style, editorArray: state.editor.elements });
+      const newElementArray = updateElementStyle({ device, element, style, editorArray: state.editor.elements, width: state.editor.width});
       const newSelectedElement = findElement(newElementArray, state.editor.selectedElement.id);
 
       state.editor = {

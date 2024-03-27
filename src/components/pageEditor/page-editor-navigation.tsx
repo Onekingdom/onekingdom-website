@@ -99,7 +99,7 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
             <span className="text-sm text-muted-foreground">Path: {PageDetails.pathName}</span>
           </div>
         </aside>
-        <aside>
+        <aside className="flex flex-col items-center justify-center">
           <Tabs
             defaultValue="Desktop"
             className="w-fit"
@@ -125,6 +125,7 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
               </TabsTrigger>
             </TabsList>
           </Tabs>
+          <span>Active Width: {state.editor.width}</span>
         </aside>
         <aside className="flex items-center gap-2">
           <Button variant="ghost" size="icon" className="hover:bg-slate-800" onClick={handlePreviewClick}>

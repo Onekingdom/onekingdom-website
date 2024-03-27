@@ -41,7 +41,7 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
     if (!draggingRef.current) return;
 
     const offsetX = e.clientX - startXRef.current;
-    const distanceMoved = offsetX * 2; // Adjust this factor to control resize speed
+    const distanceMoved = offsetX * 4; // Adjust this factor to control resize speed
 
     const newWidth = Math.max(minWidth, Math.min(width + distanceMoved, maxWidth));
     setWidth(newWidth);
@@ -82,10 +82,10 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
   return (
     <div style={{ width: `${width}px`, position: "relative" }} className={className} onClick={onClick} ref={container}>
       {canDrag && (
-        <div className="absolute top-0 -right-6 w-4 h-full z-[100]">
+        <div className="absolute top-0 -right-6 w-4 h-full ">
           <div className="fixed h-full w-4  flex  items-center">
             <span
-              className="z-10 flex justify-center items-center rounded-sm border bg-border h-12 w-8"
+              className=" flex justify-center items-center rounded-sm border bg-border h-12 w-8 z-[1000]"
               onMouseDown={handleDragStart}
               // @ts-ignore
               onMouseMove={handleDrag}
