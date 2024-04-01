@@ -66,15 +66,15 @@ export default function Recursive({ element }: Props) {
       }}
       onClick={handleOnClikBody}
       className={cn("relative", {
-        "!border-blue-500": state.editor.selectedElement.id === element.id && !state.editor.liveMode,
-        "border-dashed border-[1px] border-slate-300 p-4": !state.editor.liveMode,
+        "!border-blue-500": state.editor.selectedElement.id === element.id && state.editor.displayMode === "Editor",
+        "border-dashed border-[1px] border-slate-300 p-4": state.editor.displayMode === "Editor",
       })}
     >
-      {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
+      {state.editor.selectedElement.id === element.id && state.editor.displayMode === "Editor" && (
         <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg">{state.editor.selectedElement.name}</Badge>
       )}
       <Component element={element} />
-      {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
+      {state.editor.selectedElement.id === element.id && state.editor.displayMode === "Editor" && (
         <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
           <Trash
             className="cursor-pointer"

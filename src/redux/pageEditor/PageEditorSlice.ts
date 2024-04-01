@@ -70,7 +70,6 @@ const pageEditorSlice = createSlice({
 
     //set the display mode
     SET_DISPLAY_MODE: (state, action: PayloadAction<{ value: "Live" | "Editor" | "Preview" }>) => {
-      console.log("SET_DISPLAY_MODE", action.payload.value)
       state.editor = {
         ...state.editor,
         displayMode: action.payload.value,
@@ -79,7 +78,6 @@ const pageEditorSlice = createSlice({
 
     //set the width
     SET_WIDTH: (state, action: PayloadAction<{ width: number }>) => {
-      console.log("SET_WIDTH", action.payload.width)
       state.editor = {
         ...state.editor,
         width: action.payload.width,
@@ -95,7 +93,6 @@ const pageEditorSlice = createSlice({
       }>
     ) => {
       const newArray = addElement(state.editor.elements, action.payload);
-      console.log("addAnElement", newArray)
       state.editor = {
         ...state.editor,
         elements: newArray,
@@ -124,9 +121,8 @@ const pageEditorSlice = createSlice({
     //update an element
     updateAnElement: (state, action: PayloadAction<EditorElement>) => {
 
-      console.log("updateAnElement", action.payload)
 
-      const newArray = updateElement(state.editor.elements, action.payload);
+      const newArray = updateElement(state.editor.elements, action.payload);      
 
       state.editor = {
         ...state.editor,
@@ -148,6 +144,9 @@ const pageEditorSlice = createSlice({
 
       const newElementArray = updateElementStyle({ device, element, style, editorArray: state.editor.elements, width: state.editor.width});
       const newSelectedElement = findElement(newElementArray, state.editor.selectedElement.id);
+
+      console.log("newElementArray", newElementArray);
+
 
       state.editor = {
         ...state.editor,

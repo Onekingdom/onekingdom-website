@@ -33,7 +33,7 @@ export default function ButtonElement({ element }: Props) {
     });
   };
 
-  if (!state.editor.liveMode) {
+  if (state.editor.displayMode === "Editor") {
     return (
       <span
         className={cn(
@@ -57,7 +57,7 @@ export default function ButtonElement({ element }: Props) {
             />
           </span>
         )}
-        <span className="text" contentEditable={!state.editor.liveMode} onBlur={handleTextChange}>
+        <span className="text" contentEditable={state.editor.displayMode === "Editor"} onBlur={handleTextChange}>
           {innerText}
         </span>
       </span>
@@ -85,11 +85,12 @@ export default function ButtonElement({ element }: Props) {
             className={cn("block relative  w-[2px] h-8 ml-5 bg-[#082057]", {
               "after:bg-[#78F701] after-w-[2px] after:h-8 after:block after:animate-lineFromTopToBottom ": isHover,
               "after:bg-[#78F701] after-w-[2px] after:h-8 after:hidden after:animate-lineFrombottomToBottomEnd": !isHover,
+              
             })}
           />
         </span>
       )}
-      <span className="text" contentEditable={!state.editor.liveMode} onBlur={handleTextChange}>
+      <span className="text"  onBlur={handleTextChange}>
         {innerText}
       </span>
     </Link>

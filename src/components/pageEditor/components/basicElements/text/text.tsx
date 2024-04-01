@@ -23,7 +23,7 @@ export default function TextComponent({ element }: Props) {
     <div>
       {(content?.typeText === "Parrafo" || content?.typeText == null) && (
         <span
-          contentEditable={!state.editor.liveMode}
+          contentEditable={state.editor.displayMode === "Editor"}
           onBlur={(e) => {
             const spanElemtn = e.target as HTMLSpanElement;
             dispatch({
@@ -44,7 +44,7 @@ export default function TextComponent({ element }: Props) {
       )}
       {content?.typeText === "Title" && (
         <h1
-          contentEditable={!state.editor.liveMode}
+          contentEditable={state.editor.displayMode === "Editor"}
           onBlur={(e) => {
             const spanElemtn = e.target;
             dispatch({
@@ -65,7 +65,7 @@ export default function TextComponent({ element }: Props) {
       )}
       {content?.typeText === "SubTitle" && (
         <h2
-          contentEditable={!state.editor.liveMode}
+          contentEditable={state.editor.displayMode === "Editor"}
           onBlur={(e) => {
             const spanElemtn = e.target;
             dispatch({

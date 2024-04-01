@@ -1,8 +1,5 @@
 import { DeviceTypes, EditorElement, customSettings, Styles } from "@/types/pageEditor";
 
-
-
-
 //logic to add an element to the editor
 export const addElement = (editorArray: EditorElement[], action: { containerId: string; elementDetails: EditorElement }): EditorElement[] => {
   return editorArray.map((item) => {
@@ -78,7 +75,6 @@ export const updateElementStyle = (payload: {
             ...item.styles.styles,
             ...style,
           },
-         
         };
       }
 
@@ -86,7 +82,6 @@ export const updateElementStyle = (payload: {
         const mediaQuery = item.styles.mediaQuerys!.findIndex((mediaQuery) => mediaQuery.minWidth === width);
 
         if (mediaQuery !== -1) {
-
           const tabletStyle = item.styles.mediaQuerys![mediaQuery];
 
           newElementStyles = {
@@ -104,22 +99,22 @@ export const updateElementStyle = (payload: {
             ],
           };
         } else {
+          const newMediaQueryArray = [
+            ...item.styles.mediaQuerys!,
+            {
+              minWidth: width,
+              styles: {
+                ...style,
+              },
+            },
+          ].sort((a, b) => a.minWidth - b.minWidth);
+
           newElementStyles = {
             ...item.styles,
-            mediaQuerys: [
-              ...item.styles.mediaQuerys!,
-              {
-                minWidth: width,
-                styles: {
-                  ...style,
-                },
-              },
-            ],
+            mediaQuerys: newMediaQueryArray,
           };
         }
       }
-
-
 
       const newElement = {
         ...element,

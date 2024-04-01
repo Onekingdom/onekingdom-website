@@ -1,9 +1,8 @@
 "use client";
-import { useDebounce } from "@uidotdev/usehooks";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import useEditor from "@/hooks/useEditor";
 import { DragHandleDots2Icon } from "@radix-ui/react-icons";
-import React, { useState, useRef, useEffect } from "react";
+import { throttle } from "lodash";
+import React, { useEffect, useRef, useState } from "react";
 
 interface ResizableDivProps extends React.HTMLAttributes<HTMLDivElement> {
   handleChange: (width: number) => void;
@@ -28,7 +27,7 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
   const draggingRef = useRef(false);
   const startXRef = useRef(0);
   const container = useRef<HTMLDivElement | null>(null);
-  const debouncedSearchTerm = useDebounce(width,1);
+  const { dispatch } = useEditor();
 
   const handleDragStart = (e: React.MouseEvent<HTMLSpanElement>) => {
     draggingRef.current = true;
@@ -41,14 +40,19 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
     if (!draggingRef.current) return;
 
     const offsetX = e.clientX - startXRef.current;
-    const distanceMoved = offsetX * 4; // Adjust this factor to control resize speed
+    const distanceMoved = offsetX * 2; // Adjust this factor to control resize speed
 
     const newWidth = Math.max(minWidth, Math.min(width + distanceMoved, maxWidth));
     setWidth(newWidth);
 
-    // if (newWidth !== width) {
-    //   handleChange(width);
-    // }
+
+      dispatch({
+        type: "pageEditor/SET_WIDTH",
+        payload: {
+          width: width,
+        },
+      });
+
     startXRef.current = e.clientX;
   };
 
@@ -65,8 +69,6 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
       window.addEventListener("mouseup", handleWindowMouseUp);
     }
 
-
-
     return () => {
       window.removeEventListener("mousemove", handleWindowMouseMove);
       window.removeEventListener("mouseup", handleWindowMouseUp);
@@ -74,10 +76,6 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
   }, [width]);
 
 
-  useEffect(() => {
-
-    handleChange(debouncedSearchTerm);
-  }, [debouncedSearchTerm]);
 
   return (
     <div style={{ width: `${width}px`, position: "relative" }} className={className} onClick={onClick} ref={container}>

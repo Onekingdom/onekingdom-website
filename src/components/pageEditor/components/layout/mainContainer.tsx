@@ -27,7 +27,7 @@ export default function MainContainer({ element }: Props) {
 
   const dispatch = useAppDispatch();
 
-  const isLiveMode = state.editor.liveMode;
+  const isLiveMode = state.editor.displayMode === "Live";
   const canDrag = !isLiveMode;
   const { activeStyle } = useStyles({ styles });
 
@@ -118,56 +118,22 @@ export default function MainContainer({ element }: Props) {
     });
   };
 
-  if (state.editor.liveMode) {
+  if (state.editor.displayMode === "Live") {
     return (
       <div
         style={activeStyle}
-        className={cn("relative z-50 transition-all group", {
-          "max-w-full w-full": type === "container" || type === "2Col",
-          "h-fit": type === "container",
+        className={cn("relative transition-all group", {
           "h-full": id === "__body",
-          "overflow-scroll ": type === "__body",
-          "flex flex-col md:!flex-row": type === "2Col",
-          "!border-blue-500": state.editor.selectedElement.id === id && !state.editor.liveMode && state.editor.selectedElement.type !== "__body",
-          "!border-yellow-400 !border-4":
-            state.editor.selectedElement.id === id && !state.editor.liveMode && state.editor.selectedElement.type === "__body",
-          "!border-solid": (state.editor.selectedElement.id === id && !state.editor.liveMode) || !state.editor.previewMode || !state.editor.liveMode,
-          "border-dashed border-[1px] border-slate-300 p-4": !state.editor.liveMode,
+          "w-full h-fit": type === "container",
         })}
         onDrop={(e) => handleOnDrop(e, id)}
         onDragOver={handleDragOver}
         onClick={handleOnCLickBody}
-       
       >
         <EditComponentName open={editComponentName} title="Edit Component Name" handleClose={() => setEditComponentName(false)} />
         <SaveComponent open={saveComponent} title="Save Component" handleClose={() => setSaveComponent(false)} />
 
-        {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
-          <ContextMenu>
-            <ContextMenuTrigger>
-              <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg z-50">{state.editor.selectedElement.name}</Badge>
-            </ContextMenuTrigger>
-            <ContextMenuContent>
-              <ContextMenuItem onClick={() => setEditComponentName(true)}>Edit Component Name</ContextMenuItem>
-
-              <ContextMenuItem onClick={() => setSaveComponent(true)}>Save Component</ContextMenuItem>
-            </ContextMenuContent>
-          </ContextMenu>
-        )}
-
         {Array.isArray(content) && content.map((childElement) => <Recursive key={childElement.id} element={childElement} />)}
-
-        {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
-          <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white z-50">
-            <Trash
-              className="cursor-pointer"
-              size={16}
-              onClick={() => {
-                handleDeleteElement();
-              }}
-            />
-          </div>
-        )}
 
         {activeStyle.backgroundVideo && (
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-[1] opacity-50 ">
@@ -182,24 +148,22 @@ export default function MainContainer({ element }: Props) {
   }
 
   return (
-    <Reorder.Group
-      values={element.content.map((content) => JSON.stringify(content))}
-      onReorder={handleReorder}
-      
-
+    <div
+      // values={element.content.map((content) => JSON.stringify(content))}
+      // onReorder={handleReorder}
       style={activeStyle}
-      className={cn("relative z-50 transition-all group", {
-        "max-w-full w-full": type === "container" || type === "2Col",
+      className={cn("relative z-50", {
+        "max-w-full w-full p-4": type === "container" || type === "2Col",
         "h-fit": type === "container",
-        "h-full": id === "__body",
+        "h-full  pb-40": id === "__body",
         "overflow-scroll ": type === "__body",
         "flex flex-col md:!flex-row": type === "2Col",
-        "!border-blue-500": state.editor.selectedElement.id === id && !state.editor.liveMode && state.editor.selectedElement.type !== "__body",
+        "!border-blue-500":
+          state.editor.selectedElement.id === id && state.editor.displayMode === "Editor" && state.editor.selectedElement.type !== "__body",
         "!border-yellow-400 !border-4":
-          state.editor.selectedElement.id === id && !state.editor.liveMode && state.editor.selectedElement.type === "__body",
-        "!border-solid": (state.editor.selectedElement.id === id && !state.editor.liveMode) || !state.editor.previewMode || !state.editor.liveMode,
-        "border-dashed border-[1px] border-slate-300 p-4": !state.editor.liveMode,
-      
+          state.editor.selectedElement.id === id && state.editor.displayMode === "Editor" && state.editor.selectedElement.type === "__body",
+        "!border-solid": state.editor.selectedElement.id === id && state.editor.displayMode === "Editor",
+        "border-dashed border-[1px] border-slate-300 ": state.editor.displayMode === "Editor",
       })}
       onDrop={(e) => handleOnDrop(e, id)}
       onDragOver={handleDragOver}
@@ -208,13 +172,13 @@ export default function MainContainer({ element }: Props) {
       <EditComponentName open={editComponentName} title="Edit Component Name" handleClose={() => setEditComponentName(false)} />
       <SaveComponent open={saveComponent} title="Save Component" handleClose={() => setSaveComponent(false)} />
 
-      {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
+      {state.editor.selectedElement.id === element.id && state.editor.displayMode === "Editor" && (
         <ContextMenu>
           <ContextMenuTrigger>
             <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg z-50">{state.editor.selectedElement.name}</Badge>
           </ContextMenuTrigger>
           <ContextMenuContent>
-            <ContextMenuItem onClick={() => setEditComponentName(true)} >Edit Component Name</ContextMenuItem>
+            <ContextMenuItem onClick={() => setEditComponentName(true)}>Edit Component Name</ContextMenuItem>
 
             <ContextMenuItem onClick={() => setSaveComponent(true)}>Save Component</ContextMenuItem>
           </ContextMenuContent>
@@ -223,12 +187,12 @@ export default function MainContainer({ element }: Props) {
 
       {Array.isArray(content) &&
         content.map((childElement) => (
-          <Reorder.Item key={childElement.id} value={JSON.stringify(childElement)} className="w-full" dragListener={false}>
+          // <Reorder.Item key={childElement.id} value={JSON.stringify(childElement)} className="w-full" dragListener={false}>
             <Recursive key={childElement.id} element={childElement} />
-          </Reorder.Item>
+          // </Reorder.Item>
         ))}
 
-      {state.editor.selectedElement.id === element.id && !state.editor.liveMode && (
+      {state.editor.selectedElement.id === element.id && state.editor.displayMode === "Editor" && (
         <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white z-50">
           <Trash
             className="cursor-pointer"
@@ -248,6 +212,6 @@ export default function MainContainer({ element }: Props) {
           </video>
         </div>
       )}
-    </Reorder.Group>
+    </div>
   );
 }

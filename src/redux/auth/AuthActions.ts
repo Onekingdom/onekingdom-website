@@ -46,6 +46,8 @@ export const getSessionData = createAsyncThunk<UserData, void, { state: RootStat
     };
 
 
+    console.log(response);
+
     return response;
   } catch (error: any) {
     console.log(error);

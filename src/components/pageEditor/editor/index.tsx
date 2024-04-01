@@ -72,11 +72,12 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
       maxWidth={1920}
       minWidth={375}
       canDrag={state.editor.displayMode === "Editor"}
-      className={cn("relative  h-full l  pb-40", {
+      className={cn("relative  h-full l ", {
         "!p-0 !mr-0": state.editor.displayMode !== "Editor",
         "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] mr-[385px] pb-[40px]":
           state.editor.displayMode === "Editor",
         "overflow-scroll": state.editor.displayMode === "Editor" || state.editor.displayMode === "Preview",
+        // "pb-96": state.editor.displayMode === "Editor",
       })}
     >
       {state.editor.displayMode === "Preview" && (

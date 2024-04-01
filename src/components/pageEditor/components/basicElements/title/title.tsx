@@ -15,7 +15,7 @@ export default function TitleComponent({ element }: Props) {
     <>
       <h3
         className="fn_title"
-        contentEditable={!state.editor.liveMode}
+        contentEditable={state.editor.displayMode === "Editor"}
         onBlur={(e) => {
           const spanElemtn = e.target;
           dispatch({
