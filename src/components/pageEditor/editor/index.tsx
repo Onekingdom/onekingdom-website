@@ -54,9 +54,7 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
     });
   };
 
-
   const handleResize = (width: number) => {
-
     dispatch({
       type: "pageEditor/SET_WIDTH",
       payload: {
@@ -66,11 +64,13 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
   };
 
   return (
-    <ResizableDiv    
+    <ResizableDiv
+      width={state.editor.width}
       handleChange={handleResize}
       onClick={handleClick}
       maxWidth={1920}
-      minWidth={375}
+      // find last media query 
+      minWidth={state.editor.mediaQuerys[state.editor.mediaQuerys.length - 1]}
       canDrag={state.editor.displayMode === "Editor"}
       className={cn("relative  h-full l ", {
         "!p-0 !mr-0": state.editor.displayMode !== "Editor",

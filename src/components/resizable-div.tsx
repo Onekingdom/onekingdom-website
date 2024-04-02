@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface ResizableDivProps extends React.HTMLAttributes<HTMLDivElement> {
   handleChange: (width: number) => void;
-  initialWidth?: number;
+  width: number;
   minWidth?: number;
   maxWidth?: number;
   children: React.ReactNode;
@@ -15,7 +15,7 @@ interface ResizableDivProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const ResizableDiv: React.FC<ResizableDivProps> = ({
   handleChange,
-  initialWidth = 1920,
+  width,
   minWidth = 0,
   maxWidth = 1920,
   children,
@@ -23,11 +23,9 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
   canDrag,
   onClick,
 }: ResizableDivProps) => {
-  const [width, setWidth] = useState(1920);
   const draggingRef = useRef(false);
   const startXRef = useRef(0);
   const container = useRef<HTMLDivElement | null>(null);
-  const { dispatch } = useEditor();
 
   const handleDragStart = (e: React.MouseEvent<HTMLSpanElement>) => {
     draggingRef.current = true;
@@ -43,15 +41,8 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
     const distanceMoved = offsetX * 2; // Adjust this factor to control resize speed
 
     const newWidth = Math.max(minWidth, Math.min(width + distanceMoved, maxWidth));
-    setWidth(newWidth);
 
-
-      dispatch({
-        type: "pageEditor/SET_WIDTH",
-        payload: {
-          width: width,
-        },
-      });
+    handleChange(newWidth);
 
     startXRef.current = e.clientX;
   };
@@ -74,8 +65,6 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
       window.removeEventListener("mouseup", handleWindowMouseUp);
     };
   }, [width]);
-
-
 
   return (
     <div style={{ width: `${width}px`, position: "relative" }} className={className} onClick={onClick} ref={container}>

@@ -12,8 +12,10 @@ import { DeviceTypes, PageDetails } from "@/types/pageEditor";
 import { ArrowLeftCircle, EyeIcon, Laptop, Redo2, Smartphone, Tablet, Undo2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FocusEventHandler } from "react";
+import { FocusEventHandler, useState } from "react";
 import { toast } from "sonner";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import NewMediaQueryModal from "../modals/new-media-query";
 
 type Props = {
   PageDetails: PageDetails;
@@ -23,6 +25,7 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
   const router = useRouter();
   const { dispatch, state } = useEditor();
   const { createNewPage, updatePage } = usePageEditor();
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleOnBlurTitleChange: FocusEventHandler<HTMLInputElement> = async (event) => {
     if (event.target.value === PageDetails.name) return;
@@ -83,6 +86,21 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
       toast.error("Error Saving Page");
     }
   };
+
+  const handleAddNewMediaQuery = (value: string) => {
+    if (value === "custom") {
+      setModalOpen(true);
+      return;
+    }
+
+    dispatch({
+      type: "pageEditor/SET_WIDTH",
+      payload: {
+        width: parseInt(value),
+      },
+    });
+  };
+
   return (
     <TooltipProvider>
       <nav
@@ -100,32 +118,20 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
           </div>
         </aside>
         <aside className="flex flex-col items-center justify-center">
-          <Tabs
-            defaultValue="Desktop"
-            className="w-fit"
-            value={state.editor.device}
-            onValueChange={(value) => {
-              dispatch({
-                type: "pageEditor/setDeviceType",
-                payload: value as DeviceTypes,
-              });
-            }}
-          >
-            <TabsList className="grid w-full grid-cols-3 bg-transparent h-fit">
-              <TabsTrigger value="Desktop" className="data-[state=active]:bg-muted size-10 p-0">
-                <Laptop />
-              </TabsTrigger>
-
-              <TabsTrigger value="Tablet" className="w-10 h-10 p-0 data-[state=active]:bg-muted">
-                <Tablet />
-              </TabsTrigger>
-
-              <TabsTrigger value="Mobile" className="w-10 h-10 p-0 data-[state=active]:bg-muted">
-                <Smartphone />
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-          <span>Active Width: {state.editor.width}</span>
+          <Select value={state.editor.activeMediaQuery.toString()} onValueChange={handleAddNewMediaQuery}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Media Query" />
+            </SelectTrigger>
+            <SelectContent>
+              {state.editor.mediaQuerys.map((mediaQuery, index) => (
+                <SelectItem key={index} value={mediaQuery.toString()}>
+                  {mediaQuery} px
+                </SelectItem>
+              ))}
+              <SelectItem value="custom">Add New</SelectItem>
+            </SelectContent>
+          </Select>
+          {modalOpen && <NewMediaQueryModal title="Add New Media Query" open={modalOpen} handleClose={setModalOpen} />}
         </aside>
         <aside className="flex items-center gap-2">
           <Button variant="ghost" size="icon" className="hover:bg-slate-800" onClick={handlePreviewClick}>
@@ -146,7 +152,7 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
           <div className="flex flex-col items-center mr-4">
             <div className="flex flex-row items-center gap-4">
               Draft
-              <Switch disabled defaultChecked={true} />
+              <Switch defaultChecked={true} />
               Publish
             </div>
             <span className="text-muted-foreground text-sm">

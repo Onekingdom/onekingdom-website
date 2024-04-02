@@ -49,6 +49,8 @@ export type Editor = {
   device: DeviceTypes;
   displayMode: 'Live' | 'Editor'| 'Preview';
   width: number;
+  mediaQuerys: number[]
+  activeMediaQuery: number;
 };
 
 export type HistoryState = {

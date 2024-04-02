@@ -1,5 +1,5 @@
-import { DeviceTypes, EditorElement, EditorState, HistoryState, PropertisElementHandler, customSettings } from "@/types/pageEditor";
-import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
+import { DeviceTypes, EditorElement, EditorState, HistoryState, customSettings } from "@/types/pageEditor";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { addElement, deleteElement, findElement, updateElement, updateElementStyle } from "./PageEditorActions";
 
 const initialEditorState: EditorState["editor"] = {
@@ -30,8 +30,10 @@ const initialEditorState: EditorState["editor"] = {
     type: null,
   },
   device: "Desktop",
-  displayMode: "Live", 
+  displayMode: "Live",
   width: 1920,
+  mediaQuerys: [1920, 1024, 768, 425],
+  activeMediaQuery: 1920,
 };
 
 const initialHistoryState: HistoryState = {
@@ -62,7 +64,6 @@ const pageEditorSlice = createSlice({
       };
     },
 
-
     // clear data
     clearData: (state) => {
       state.editor = initialEditorState;
@@ -78,9 +79,23 @@ const pageEditorSlice = createSlice({
 
     //set the width
     SET_WIDTH: (state, action: PayloadAction<{ width: number }>) => {
+      // find the closest media query
+      const mediaQuery = state.editor.mediaQuerys.reduce((prev, curr) =>
+        Math.abs(curr - action.payload.width) < Math.abs(prev - action.payload.width) ? curr : prev
+      );
+
       state.editor = {
         ...state.editor,
         width: action.payload.width,
+        activeMediaQuery: mediaQuery,
+      };
+    },
+
+    // add media query
+    ADD_MEDIA_QUERY: (state, action: PayloadAction<{ value: number }>) => {
+      state.editor = {
+        ...state.editor,
+        mediaQuerys: [...state.editor.mediaQuerys, action.payload.value].sort((a, b) => a - b),
       };
     },
 
@@ -120,9 +135,7 @@ const pageEditorSlice = createSlice({
 
     //update an element
     updateAnElement: (state, action: PayloadAction<EditorElement>) => {
-
-
-      const newArray = updateElement(state.editor.elements, action.payload);      
+      const newArray = updateElement(state.editor.elements, action.payload);
 
       state.editor = {
         ...state.editor,
@@ -142,11 +155,10 @@ const pageEditorSlice = createSlice({
 
       const { element, style } = action.payload;
 
-      const newElementArray = updateElementStyle({ device, element, style, editorArray: state.editor.elements, width: state.editor.width});
+      const newElementArray = updateElementStyle({ device, element, style, editorArray: state.editor.elements, width: state.editor.width });
       const newSelectedElement = findElement(newElementArray, state.editor.selectedElement.id);
 
       console.log("newElementArray", newElementArray);
-
 
       state.editor = {
         ...state.editor,
@@ -161,8 +173,6 @@ const pageEditorSlice = createSlice({
         device: action.payload,
       };
     },
-
-
   },
 });
 
