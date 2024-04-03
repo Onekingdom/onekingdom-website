@@ -12,7 +12,7 @@ export default function useStyles({ styles }: Props) {
   const { height, width } = useWindowDimensions();
   const { state } = useEditor();
 
-  const EditorWidth = state.editor.width;
+  const EditorWidth = state.editor.width
   useEffect(() => {
     if (!styles) return;
 

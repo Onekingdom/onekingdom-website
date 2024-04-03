@@ -1,15 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { PageDetails } from "@/types/pageEditor";
-import clsx from "clsx";
-import { EyeOff } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import Recursive from "./recursive";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import ResizableDiv from "@/components/resizable-div";
+import { Button } from "@/components/ui/button";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { cn } from "@/lib/utils";
-import { useDebounce } from "@uidotdev/usehooks";
+import { PageDetails } from "@/types/pageEditor";
+import { EyeOff } from "lucide-react";
+import { useEffect } from "react";
+import Recursive from "./recursive";
 
 type Props = {
   liveMode?: boolean;
@@ -63,6 +61,11 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
     });
   };
 
+
+  useEffect(() => {
+    console.log(state.editor.mediaQuerys)
+  }, [state.editor.mediaQuerys]);
+
   return (
     <ResizableDiv
       width={state.editor.width}
@@ -70,7 +73,7 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
       onClick={handleClick}
       maxWidth={1920}
       // find last media query 
-      minWidth={state.editor.mediaQuerys[state.editor.mediaQuerys.length - 1]}
+      minWidth={320}
       canDrag={state.editor.displayMode === "Editor"}
       className={cn("relative  h-full l ", {
         "!p-0 !mr-0": state.editor.displayMode !== "Editor",

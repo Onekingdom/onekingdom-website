@@ -153,3 +153,23 @@ export const findElement = (editorArray: EditorElement[], id: string): EditorEle
   }
   return null;
 };
+
+
+export function setActiveMediaQuery(width: number, mediaQuerys: number[]) {
+  // Ensure the media queries are sorted in ascending order
+  const sortedMediaQuerys = mediaQuerys.sort((a, b) => a - b);
+
+  let activeMediaQuery = sortedMediaQuerys[0]; // Default to the smallest media query
+
+  // Iterate through media queries to find the correct activeMediaQuery
+  for (let i = 0; i < sortedMediaQuerys.length; i++) {
+    if (width >= sortedMediaQuerys[i]) {
+      activeMediaQuery = sortedMediaQuerys[i];
+    } else {
+      break; // Exit the loop if current width is less than the media query value
+    }
+  }
+
+  // Return the object with the width, mediaQuerys, and the determined activeMediaQuery
+  return activeMediaQuery;
+}

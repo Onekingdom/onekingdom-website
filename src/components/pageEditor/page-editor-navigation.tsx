@@ -9,7 +9,7 @@ import useEditor from "@/hooks/useEditor";
 import usePageEditor from "@/hooks/usePageEditor";
 import { cn } from "@/lib/utils";
 import { DeviceTypes, PageDetails } from "@/types/pageEditor";
-import { ArrowLeftCircle, EyeIcon, Laptop, Redo2, Smartphone, Tablet, Undo2 } from "lucide-react";
+import { ArrowLeftCircle, EyeIcon, Laptop, MonitorSmartphone, Redo2, Smartphone, Tablet, Undo2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FocusEventHandler, useState } from "react";
@@ -117,7 +117,8 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
             <span className="text-sm text-muted-foreground">Path: {PageDetails.pathName}</span>
           </div>
         </aside>
-        <aside className="flex flex-col items-center justify-center">
+        <aside className="flex flex-row items-center justify-center">
+
           <Select value={state.editor.activeMediaQuery.toString()} onValueChange={handleAddNewMediaQuery}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Media Query" />
@@ -132,6 +133,8 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
             </SelectContent>
           </Select>
           {modalOpen && <NewMediaQueryModal title="Add New Media Query" open={modalOpen} handleClose={setModalOpen} />}
+
+          <span>{state.editor.width}PX</span>
         </aside>
         <aside className="flex items-center gap-2">
           <Button variant="ghost" size="icon" className="hover:bg-slate-800" onClick={handlePreviewClick}>
