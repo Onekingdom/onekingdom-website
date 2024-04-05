@@ -35,10 +35,10 @@ export default function Page() {
   async function removePage(event: PageDetailStorage) {
     try {
       await deletePage(event.$id);
-      toast.success("Member deleted");
+      toast.success("page deleted");
       setPages((pages) => pages.filter((page) => page.$id !== event.$id));
     } catch (error) {
-      toast.error("Error deleting member");
+      toast.error("Error deleting page");
     }
   }
 

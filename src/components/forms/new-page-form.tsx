@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { PageDetails } from "@/types/pageEditor";
 
 export default function NewPageForm() {
   const { createNewPage } = usePageEditor();
@@ -31,7 +32,9 @@ export default function NewPageForm() {
         visits: 0,
         previewImage: null,
         updatedAt: new Date(),
-      } as any);
+        published: false,
+
+      } as PageDetails);
 
       router.push(`/admin/pages/editor?pageID=${res.$id}`);
     } catch (error) {

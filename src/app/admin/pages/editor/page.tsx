@@ -22,7 +22,7 @@ export default function Page() {
   useEffect(() => {
     const getPage = async () => {
       try {
-        const response = await getPageDetails(pageID);
+        const response = await getPageDetails(pageID);   
         setPageDetails({
           $id: response.$id,
           content: response.content,
@@ -33,6 +33,7 @@ export default function Page() {
           previewImage: response.previewImage,
           updatedAt: response.updatedAt,
           visits: response.visits,
+          published: response.published,
         });
       } catch (error: any) {
         throw new Error(error.message);
@@ -55,7 +56,7 @@ export default function Page() {
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 z-[20] bg-background " suppressContentEditableWarning={true} suppressHydrationWarning>
       <PageEditorNavigation PageDetails={pageDetails} />
-      <div className={cn("h-full flex justify-center")}>
+      <div className={cn("h-full flex justify-center z-50")}>
         <PageEditor pageDetails={pageDetails} liveMode={false} />
       </div>
       <PageEditorSidebar />

@@ -1,5 +1,4 @@
 "use client";
-import { Metadata } from 'next'
 import "@/styles/globals.scss";
 import "./globals.css";
 

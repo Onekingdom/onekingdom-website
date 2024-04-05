@@ -17,11 +17,40 @@ export interface ChannelSearchResult {
   started_at: string; // The UTC date and time (in RFC3339 format) of when the broadcaster started streaming. The string is empty if the broadcaster is not streaming live.
 }
 
-
 export interface RefreshTokenResponse {
   access_token: string;
   refresh_token: string;
   expires_in: number;
   scope: string;
   token_type: string;
+}
+
+export interface ChannelFollowers {
+  followed_at: date;
+  user_id: string;
+  user_login: string;
+  user_name: string;
+}
+export interface getChannelFollowersResponse {
+  total: number;
+  data: ChannelFollowers[];
+  pagination: {
+    cursor: string;
+  };
+}
+export interface TwitchUser {
+  id: string;
+  login: string;
+  display_name: string;
+  type: "admin" | "global_mod" | "staff" | "";
+  broadcaster_type: "affiliate" | "partner" | "";
+  description: string;
+  profile_image_url: string;
+  offline_image_url: string;
+  view_count: number | null; // Considering deprecation, it could be `null` or not present.
+  email?: string; // Optional because it depends on the user access token's scope.
+  created_at: string; // In RFC3339 format.
+}
+export interface getTwitchUserResponse {
+  data: User[];
 }

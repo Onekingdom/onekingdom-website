@@ -4,6 +4,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToolTipButton } from "@/components/ui/tooltip-button";
 import { PropertisElementHandler, customSettings } from "@/types/pageEditor";
 import FlexSettings from "./flex-settings";
+import GridSettings from "./grid-settings";
 
 
 interface Props {
@@ -48,6 +49,10 @@ export default function DisplaySettings({ activeStyle, handleOnChanges }: Props)
 
       {activeStyle.display === "flex" && (
         <FlexSettings activeStyle={activeStyle} handleOnChanges={handleOnChanges} />
+      )}
+
+      {activeStyle.display === "grid" && (
+        <GridSettings activeStyle={activeStyle} handleOnChanges={handleOnChanges} />
       )}
       
     </>

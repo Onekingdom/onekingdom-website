@@ -172,23 +172,25 @@ export default function MainContainer({ element }: Props) {
       <EditComponentName open={editComponentName} title="Edit Component Name" handleClose={() => setEditComponentName(false)} />
       <SaveComponent open={saveComponent} title="Save Component" handleClose={() => setSaveComponent(false)} />
 
-      {state.editor.selectedElement.id === element.id && state.editor.displayMode === "Editor" && (
-        <ContextMenu>
-          <ContextMenuTrigger>
-            <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg z-50">{state.editor.selectedElement.name}</Badge>
-          </ContextMenuTrigger>
-          <ContextMenuContent>
-            <ContextMenuItem onClick={() => setEditComponentName(true)}>Edit Component Name</ContextMenuItem>
+      {/* {state.editor.selectedElement.id === element.id && state.editor.displayMode === "Editor" && (
+        <div className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg z-50">
+          <ContextMenu>
+            <ContextMenuTrigger>
+              <Badge className="absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg z-50">{state.editor.selectedElement.name}</Badge>
+            </ContextMenuTrigger>
+            <ContextMenuContent>
+              <ContextMenuItem onClick={() => setEditComponentName(true)}>Edit Component Name</ContextMenuItem>
 
-            <ContextMenuItem onClick={() => setSaveComponent(true)}>Save Component</ContextMenuItem>
-          </ContextMenuContent>
-        </ContextMenu>
-      )}
+              <ContextMenuItem onClick={() => setSaveComponent(true)}>Save Component</ContextMenuItem>
+            </ContextMenuContent>
+          </ContextMenu>
+        </div>
+      )} */}
 
       {Array.isArray(content) &&
         content.map((childElement) => (
           // <Reorder.Item key={childElement.id} value={JSON.stringify(childElement)} className="w-full" dragListener={false}>
-            <Recursive key={childElement.id} element={childElement} />
+          <Recursive key={childElement.id} element={childElement} />
           // </Reorder.Item>
         ))}
 

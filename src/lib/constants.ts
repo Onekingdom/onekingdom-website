@@ -49,15 +49,6 @@ export const databases = {
   },
 
 
-  spotifyIntegration: {
-    databaseID: "64eea021e0e4804e0d0e",
-    collections: {
-      streamserSettings: "64eea13235071b511823",
-      bannedViewers: "64f3e217f07063ad99a4",
-      bannedSongs: "64eea036557408b933af",
-      queue: "6527f88ebc9707f8bab2"
-    },
-  },
   channelPoints: {
     databaseID: "64f5a59d96ce3e17ffe2",
     collections: {
@@ -87,7 +78,7 @@ export const databases = {
     },
   },
   pages: {
-    databaseID: onekingdomDB,
+    databaseID: "658fabb7b076a84d06d2",
     collectionID: "65cf612a10b631f9d906",
   }
 };

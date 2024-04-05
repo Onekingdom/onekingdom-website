@@ -8,6 +8,7 @@ import { PageDetails } from "@/types/pageEditor";
 import { EyeOff } from "lucide-react";
 import { useEffect } from "react";
 import Recursive from "./recursive";
+import { client } from "@/lib/appwrite";
 
 type Props = {
   liveMode?: boolean;
@@ -19,15 +20,18 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!pageDetails) return;
+    if (!pageDetails) return;    
     dispatch({
       type: "pageEditor/loadData",
       payload: {
         elements: pageDetails.content ? JSON.parse(pageDetails?.content) : null,
         withLive: !!liveMode,
-        displayMode: "Editor",
+        displayMode: liveMode ? "Live" : "Editor",
+        published: pageDetails.published,
       },
     });
+
+
 
     return () => {
       dispatch({
@@ -62,9 +66,47 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
   };
 
 
-  useEffect(() => {
-    console.log(state.editor.mediaQuerys)
-  }, [state.editor.mediaQuerys]);
+
+
+  // useEffect(() => {
+  //   if (liveMode) {
+  //     unsubscribe = client.subscribe<PageDetails>(`databases.658fabb7b076a84d06d2.collections.65cf612a10b631f9d906.documents.${pageDetails?.$id}`, response => {
+  //       console.log(response);
+
+
+  //       dispatch({
+  //         type: "pageEditor/loadData",
+  //         payload: {
+  //           elements: response.payload.content ? JSON.parse(response.payload.content) : null,
+  //           withLive: !!liveMode,
+  //           displayMode: liveMode ? "Live" : "Editor",
+  //         },
+  //       });
+  //     });
+  //   }
+  //   return () => {
+  //     if (unsubscribe) {
+  //       unsubscribe();
+  //     }
+  //   }
+  // }, []);
+
+
+
+
+
+  if (state.editor.displayMode === "Live") {
+    return (
+      <div className={cn("relative h-full w-full ")}>
+        {Array.isArray(state.editor.elements) &&
+          state.editor.elements.map((childElement) => <Recursive key={childElement.id} element={childElement} />)}
+      </div>
+    );
+  }
+
+
+
+
 
   return (
     <ResizableDiv
@@ -72,10 +114,9 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
       handleChange={handleResize}
       onClick={handleClick}
       maxWidth={1920}
-      // find last media query 
       minWidth={320}
       canDrag={state.editor.displayMode === "Editor"}
-      className={cn("relative  h-full l ", {
+      className={cn("relative  h-full  ", {
         "!p-0 !mr-0": state.editor.displayMode !== "Editor",
         "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] mr-[385px] pb-[40px]":
           state.editor.displayMode === "Editor",

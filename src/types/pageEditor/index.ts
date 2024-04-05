@@ -12,6 +12,7 @@ export interface PageDetails {
   content: string | null;
   order: number;
   previewImage: string | null;
+  published: boolean;
 }
 
 export type DeviceTypes = "Desktop" | "Mobile" | "Tablet";
@@ -51,6 +52,7 @@ export type Editor = {
   width: number;
   mediaQuerys: number[]
   activeMediaQuery: number;
+  published: boolean;
 };
 
 export type HistoryState = {

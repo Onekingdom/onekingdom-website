@@ -38,8 +38,8 @@ export default function VideoComponent({ element }: Props) {
       },
     });
   };
-  const liveMode = state.editor.liveMode;
-  const isPreview = state.editor.previewMode;
+  const liveMode = state.editor.displayMode === "Live";
+  const isPreview = state.editor.displayMode === "Preview";
   const canDrag = !liveMode || !isPreview;
   return (
     <div
@@ -48,8 +48,8 @@ export default function VideoComponent({ element }: Props) {
       onDragStart={(e) => handleDragStart(e, "video")}
       onClick={handleOnClick}
       className={cn("p-[2px] w-full m-[5px] relative text-[16px] transition-all flex items-center justify-center", {
-        "!border-blue-500 !border-solid ": isSelectedElement,
-        "border-dashed boder-[1px] border-slate-300": !state.editor.liveMode,
+        "!border-blue-500 !border-solid ": isSelectedElement && !liveMode,
+        "border-dashed boder-[1px] border-slate-300": state.editor.displayMode === "Editor" && !isSelectedElement,
       })}
     >
       {/* {isSelectedElement && !state.editor.liveMode && (

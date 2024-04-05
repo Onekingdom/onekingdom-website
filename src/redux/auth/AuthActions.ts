@@ -31,9 +31,6 @@ export const getSessionData = createAsyncThunk<UserData, void, { state: RootStat
     //get the user data
     const userData = await database.listDocuments<TwitchDataStorage>(databases.twitch.databaseID, databases.twitch.collections.User);
 
-
-
-
     //
     if (!userData) {
       throw new Error("No user data found");
@@ -44,9 +41,6 @@ export const getSessionData = createAsyncThunk<UserData, void, { state: RootStat
       ...session,
       ...userData.documents[0],
     };
-
-
-    console.log(response);
 
     return response;
   } catch (error: any) {

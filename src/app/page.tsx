@@ -4,7 +4,7 @@ import { database } from "@/utils/serverAppwrite";
 import React from "react";
 
 async function FetchHome() {
-  const res = await database.getDocument<PageDetailStorage>("658fabb7b076a84d06d2", "65cf612a10b631f9d906", "65f03006671385ca208e");
+  const res = await database.getDocument<PageDetailStorage>("658fabb7b076a84d06d2", "65cf612a10b631f9d906", "660446fe1b02c8f8233a");
 
   return res;
 }

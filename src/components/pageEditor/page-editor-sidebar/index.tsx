@@ -17,10 +17,10 @@ export default function PageEditorSidebar() {
   const { state } = useEditor();
   return (
     <Sheet open={true} modal={false}>
-      <Tabs className="w-full" defaultValue="Settings">
+      <Tabs  defaultValue="Settings">
         <SheetContent
           side="right"
-          className={cn("mt-[97px] w-16 z-[80] shadow-none p-0 focus:border-none transition-all overflow-hidden", {
+          className={cn("mt-[97px] w-12 z-[80] shadow-none p-0 focus:border-none transition-all overflow-hidden", {
             hidden: state.editor.displayMode === "Preview",
           })}
         >
@@ -28,7 +28,7 @@ export default function PageEditorSidebar() {
         </SheetContent>
         <SheetContent
           side="right"
-          className={cn("mt-[97px] w-80 z-[40] shadow-none p-0 mr-16 bg-background h-full transition-all overflow-hidden", {
+          className={cn("mt-[97px] w-80 z-[40] shadow-none p-0 mr-12 bg-background h-full transition-all overflow-hidden", {
             hidden: state.editor.displayMode === "Preview",
           })}
         >

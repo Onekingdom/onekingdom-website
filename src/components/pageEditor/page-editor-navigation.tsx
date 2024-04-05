@@ -2,19 +2,18 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import useEditor from "@/hooks/useEditor";
 import usePageEditor from "@/hooks/usePageEditor";
 import { cn } from "@/lib/utils";
-import { DeviceTypes, PageDetails } from "@/types/pageEditor";
-import { ArrowLeftCircle, EyeIcon, Laptop, MonitorSmartphone, Redo2, Smartphone, Tablet, Undo2 } from "lucide-react";
+import { PageDetails } from "@/types/pageEditor";
+import { ArrowLeftCircle, EyeIcon, Redo2, Undo2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FocusEventHandler, useState } from "react";
 import { toast } from "sonner";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import NewMediaQueryModal from "../modals/new-media-query";
 
 type Props = {
@@ -63,6 +62,7 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
     try {
       const newPage = {
         ...PageDetails,
+        published: state.editor.published,
         content,
       };
 
@@ -85,6 +85,15 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
     } catch (error) {
       toast.error("Error Saving Page");
     }
+  };
+
+  const handlePublish = (value: boolean) => {
+    dispatch({
+      type: "pageEditor/SET_PUBLISHED",
+      payload: {
+        value: value,
+      },
+    });
   };
 
   const handleAddNewMediaQuery = (value: string) => {
@@ -118,7 +127,6 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
           </div>
         </aside>
         <aside className="flex flex-row items-center justify-center">
-
           <Select value={state.editor.activeMediaQuery.toString()} onValueChange={handleAddNewMediaQuery}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Media Query" />
@@ -155,7 +163,10 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
           <div className="flex flex-col items-center mr-4">
             <div className="flex flex-row items-center gap-4">
               Draft
-              <Switch defaultChecked={true} />
+              <Switch
+                checked={state.editor.published}
+                onCheckedChange={handlePublish}
+              />
               Publish
             </div>
             <span className="text-muted-foreground text-sm">

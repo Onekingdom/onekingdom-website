@@ -24,7 +24,7 @@ export default function VideoHero({ element }: Props) {
             <div id="magic" />
             <h4
               className="fn_subtitle"
-              contentEditable={!state.editor.liveMode}
+              contentEditable={state.editor.displayMode === "Editor"}
               onBlur={(e) => {
                 const spanElemtn = e.target;
                 dispatch({
@@ -47,7 +47,7 @@ export default function VideoHero({ element }: Props) {
             {/* <AnimatedTitle title={title} /> */}
             <h1
               className="fn_title"
-              contentEditable={!state.editor.liveMode}
+              contentEditable={state.editor.displayMode === "Editor"}
               onBlur={(e) => {
                 const spanElemtn = e.target;
                 dispatch({

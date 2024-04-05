@@ -34,6 +34,7 @@ const initialEditorState: EditorState["editor"] = {
   width: 1920,
   mediaQuerys: [1920, 1024, 768, 425, 0].sort((a, b) => a - b),
   activeMediaQuery: 1920,
+  published: false,
 };
 
 const initialHistoryState: HistoryState = {
@@ -57,13 +58,19 @@ const pageEditorSlice = createSlice({
         elements: EditorElement[] | null;
         withLive: boolean;
         displayMode: "Live" | "Editor" | "Preview";
+        published: boolean;
       }>
     ) => {
+ 
+
       state.editor = {
         ...state.editor,
         elements: action.payload.elements ?? state.editor.elements,
         displayMode: action.payload.displayMode ?? state.editor.displayMode,
+        published: action.payload.published,
       };
+
+
     },
 
     // clear data
@@ -76,6 +83,14 @@ const pageEditorSlice = createSlice({
       state.editor = {
         ...state.editor,
         displayMode: action.payload.value,
+      };
+    },
+
+    //set the published
+    SET_PUBLISHED: (state, action: PayloadAction<{ value: boolean }>) => {
+      state.editor = {
+        ...state.editor,
+        published: action.payload.value,
       };
     },
 
@@ -165,7 +180,6 @@ const pageEditorSlice = createSlice({
       });
       const newSelectedElement = findElement(newElementArray, state.editor.selectedElement.id);
 
-      console.log("newElementArray", newElementArray);
 
       state.editor = {
         ...state.editor,
