@@ -63,7 +63,7 @@ export default function RecentFollowers() {
       <CardContent className="grid gap-8 ">
         {loading
           ? [...Array(6)].map((_, index) => (
-              <div className="flex flex-row items-center gap-4 w-full">
+              <div className="flex flex-row items-center gap-4 w-full" key={index}>
                 <Skeleton className="h-12 w-12 rounded-full" />
                 <div className="w-full">
                   <Skeleton className="h-4 w-96" />
