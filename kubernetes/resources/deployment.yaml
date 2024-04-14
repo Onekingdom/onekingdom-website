@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: onekingdom-frontend
-        image: ghcr.io/onekingdom/onekingdom-website:d466da79e26a9f738c4361ac31a44efc11447fb3
+        image: ghcr.io/onekingdom/onekingdom-website:69c9989da718fc803b04cdd4fea0ff782e73c1d3
         ports:
         - containerPort: 3000
         envFrom:
