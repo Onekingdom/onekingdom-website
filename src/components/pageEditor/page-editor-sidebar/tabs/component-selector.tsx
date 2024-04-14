@@ -3,7 +3,7 @@ import { elements } from "../../components/index";
 
 import PlaceHolder, { DatabasePlaceholder } from "@/components/pageEditor/components/placeholder";
 import { savedComponentList } from "@/types/database/pages";
-import { database } from "@@/lib/clientAppwrite";
+import { database } from "@/lib/clientAppwrite";
 import { useEffect, useState } from "react";
 
 export default function ComponentsTab() {

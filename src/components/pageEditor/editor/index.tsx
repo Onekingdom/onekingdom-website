@@ -97,7 +97,7 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
 
   if (state.editor.displayMode === "Live") {
     return (
-      <div className={cn("relative h-full w-full ")}>
+      <div className={cn("relative h-full")}>
         {Array.isArray(state.editor.elements) &&
           state.editor.elements.map((childElement) => <Recursive key={childElement.id} element={childElement} />)}
       </div>

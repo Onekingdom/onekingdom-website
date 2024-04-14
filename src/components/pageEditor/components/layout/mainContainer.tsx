@@ -118,34 +118,34 @@ export default function MainContainer({ element }: Props) {
     });
   };
 
-  if (state.editor.displayMode === "Live") {
-    return (
-      <div
-        style={activeStyle}
-        className={cn("relative transition-all group", {
-          "h-full": id === "__body",
-          "w-full h-fit": type === "container",
-        })}
-        onDrop={(e) => handleOnDrop(e, id)}
-        onDragOver={handleDragOver}
-        onClick={handleOnCLickBody}
-      >
-        <EditComponentName open={editComponentName} title="Edit Component Name" handleClose={() => setEditComponentName(false)} />
-        <SaveComponent open={saveComponent} title="Save Component" handleClose={() => setSaveComponent(false)} />
+  // if (state.editor.displayMode === "Live") {
+  //   return (
+  //     <div
+  //       style={activeStyle}
+  //       className={cn("relative transition-all group", {
+  //         "h-full": id === "__body",
+  //         "w-full h-fit": type === "container",
+  //       })}
+  //       onDrop={(e) => handleOnDrop(e, id)}
+  //       onDragOver={handleDragOver}
+  //       onClick={handleOnCLickBody}
+  //     >
+  //       <EditComponentName open={editComponentName} title="Edit Component Name" handleClose={() => setEditComponentName(false)} />
+  //       <SaveComponent open={saveComponent} title="Save Component" handleClose={() => setSaveComponent(false)} />
 
-        {Array.isArray(content) && content.map((childElement) => <Recursive key={childElement.id} element={childElement} />)}
+  //       {Array.isArray(content) && content.map((childElement) => <Recursive key={childElement.id} element={childElement} />)}
 
-        {activeStyle.backgroundVideo && (
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-[1] opacity-50 ">
-            <video autoPlay loop muted className="w-full h-full object-cover">
-              <source src={activeStyle.backgroundVideo} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        )}
-      </div>
-    );
-  }
+  //       {activeStyle.backgroundVideo && (
+  //         <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-[1] opacity-50 ">
+  //           <video autoPlay loop muted className="w-full h-full object-cover">
+  //             <source src={activeStyle.backgroundVideo} type="video/mp4" />
+  //             Your browser does not support the video tag.
+  //           </video>
+  //         </div>
+  //       )}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
