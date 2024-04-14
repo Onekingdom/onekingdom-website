@@ -153,7 +153,9 @@ export default function MainContainer({ element }: Props) {
       // onReorder={handleReorder}
       style={activeStyle}
       className={cn("relative z-50", {
-        "max-w-full w-full p-4": type === "container" || type === "2Col",
+        "!p-0 !m-0": state.editor.selectedElement.type === "__body" && state.editor.displayMode === "Live",
+        "max-w-full w-full ": type === "container",
+        "p-4": state.editor.displayMode === "Editor",
         "h-fit": type === "container",
         "h-full  pb-40": id === "__body",
         "overflow-scroll ": type === "__body",
