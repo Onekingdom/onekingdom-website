@@ -7,7 +7,7 @@ import { z } from "zod";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { toast } from "sonner";
-import { database } from "@/utils/clientAppwrite";
+import { database } from "@/lib/clientAppwrite";
 import { ID } from "appwrite";
 import { useAppSelector } from "@/hooks/redux";
 

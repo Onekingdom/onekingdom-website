@@ -1,5 +1,5 @@
 import React, { use, useCallback, useEffect, useState } from "react";
-import { storage } from "@/utils/clientAppwrite";
+import { storage } from "@@/lib/clientAppwrite";
 import { ID, Models } from "appwrite";
 import { useDropzone } from "react-dropzone";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";

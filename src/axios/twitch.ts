@@ -2,7 +2,7 @@
 import axios, { RawAxiosRequestHeaders } from "axios";
 import store from "@/app/store";
 import { Models } from "appwrite";
-import { account } from "@/lib/appwrite";
+import { account } from "@/lib/clientAppwrite";
 import { updateAccessToken } from "@/redux/auth/authSlice";
 
 const TwitchAPI = axios.create({

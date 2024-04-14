@@ -8,7 +8,7 @@ import { PageDetails } from "@/types/pageEditor";
 import { EyeOff } from "lucide-react";
 import { useEffect } from "react";
 import Recursive from "./recursive";
-import { client } from "@/lib/appwrite";
+import { client } from "@/lib/clientAppwrite";
 
 type Props = {
   liveMode?: boolean;

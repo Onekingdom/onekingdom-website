@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { Icons } from "./icons";
 import SocialIcon from "./SocialIcon";
-import { account } from "@/utils/clientAppwrite";
+import { account } from "@/lib/clientAppwrite";
 import { baseURl } from "@/lib/constants";
 
 interface TwitchLoginProps {

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { storage } from "@/lib/appwrite";
+import { storage } from "@/lib/clientAppwrite";
 import { Models, Query } from "appwrite";
 
 interface MediaProps {

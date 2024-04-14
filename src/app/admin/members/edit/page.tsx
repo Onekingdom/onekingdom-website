@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { memberSchema } from "@/schemas/member";
 import { memberStorage } from "@/types/database/members";
 import { Socialmedia } from "@/types/payload";
-import { storage } from "@/utils/clientAppwrite";
+import { storage } from "@/lib/clientAppwrite";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Models } from "appwrite";
 import Image from "next/image";

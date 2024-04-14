@@ -1,7 +1,7 @@
 import useEditor from "@/hooks/useEditor";
 import { memberStorage } from "@/types/database/members";
 import { EditorElement } from "@/types/pageEditor";
-import { database, storage } from "@/utils/clientAppwrite";
+import { database, storage } from "@/lib/clientAppwrite";
 import { useEffect, useState } from "react";
 import { MemberCardProps } from ".";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";

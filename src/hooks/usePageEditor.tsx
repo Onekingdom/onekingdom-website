@@ -1,4 +1,4 @@
-import { database } from "@/lib/appwrite";
+import { database } from "@/lib/clientAppwrite";
 import { databases } from "@/lib/constants";
 import { PageDetailStorage } from "@/types/database/pages";
 import React from "react";

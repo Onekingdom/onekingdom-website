@@ -4,7 +4,7 @@ import { Models } from "appwrite";
 import { RootState } from "@/app/store";
 import { TwitchDataStorage, UserData } from "@/types/database/user";
 import { getSessionData, fetchTwitchData, logoutUser } from "./AuthActions";
-import { account, client } from "@/lib/appwrite";
+import { account, client } from "@/lib/clientAppwrite";
 import { baseURl, databases, defaultPage, scopes } from "@/lib/constants";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";

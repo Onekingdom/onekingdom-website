@@ -1,14 +1,12 @@
 "use client";
-import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { UserAuthForm } from "@/components/userAuthForm";
-import { storage } from "@/utils/clientAppwrite";
-import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { toast } from "sonner";
 // export const metadata: Metadata = {
 //   title: "Authentication",
 //   description: "Authentication forms built using the components.",

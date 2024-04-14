@@ -1,5 +1,5 @@
 import React from "react";
-import { database } from "@/utils/clientAppwrite";
+import { database } from "@/lib/clientAppwrite";
 import { Event, EventStorage, EventsStorage } from "@/types/events";
 // import { toast } from "sonner";
 import { ID } from "appwrite";

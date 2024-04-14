@@ -2,7 +2,7 @@ import { EditorElement } from '@/types/pageEditor';
 import React from 'react'
 import { TeamSectionContent } from '.';
 import MemberCard from '@/components/pageEditor/components/onekingdom/membercard/MemberCard';
-import { database } from '@/lib/appwrite';
+import { database } from '@/lib/clientAppwrite';
 import { memberStorage } from '@/types/database/members';
 
 type Props = {

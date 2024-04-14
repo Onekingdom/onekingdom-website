@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { team } from "@/utils/clientAppwrite";
+import { team } from "@@/lib/clientAppwrite";
 import { Models, Query } from "appwrite";
 
 const onekingdom = "65ad8a8a0a403b18c51b";

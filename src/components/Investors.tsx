@@ -1,5 +1,5 @@
 import { InvestorStorage } from "@/types/Investors";
-import { storage } from "@/utils/clientAppwrite";
+import { storage } from "@/lib/clientAppwrite";
 import { database } from "@/utils/serverAppwrite";
 import Image from "next/image";
 

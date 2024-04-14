@@ -1,7 +1,7 @@
 "use client";
 import useShortEditor from "@/hooks/editors/useShortEditor";
 import { EventStorage } from "@/types/events";
-import { storage } from "@/utils/clientAppwrite";
+import { storage } from "@/lib/clientAppwrite";
 import { EditorContent } from "@tiptap/react";
 import Image from "next/image";
 import Link from "next/link";

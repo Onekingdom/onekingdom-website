@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { elements } from "../components";
 import useStyles from "@/hooks/useStyles";
 import { useEffect, useState } from "react";
-import { storage } from "@/utils/clientAppwrite";
+import { storage } from "@/lib/clientAppwrite";
 import useEditor from "@/hooks/useEditor";
 
 type Props = {

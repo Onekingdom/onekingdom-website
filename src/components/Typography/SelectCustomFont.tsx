@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import { Models } from "appwrite";
-import { storage } from "@/utils/clientAppwrite";
+import { storage } from "@@/lib/clientAppwrite";
 
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 

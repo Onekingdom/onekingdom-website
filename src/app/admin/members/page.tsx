@@ -20,7 +20,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { storage } from "@/utils/clientAppwrite";
+import { storage } from "@/lib/clientAppwrite";
 
 export default function Page() {
   const [members, setMembers] = useState<memberStorage[]>([]);

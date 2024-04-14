@@ -1,5 +1,5 @@
 import { RootState } from "@/app/store";
-import { account, database, team } from "@/utils/clientAppwrite";
+import { account, database, team } from "@/lib/clientAppwrite";
 import { databases } from "@/lib/constants";
 import { TwitchDataStorage, UserData } from "@/types/database/user";
 import { createAsyncThunk } from "@reduxjs/toolkit";

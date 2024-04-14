@@ -12,7 +12,7 @@ import { z } from "zod";
 import { loginSchema } from "@/schemas/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
-import { account } from "@/utils/clientAppwrite";
+import { account } from "@/lib/clientAppwrite";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import SocialIcon from "./SocialIcon";

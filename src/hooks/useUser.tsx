@@ -1,7 +1,7 @@
 import React, { use, useEffect, useState } from "react";
 import { useAppSelector } from "./redux";
 import axios from "axios";
-import { account } from "@/utils/clientAppwrite";
+import { account } from "@@/lib/clientAppwrite";
 import useTeams from "./useTeams";
 import { Models } from "node-appwrite";
 import { baseURl } from "@/lib/constants";

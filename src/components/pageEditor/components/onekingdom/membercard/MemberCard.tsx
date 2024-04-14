@@ -1,7 +1,7 @@
 "use client";
 import { memberStorage } from "@/types/database/members";
 import { EditorElement } from "@/types/pageEditor";
-import { database, storage } from "@/utils/clientAppwrite";
+import { database, storage } from "@/lib/clientAppwrite";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import React, { useEffect } from "react";

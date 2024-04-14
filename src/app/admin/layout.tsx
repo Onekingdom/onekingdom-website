@@ -8,7 +8,7 @@ import { DashboardNav } from "@/components/nav/dashboardNav";
 import Sidebar from "@/components/nav/sidebar";
 import { dashboardConfig } from "@/config/dashboard";
 import { databases } from "@/lib/constants";
-import { client } from "@/utils/clientAppwrite";
+import { client } from "@/lib/clientAppwrite";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { getSessionData } from "../../redux/auth/AuthActions";

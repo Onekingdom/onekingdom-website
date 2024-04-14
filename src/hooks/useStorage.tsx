@@ -1,4 +1,4 @@
-import { storage } from "@/utils/clientAppwrite";
+import { storage } from "@@/lib/clientAppwrite";
 import { ID } from "appwrite";
 import React from "react";
 

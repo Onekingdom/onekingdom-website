@@ -24,7 +24,7 @@ import Image from "next/image";
 import { Copy, MoreHorizontal, Trash } from "lucide-react";
 
 import { Models } from "appwrite";
-import { storage } from "@/lib/appwrite";
+import { storage } from "@/lib/clientAppwrite";
 import { toast } from "sonner";
 
 type Props = {
