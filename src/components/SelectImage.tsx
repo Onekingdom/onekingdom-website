@@ -1,4 +1,4 @@
-import { storage } from "@@/lib/clientAppwrite";
+import { storage } from "@/lib/clientAppwrite";
 import { formatBytes } from "@/utils/utils";
 import { Models } from "appwrite";
 import { Check, TrashIcon } from "lucide-react";

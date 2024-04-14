@@ -1,6 +1,6 @@
 import { memberSchemaType } from "@/schemas/member";
 import { memberStorage } from "@/types/database/members";
-import { database } from "@@/lib/clientAppwrite";
+import { database } from "@/lib/clientAppwrite";
 import { ID } from "appwrite";
 import React from "react";
 
