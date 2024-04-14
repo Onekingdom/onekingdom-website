@@ -81,7 +81,9 @@ export default function PageEditorNavigation({ PageDetails }: Props) {
         }
       }
 
-      toast.success("Page Editor Saved");
+      toast.success("Page Editor Saved", {
+        position: "bottom-right",
+      });
     } catch (error) {
       toast.error("Error Saving Page");
     }

@@ -31,6 +31,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "appwrite.jochemwhite.nl",
       },
+      {
+        protocol: "https",
+        hostname: "appwrite.amrio.nl",
+      },
     ],
   },
   output: "standalone",

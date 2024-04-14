@@ -38,7 +38,7 @@ const authSlice = createSlice({
       );
     },
     updateAccessToken: (state, action) => {
-      state.session.accessToken = action.payload;
+      state.session.providerAccessToken = action.payload;
     },
   },
   extraReducers: (builder) => {

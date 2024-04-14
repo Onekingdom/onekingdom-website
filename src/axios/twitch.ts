@@ -17,7 +17,7 @@ const TwitchAPI = axios.create({
 //Twitch Api request interceptor to add the token from redux to the requestku
 TwitchAPI.interceptors.request.use(
   (request) => {
-    const accessToken = store.getState().auth.session.accessToken
+    const accessToken = store.getState().auth.session.providerAccessToken
     if (accessToken) {
       request.headers.Authorization = `Bearer ${accessToken}`;
     }

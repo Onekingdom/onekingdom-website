@@ -74,7 +74,7 @@ export const databases = {
     databaseID: "65afdd18a67ce0ea7b96",
     collections: {
       ClosedBeta: "65079d866c8f2ad4d8e8",
-      User: "65afdd31d1222a19ecfc",
+      User: "66199eb0ca102c9bf31a",
     },
   },
   pages: {
