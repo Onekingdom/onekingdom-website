@@ -25,6 +25,12 @@ async function getPageDetails(slug: string): Promise<PageDetailStorage | null> {
     return null;
   }
 
+  const pageDetails = data.documents[0] as PageDetailStorage;
+
+  if(!pageDetails.published) {
+    return null;
+  }
+
   return data.documents[0] as PageDetailStorage;
 
 
