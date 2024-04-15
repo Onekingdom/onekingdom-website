@@ -16,7 +16,7 @@ import { PageDetailStorage } from "@/types/database/pages";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { toast } from "sonner";
 import NewPageForm from "@/components/forms/new-page-form";
 
@@ -110,6 +110,7 @@ export default function Page() {
 
   1;
   return (
+    <Suspense>
     <div className="hidden h-full border rounded flex-1 flex-col p-4 md:flex">
       <div className="flex items-center justify-between space-y-2">
         <div>
@@ -140,5 +141,6 @@ export default function Page() {
         }}
       />
     </div>
+    </Suspense>
   );
 }

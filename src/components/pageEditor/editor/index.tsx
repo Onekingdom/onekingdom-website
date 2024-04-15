@@ -20,7 +20,7 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!pageDetails) return;    
+    if (!pageDetails) return;
     dispatch({
       type: "pageEditor/loadData",
       payload: {
@@ -30,8 +30,6 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
         published: pageDetails.published,
       },
     });
-
-
 
     return () => {
       dispatch({
@@ -65,36 +63,6 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
     });
   };
 
-
-
-
-  // useEffect(() => {
-  //   if (liveMode) {
-  //     unsubscribe = client.subscribe<PageDetails>(`databases.658fabb7b076a84d06d2.collections.65cf612a10b631f9d906.documents.${pageDetails?.$id}`, response => {
-  //       console.log(response);
-
-
-  //       dispatch({
-  //         type: "pageEditor/loadData",
-  //         payload: {
-  //           elements: response.payload.content ? JSON.parse(response.payload.content) : null,
-  //           withLive: !!liveMode,
-  //           displayMode: liveMode ? "Live" : "Editor",
-  //         },
-  //       });
-  //     });
-  //   }
-  //   return () => {
-  //     if (unsubscribe) {
-  //       unsubscribe();
-  //     }
-  //   }
-  // }, []);
-
-
-
-
-
   if (state.editor.displayMode === "Live") {
     return (
       <div className={cn("relative h-full")}>
@@ -104,21 +72,12 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
     );
   }
 
-
-
-
-
   return (
-    <ResizableDiv
-      width={state.editor.width}
-      handleChange={handleResize}
+    <div
       onClick={handleClick}
-      maxWidth={1920}
-      minWidth={320}
-      canDrag={state.editor.displayMode === "Editor"}
       className={cn("relative  h-full  ", {
         "!p-0 !mr-0": state.editor.displayMode !== "Editor",
-        "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] mr-[385px] pb-[40px]":
+        "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]  pb-[40px]":
           state.editor.displayMode === "Editor",
         "overflow-scroll": state.editor.displayMode === "Editor" || state.editor.displayMode === "Preview",
         // "pb-96": state.editor.displayMode === "Editor",
@@ -130,8 +89,8 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
         </Button>
       )}
 
-      {Array.isArray(state.editor.elements) &&
-        state.editor.elements.map((childElement) => <Recursive key={childElement.id} element={childElement} />)}
-    </ResizableDiv>
+      {/* {Array.isArray(state.editor.elements) &&
+        state.editor.elements.map((childElement) => <Recursive key={childElement.id} element={childElement} />)} */}
+    </div>
   );
 }

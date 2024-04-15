@@ -18,7 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Models } from "appwrite";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -136,173 +136,175 @@ export default function Page() {
   }, [form.watch()]);
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit, (error) => {
-          console.log(error);
-        })}
-      >
-        <div className="grid grid-cols-3 gap-4">
-          <div>
-            <FormField
-              name="name"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor="title" className="block font-semibold mb-1">
-                    Name
-                  </label>
-                  <FormControl className="w-96">
-                    <Input id="title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div>
-            <FormField
-              name="description"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor="eventDate" className="block font-semibold mb-1">
-                    Description
-                  </label>
-                  <FormControl className="w-96">
-                    <Input id="title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="">
-            <label htmlFor="shortDescription" className="block font-semibold mb-1">
-              Teams
-            </label>
-            <div className="[&>*]:my-2">
+    <Suspense>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSubmit, (error) => {
+            console.log(error);
+          })}
+        >
+          <div className="grid grid-cols-3 gap-4">
+            <div>
               <FormField
-                name="partneredStreamer"
+                name="name"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormControl className="">
-                      <CheckboxLabel label="Partnered Streamer" checked={field.value} onChange={field.onChange} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name="staffMember"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl className="">
-                      <CheckboxLabel label="Staff Member" checked={field.value} onChange={field.onChange} />
+                    <label htmlFor="title" className="block font-semibold mb-1">
+                      Name
+                    </label>
+                    <FormControl className="w-96">
+                      <Input id="title" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-          </div>
-          <div className="row-span-3">
-            <FormField
-              name="image"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor="shortDescription" className="block font-semibold mb-1">
-                    Profile Image
-                  </label>
-                  <FormControl className="">
-                    <>
-                      <Dialog>
-                        <DialogTrigger className={cn(buttonVariants({ variant: "outline" }))}>Add Images</DialogTrigger>
-                        <DialogContent className="w-1/2">
-                          <SelectImage
-                            onImageAdded={handleAddImage}
-                            selectedFiles={field.value ? [field.value.imageID] : []}
-                            onImageRemoved={() => {}}
-                            bucketID="65b8a8e6f1d34d3c7fea"
-                          />
-                        </DialogContent>
-                      </Dialog>
-                      <div>
-                        {field.value && (
-          
-                          <Image
-                            src={`${storage.getFilePreview(field.value.bucketID, field.value.imageID, 250, 250).href}`}
-                            alt="profile image"
-                            width={250}
-                            height={250}
-                            className="w-20 h-20 object-cover rounded-full"
-                            style={{
-                              maxWidth: "100%",
-                              height: "auto"
-                            }} />
-                        )}
-                      </div>
-                    </>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="row-span-3">
-            <FormField
-              name="socialMedia"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <label htmlFor="shortDescription" className="block font-semibold mb-1">
-                    Social Media
-                  </label>
-                  <FormControl className="">
-                    <ul>
-                      {Object.entries(Socialmedia)
-                        .reverse()
-                        .map(([key, value]) => (
-                          <li key={key} className="my-2 flex items-center">
-                            <SocialIcon value={value} />
-                            <Input
-                              className="w-96 ml-4"
-                              onChange={(e) => {
-                                handleSocialMediaChange(key, e.target.value);
-                              }}
-                              value={field.value.find((item) => item.value === key)?.href || ""}
+            <div>
+              <FormField
+                name="description"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="eventDate" className="block font-semibold mb-1">
+                      Description
+                    </label>
+                    <FormControl className="w-96">
+                      <Input id="title" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="">
+              <label htmlFor="shortDescription" className="block font-semibold mb-1">
+                Teams
+              </label>
+              <div className="[&>*]:my-2">
+                <FormField
+                  name="partneredStreamer"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl className="">
+                        <CheckboxLabel label="Partnered Streamer" checked={field.value} onChange={field.onChange} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name="staffMember"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl className="">
+                        <CheckboxLabel label="Staff Member" checked={field.value} onChange={field.onChange} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+            <div className="row-span-3">
+              <FormField
+                name="image"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="shortDescription" className="block font-semibold mb-1">
+                      Profile Image
+                    </label>
+                    <FormControl className="">
+                      <>
+                        <Dialog>
+                          <DialogTrigger className={cn(buttonVariants({ variant: "outline" }))}>Add Images</DialogTrigger>
+                          <DialogContent className="w-1/2">
+                            <SelectImage
+                              onImageAdded={handleAddImage}
+                              selectedFiles={field.value ? [field.value.imageID] : []}
+                              onImageRemoved={() => {}}
+                              bucketID="65b8a8e6f1d34d3c7fea"
                             />
-                          </li>
-                        ))}
-                    </ul>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                          </DialogContent>
+                        </Dialog>
+                        <div>
+                          {field.value && (
+                            <Image
+                              src={`${storage.getFilePreview(field.value.bucketID, field.value.imageID, 250, 250).href}`}
+                              alt="profile image"
+                              width={250}
+                              height={250}
+                              className="w-20 h-20 object-cover rounded-full"
+                              style={{
+                                maxWidth: "100%",
+                                height: "auto",
+                              }}
+                            />
+                          )}
+                        </div>
+                      </>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="row-span-3">
+              <FormField
+                name="socialMedia"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <label htmlFor="shortDescription" className="block font-semibold mb-1">
+                      Social Media
+                    </label>
+                    <FormControl className="">
+                      <ul>
+                        {Object.entries(Socialmedia)
+                          .reverse()
+                          .map(([key, value]) => (
+                            <li key={key} className="my-2 flex items-center">
+                              <SocialIcon value={value} />
+                              <Input
+                                className="w-96 ml-4"
+                                onChange={(e) => {
+                                  handleSocialMediaChange(key, e.target.value);
+                                }}
+                                value={field.value.find((item) => item.value === key)?.href || ""}
+                              />
+                            </li>
+                          ))}
+                      </ul>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-          <div className="row-span-3 w-1/2">
-            <label htmlFor="shortDescription" className="block font-semibold mb-1">
-              Card Preview
-            </label>
-            <TeamCard
-              name={form.watch("name")}
-              description={form.watch("description")}
-              img={form.watch("image")}
-              socials={form.watch("socialMedia")}
-            />
+            <div className="row-span-3 w-1/2">
+              <label htmlFor="shortDescription" className="block font-semibold mb-1">
+                Card Preview
+              </label>
+              <TeamCard
+                name={form.watch("name")}
+                description={form.watch("description")}
+                img={form.watch("image")}
+                socials={form.watch("socialMedia")}
+              />
+            </div>
           </div>
-        </div>
-        <div>
-          <Button type="submit" className="mt-4">
-            Submit
-          </Button>
-        </div>
-      </form>
-    </Form>
+          <div>
+            <Button type="submit" className="mt-4">
+              Submit
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </Suspense>
   );
 }

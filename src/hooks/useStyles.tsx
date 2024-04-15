@@ -3,7 +3,6 @@ import React, { use, useEffect } from "react";
 import useEditor from "./useEditor";
 import { useWindowSize } from "@uidotdev/usehooks";
 
-
 interface Props {
   styles: Styles;
 }
@@ -15,24 +14,16 @@ export default function useStyles({ styles }: Props) {
 
   const EditorWidth = state.editor.width;
 
+
+
+  // update the styles based on the editor width
   useEffect(() => {
     if (!styles) return;
 
+    if(state.editor.displayMode === "Live") return;
+
     if (!styles.mediaQuerys) {
       setActiveStyle(styles.styles);
-      return;
-    }
-
-    if (state.editor.displayMode === "Live" && size.width) {
-      console.log("width", size.width);
-      const MediaQ = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth >= size.width!);
-
-      console.log("MediaQ", MediaQ);
-
-      setActiveStyle({
-        ...styles.styles,
-        ...MediaQ?.styles,
-      });
       return;
     }
 
@@ -43,7 +34,30 @@ export default function useStyles({ styles }: Props) {
       ...MediaQ?.styles,
     });
     return;
-  }, [EditorWidth, styles, state.editor.elements, size.width]);
+  }, [EditorWidth, styles, state.editor.elements]);
+
+
+
+
+  // live mode
+  useEffect(() => {
+    if (!styles) return;
+
+    if (!styles.mediaQuerys) {
+      setActiveStyle(styles.styles);
+      return;
+    }
+
+    if (state.editor.displayMode === "Live" && size.width) {
+      const MediaQ = styles.mediaQuerys.find((mediaQuery) => mediaQuery.minWidth >= size.width!);
+
+      setActiveStyle({
+        ...styles.styles,
+        ...MediaQ?.styles,
+      });
+    
+    }
+  }, [size]);
 
   //update the styles based on the device
 
