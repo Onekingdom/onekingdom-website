@@ -4,13 +4,21 @@ import { database } from "@/utils/serverAppwrite";
 import React from "react";
 
 async function FetchHome() {
-  const res = await database.getDocument<PageDetailStorage>("658fabb7b076a84d06d2", "65cf612a10b631f9d906", "660446fe1b02c8f8233a");
+  const res = await fetch(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT! + `/databases/658fabb7b076a84d06d2/collections/65cf612a10b631f9d906/documents/660446fe1b02c8f8233a`, {
+    headers: {
+      "X-Appwrite-Project": process.env.NEXT_PUBLIC_APPWRITE_PROJECTID!,
+    },
+     cache: "no-cache",
+  });
 
-  return res;
+
+  return res.json() as Promise<PageDetailStorage>;
 }
 
 export default async function Page() {
   const page = await FetchHome();
+
+
 
 
 
