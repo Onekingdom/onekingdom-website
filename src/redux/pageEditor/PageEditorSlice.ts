@@ -32,7 +32,7 @@ const initialEditorState: EditorState["editor"] = {
   device: "Desktop",
   displayMode: "Live",
   width: 1920,
-  mediaQuerys: [1920, 1024, 768, 425, 0].sort((a, b) => a - b),
+  mediaQuerys: [1920, 1024, 768, 480, 320].sort((a, b) => a - b),
   activeMediaQuery: 1920,
   published: false,
 };

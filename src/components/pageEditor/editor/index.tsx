@@ -73,11 +73,17 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
   }
 
   return (
-    <div
+    <ResizableDiv
+      width={state.editor.width}
+      handleChange={handleResize}
       onClick={handleClick}
-      className={cn("relative  h-full  ", {
+      maxWidth={1920}
+      // find last media query
+      minWidth={state.editor.mediaQuerys[0]}
+      canDrag={true}
+      className={cn("relative  h-full", {
         "!p-0 !mr-0": state.editor.displayMode !== "Editor",
-        "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]  pb-[40px]":
+        "bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px] mr-[385px] pb-[40px]":
           state.editor.displayMode === "Editor",
         "overflow-scroll": state.editor.displayMode === "Editor" || state.editor.displayMode === "Preview",
         // "pb-96": state.editor.displayMode === "Editor",
@@ -89,8 +95,8 @@ export default function PageEditor({ pageDetails, liveMode }: Props) {
         </Button>
       )}
 
-      {/* {Array.isArray(state.editor.elements) &&
-        state.editor.elements.map((childElement) => <Recursive key={childElement.id} element={childElement} />)} */}
-    </div>
+      {Array.isArray(state.editor.elements) &&
+        state.editor.elements.map((childElement) => <Recursive key={childElement.id} element={childElement} />)}
+    </ResizableDiv>
   );
 }
