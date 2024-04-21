@@ -9,6 +9,7 @@ interface Props {
 
 export default function useStyles({ styles }: Props) {
   const [activeStyle, setActiveStyle] = React.useState<customSettings>(styles.styles);
+  const [loading, setLoading] = React.useState<boolean>(true);
   const size = useWindowSize();
   const { state } = useEditor();
 
@@ -18,10 +19,8 @@ export default function useStyles({ styles }: Props) {
 
   // update the styles based on the editor width
   useEffect(() => {
-    if (!styles) return;
-
-    if(state.editor.displayMode === "Live") return;
-
+    if (!styles || state.editor.displayMode === "Live") return;
+      
     if (!styles.mediaQuerys) {
       setActiveStyle(styles.styles);
       return;
@@ -41,7 +40,7 @@ export default function useStyles({ styles }: Props) {
 
   // live mode
   useEffect(() => {
-    if (!styles) return;
+    if (!styles || !loading) return;
 
     if (!styles.mediaQuerys) {
       setActiveStyle(styles.styles);
@@ -55,6 +54,8 @@ export default function useStyles({ styles }: Props) {
         ...styles.styles,
         ...MediaQ?.styles,
       });
+
+      setLoading(false);
     
     }
   }, [size]);
